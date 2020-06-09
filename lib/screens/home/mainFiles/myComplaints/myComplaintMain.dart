@@ -1,13 +1,12 @@
 import 'dart:io';
 
+import 'package:final_binder/models/myData.dart';
+import 'package:final_binder/screens/home/mainFiles/myComplaints/addcomplaint.dart';
+import 'package:final_binder/shared/CustomAppBar.dart';
+import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tmapp/ReusableWidgets/CustomAppBar.dart';
-import 'package:tmapp/ReusableWidgets/CustomBottomNavigationBar.dart';
-import 'package:tmapp/ReusableWidgets/themes.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'CustomComplaintCard.dart';
-import 'package:tmapp/Models/myData.dart';
 
 // ignore: camel_case_types
 class myComplaints extends StatefulWidget {
@@ -30,26 +29,26 @@ class _myComplaintsState extends State<myComplaints> {
   @override
   void initState() {
     print(1);
-    DatabaseReference ref = FirebaseDatabase.instance.reference();
-    ref.child('complaint').once().then((DataSnapshot snap) {
-      var keys = snap.value.keys;
-      var data = snap.value;
-      print(keys);
-      print(data);
-      allData.clear();
-      for (var key in keys) {
-        myData d = new myData(
-          data[key]['title'],
-          data[key]['machineno'],
-          data[key]['date'],
-          data[key]['department'],
-        );
-        allData.add(d);
-      }
-      setState(() {
-        print(allData.length);
-      });
-    });
+//    DatabaseReference ref = FirebaseDatabase.instance.reference();
+//    ref.child('complaint').once().then((DataSnapshot snap) {
+//      var keys = snap.value.keys;
+//      var data = snap.value;
+//      print(keys);
+//      print(data);
+//      allData.clear();
+//      for (var key in keys) {
+//        myData d = new myData(
+//          data[key]['title'],
+//          data[key]['machineno'],
+//          data[key]['date'],
+//          data[key]['department'],
+//        );
+//        allData.add(d);
+//      }
+//      setState(() {
+//        print(allData.length);
+//      });
+//    });
   }
 
   Future<bool> _onbackpressed() {
@@ -125,6 +124,9 @@ class _myComplaintsState extends State<myComplaints> {
             height: 18.0,
           ),
         ),*/
+        floatingActionButton: FloatingActionButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => addComplaint()));
+        }),
       ),
     );
   }
