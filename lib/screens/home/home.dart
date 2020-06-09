@@ -3,8 +3,11 @@ import 'package:final_binder/models/user.dart';
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/services/auth.dart';
 import 'package:final_binder/services/database.dart';
+import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'mainFiles/myComplaints/addcomplaint.dart';
 
 class Home extends StatefulWidget {
   final User user;
@@ -67,6 +70,17 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
+    floatingActionButton: FloatingActionButton(
+      backgroundColor: primaryblue,
+      child: Icon(
+        Icons.add,
+        size: 40,
+        color: Colors.white,
+      ),
+      elevation: 25.0,
+      onPressed: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => addComplaint()));
+    }),
     );
   }
 

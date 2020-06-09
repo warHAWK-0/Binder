@@ -1,10 +1,10 @@
+import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/material.dart';
-import 'package:tmapp/ReusableWidgets/themes.dart';
-import 'package:tmapp/screens/MainFiles/admin/manageAdmin.dart';
 
 import 'addemployee.dart';
 import 'deleteemployee.dart';
 import 'editSearchEmp.dart';
+import 'manageAdmin.dart';
 
 class AdminMain extends StatefulWidget {
   @override

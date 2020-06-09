@@ -1,6 +1,7 @@
+import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/material.dart';
-import 'package:tmapp/MainFiles/myComplaints/ExpandedComplaintCard.dart';
-import 'package:tmapp/ReusableWidgets/themes.dart';
+
+import 'ExpandedComplaintCard.dart';
 
 class CustomComplaintCard extends StatefulWidget {
 

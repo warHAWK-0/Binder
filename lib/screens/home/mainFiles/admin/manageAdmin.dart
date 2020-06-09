@@ -1,6 +1,6 @@
+import 'package:final_binder/shared/CustomAppBar.dart';
+import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/material.dart';
-import 'package:tmapp/ReusableWidgets/CustomAppBar.dart';
-import 'package:tmapp/ReusableWidgets/themes.dart';
 
 import 'homepageadmin.dart';
 import 'resetPasswordAdmin.dart';
