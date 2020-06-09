@@ -1,10 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_binder/models/user.dart';
 import 'package:final_binder/shared/CustomAppBar.dart';
 import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:provider/provider.dart';
 
 
 class addComplaint extends StatefulWidget {
+  final User user;
+  const addComplaint({Key key, this.user}):super(key :key);
+
   @override
   _SearchPageState createState() => _SearchPageState();
 }
@@ -351,8 +357,10 @@ class _SearchPageState extends State<addComplaint> {
     'F520',
   ];
   List<String> type = ["Mechanical Issue", "Electrical Issue"];
-
-
+  String lineNo="";
+  String machineNo = "";
+  String issue = "";
+  String issueType = "";
   AutoCompleteTextField searchTextField;
   bool loading = true;
 
@@ -376,21 +384,16 @@ class _SearchPageState extends State<addComplaint> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-//                    Container(
-//                      alignment: Alignment.topLeft,
-//                      child: Text(
-//                        'Raise Complaint',
-//                        style: TextStyle(color: Color(0xFF1467B3),
-//                            fontSize: 18,
-//                            fontWeight: FontWeight.w500,
-//                            fontFamily: "Roboto"),
-//                      ),
-//                    ),
                   SizedBox(
                     height: 20,
                   ),
                   //text
                   TextFormField(
+                    onChanged: (val){
+                      setState(() {
+                        lineNo = val;
+                      });
+                    },
                     decoration: InputDecoration(
                       hintText: "Line",
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
@@ -447,60 +450,8 @@ class _SearchPageState extends State<addComplaint> {
                       },
                       itemSubmitted: (item) {
                         setState(() {
-                          searchTextField.textField.controller.text = item;
-                        });
-                      },
-                      itemBuilder: (context, item) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              item, style: TextStyle(
-                                fontSize: 18, color: Colors.black),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  //type of issue
-                  Container(
-                    height: 50,
-                    child: AutoCompleteTextField<String>(
-                      key: key1,
-                      clearOnSubmit: false,
-                      suggestions: type,
-                      //style: TextStyle(color: Colors.blue,fontSize: 14),
-                      decoration: InputDecoration(
-                        hintText: "Type of Issue",
-                        hintStyle: TextStyle(
-                            color: Color(0xFF1467B3), fontSize: 16),
-                        filled: true,
-                        fillColor: Color.fromRGBO(20, 103, 179, 0.05),
-                        contentPadding:
-                        const EdgeInsets.only(
-                            left: 14.0, bottom: 15.0, top: 15.0),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Color.fromRGBO(93, 153, 252, 100)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color.fromRGBO(
-                                223, 232, 247, 100)) //dfe8f7
-                        ),
-                      ),
-                      itemFilter: (item, query) {
-                        return item.toLowerCase().startsWith(
-                            query.toLowerCase());
-                      },
-                      itemSorter: (a, b) {
-                        return a.compareTo(b);
-                      },
-                      itemSubmitted: (item) {
-                        setState(() {
+                          machineNo = item.toString();
+                          print(machineNo);
                           searchTextField.textField.controller.text = item;
                         });
                       },
@@ -555,6 +506,7 @@ class _SearchPageState extends State<addComplaint> {
                       },
                       itemSubmitted: (item) {
                         setState(() {
+                          issue = item.toString();
                           searchTextField.textField.controller.text = item;
                         });
                       },
@@ -572,6 +524,62 @@ class _SearchPageState extends State<addComplaint> {
                     ),
                   ),
                   SizedBox(
+                    height: 20,
+                  ),
+                  //type of issue
+                  Container(
+                    height: 50,
+                    child: AutoCompleteTextField<String>(
+                      key: key1,
+                      clearOnSubmit: false,
+                      suggestions: type,
+                      //style: TextStyle(color: Colors.blue,fontSize: 14),
+                      decoration: InputDecoration(
+                        hintText: "Type of Issue",
+                        hintStyle: TextStyle(
+                            color: Color(0xFF1467B3), fontSize: 16),
+                        filled: true,
+                        fillColor: Color.fromRGBO(20, 103, 179, 0.05),
+                        contentPadding:
+                        const EdgeInsets.only(
+                            left: 14.0, bottom: 15.0, top: 15.0),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color.fromRGBO(93, 153, 252, 100)),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color.fromRGBO(
+                                223, 232, 247, 100)) //dfe8f7
+                        ),
+                      ),
+                      itemFilter: (item, query) {
+                        return item.toLowerCase().startsWith(
+                            query.toLowerCase());
+                      },
+                      itemSorter: (a, b) {
+                        return a.compareTo(b);
+                      },
+                      itemSubmitted: (item) {
+                        setState(() {
+                          issueType = item.toString();
+                          searchTextField.textField.controller.text = item;
+                        });
+                      },
+                      itemBuilder: (context, item) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              item, style: TextStyle(
+                                fontSize: 18, color: Colors.black),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+
+                  SizedBox(
                     height: 30,
                   ),
                   //submit button
@@ -585,8 +593,23 @@ class _SearchPageState extends State<addComplaint> {
                       disabledTextColor: Colors.black,
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
-                      onPressed: () {
-                        /*...*/
+                      onPressed: () async {
+                        await Firestore.instance.collection("binder").document((widget.user.uid).toString()).collection("complaint").add({
+                          'machineNo': machineNo,
+                          'department': "production",
+                          'issue': issue,
+                          'lineNo': lineNo,
+                          'startDate': DateTime.now().toString().substring(0,10),
+                          'startTime': DateTime.now().toString().substring(11,16),
+                          'assignedDate': null,
+                          'assignedTime': null,
+                          'endDate': null,
+                          'endTime': null,
+                          'verifiedDate': null,
+                          'verifiedTime': null,
+                          'assignedTo': null,
+                          'raisedBy' : 'Someone'
+                        });
                       },
                       child: Text(
                         "Submit",
@@ -600,9 +623,6 @@ class _SearchPageState extends State<addComplaint> {
           ),
         ),
       ),
-
-
-
     );
   }
 }
