@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class Complaint{
 
   String status,
@@ -7,10 +9,10 @@ class Complaint{
   raisedBy,
   assignedTo,
   lineNo;
-  DateTime startDateTime,
-  assignedDateTime,
-  endDateTime,
-  verifiedDateTime;
+  DateTime startDate,startTime,
+  assignedDate,assignedTime,
+  endDate,endTime,
+  verifiedDate,verifiedTime;
 
   Complaint({
     this.status,
@@ -20,10 +22,10 @@ class Complaint{
     this.raisedBy,
     this.assignedTo,
     this.lineNo,
-    this.startDateTime,
-    this.assignedDateTime,
-    this.endDateTime,
-    this.verifiedDateTime,
+    this.startDate,this.startTime,
+    this.assignedDate,this.assignedTime,
+    this.endDate,this.endTime,
+    this.verifiedDate,this.verifiedTime,
   });
 
   Map<String, dynamic> toJson() => {
@@ -34,10 +36,14 @@ class Complaint{
   'raisedBy': raisedBy,
   'assignedTo': assignedTo,
   'lineNo': lineNo,
-  'startDateTime': startDateTime,
-  'assignedDateTime': assignedDateTime,
-  'endDateTime': endDateTime,
-  'verifiedDateTime': verifiedDateTime,
+  'startDate': startDate,
+  'startTime': startTime,
+  'assignedDate': assignedDate,
+  'assignedTime': assignedTime,
+  'endDate': endDate,
+  'endTime': endTime,
+  'verifiedDate': verifiedDate,
+  'verifiedTime': verifiedTime,
   };
 
 }

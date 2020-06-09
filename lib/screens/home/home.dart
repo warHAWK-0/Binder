@@ -79,7 +79,8 @@ class _HomeState extends State<Home> {
       ),
       elevation: 25.0,
       onPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => addComplaint()));
+        final String uid = (widget.user.uid).toString();
+        Navigator.push(context, MaterialPageRoute(builder: (context) => addComplaint(user: widget.user,)));
     }),
     );
   }
