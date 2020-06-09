@@ -139,34 +139,29 @@ class _SignInState extends State<SignIn> {
                         dynamic result = await _auth.singnInUsingEmail(email, password);
                         if(result == null){
                           setState(() {
-                            showSnackBar(context, "Invalid Username/Password");
+                            error = "Enter valid Personal Id/Password.";
                             loading = false;
                           });
                         }else{
                           setState(() {
+                            error = "";
                             loading = false;
                           });
                         }
                       }
                     },
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    error,
+                  )
                 ],
               ),
             )
         ),
       ),
     );
-  }
-
-  void showSnackBar(BuildContext context,String value) {
-    Scaffold.of(context).showSnackBar(new SnackBar(
-        content: Row(
-          children: <Widget>[
-            Icon(Icons.warning),
-            SizedBox(width: 10,),
-            Text(value),
-          ],
-        )
-    ));
   }
 }

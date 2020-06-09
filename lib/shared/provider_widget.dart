@@ -1,4 +1,4 @@
-import 'package:travel_budget/services/auth_service.dart';
+import 'package:final_binder/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class Provider extends InheritedWidget {

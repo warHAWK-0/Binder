@@ -5,6 +5,11 @@ class AuthService{
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  Stream<String> get onAuthStateChanged =>
+      _auth.onAuthStateChanged.map(
+            (FirebaseUser user) => user?.uid,
+      );
+
   //
   User _userFromFirebaseUser(FirebaseUser user) {
     return user != null ? User(uid: user.uid) : null;
