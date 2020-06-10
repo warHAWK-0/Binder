@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_binder/shared/CustomAppBar.dart';
 import 'package:final_binder/shared/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -368,6 +369,16 @@ class _AddEmployeeState extends State<AddEmployee> {
                           try{
                             AuthResult result = ( _auth.createUserWithEmailAndPassword(email,'emp@12345')) as AuthResult;
                             FirebaseUser  user = result.user;
+                            Firestore.instance
+                                .collection("users")
+                                .document(user.uid)
+                                .collection("complaints");
+                            Firestore.instance
+                                .collection("users")
+                                .document(user.uid)
+                                .collection("user_details");
+
+
                             if(User(uid: user.uid)!=null)
                             {
                               print("User added");
