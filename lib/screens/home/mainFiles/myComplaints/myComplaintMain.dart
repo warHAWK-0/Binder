@@ -82,16 +82,6 @@ class _myComplaintsState extends State<myComplaints> {
             )),
         body: Stack(
           children: <Widget>[
-            Container(
-              alignment: Alignment.topLeft,
-              padding: EdgeInsets.all(20.0),
-              child: Text("My Complaints",
-                  style: TextStyle(
-                      fontFamily: 'Roboto',
-                      color: Color(0xFF1467B3),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500)),
-            ),
             new Container(
                 padding: EdgeInsets.only(top: 60),
                 child: allData.length == 0
