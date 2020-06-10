@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_binder/models/user.dart';
+import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/shared/CustomAppBar.dart';
 import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,8 @@ import 'package:provider/provider.dart';
 
 
 class addComplaint extends StatefulWidget {
-  final User user;
-  const addComplaint({Key key, this.user}):super(key :key);
+  final UserDetails userDetails;
+  const addComplaint({Key key, this.userDetails}):super(key :key);
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -366,6 +367,9 @@ class _SearchPageState extends State<addComplaint> {
 
   @override
   Widget build(BuildContext context) {
+    print('addComplaint');
+
+    print(widget.userDetails);
     return Scaffold(
       //backgroundColor: Color(0xFFE5E5E5),
       appBar: CustomAppBar(
@@ -594,7 +598,7 @@ class _SearchPageState extends State<addComplaint> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () async {
-                        await Firestore.instance.collection("binder").document((widget.user.uid).toString()).collection("complaint").add({
+                        await Firestore.instance.collection("binder").document(widget.userDetails.uid).collection("complaint").add({
                           'machineNo': machineNo,
                           'department': "production",
                           'issue': issue,
@@ -610,6 +614,7 @@ class _SearchPageState extends State<addComplaint> {
                           'assignedTo': null,
                           'raisedBy' : 'Someone'
                         });
+                        Navigator.pop(context);
                       },
                       child: Text(
                         "Submit",

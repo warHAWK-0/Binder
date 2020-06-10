@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tmapp/MainFiles/myProfile/passwordmo.dart';
+
+import 'passwordmo.dart';
 
 class ResetPassmo extends StatefulWidget {
   @override

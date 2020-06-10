@@ -1,3 +1,5 @@
+import 'file:///E:/AppDevProject/Flutter/NewBinder/lib/screens/home/redirectingHome.dart';
+
 import '../models/user.dart';
 import 'package:provider/provider.dart';
 import 'authenticate/sign_in.dart';
@@ -14,7 +16,7 @@ class Wrapper extends StatelessWidget {
     if(user == null){
       return SignIn();
     }else{
-      return Home(user: user);
+      return RedirectingScreen(user: user,);
     }
   }
 }

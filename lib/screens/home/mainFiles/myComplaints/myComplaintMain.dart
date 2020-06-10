@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:final_binder/models/myData.dart';
+import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/screens/home/mainFiles/myComplaints/addcomplaint.dart';
 import 'package:final_binder/shared/CustomAppBar.dart';
 import 'package:final_binder/shared/themes.dart';
@@ -10,12 +11,9 @@ import 'CustomComplaintCard.dart';
 
 // ignore: camel_case_types
 class myComplaints extends StatefulWidget {
-  final int authLevel;
-  final String userDepartment;
+  final UserDetails userDetails;
 
-  const myComplaints(
-      {Key key, @required this.authLevel, @required this.userDepartment})
-      : super(key: key);
+  const myComplaints({Key key, this.userDetails}) : super(key: key);
 
   @override
   _myComplaintsState createState() => _myComplaintsState();
@@ -113,20 +111,19 @@ class _myComplaintsState extends State<myComplaints> {
                       )),
           ],
         ),
-
-        /*ListView.separated(
-          padding: EdgeInsets.symmetric(horizontal: 10,vertical: 20),
-          itemCount: complaintNo.length,
-          itemBuilder: (BuildContext context, int index) {
-            return CustomComplaintCard(complaintNo: complaintNo[index],);
-          },
-          separatorBuilder: (BuildContext context, int index) => SizedBox(
-            height: 18.0,
-          ),
-        ),*/
-//        floatingActionButton: FloatingActionButton(onPressed: (){
-//          Navigator.push(context, MaterialPageRoute(builder: (context) => addComplaint()));
-//        }),
+        floatingActionButton: FloatingActionButton(
+            backgroundColor: primaryblue,
+            child: Icon(
+              Icons.add,
+              size: 40,
+              color: Colors.white,
+            ),
+            elevation: 25.0,
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return addComplaint(userDetails: widget.userDetails,);
+              }));
+            }),
       ),
     );
   }

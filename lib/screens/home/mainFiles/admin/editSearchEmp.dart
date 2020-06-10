@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tmapp/ReusableWidgets/CustomAppBar.dart';
-import 'package:tmapp/ReusableWidgets/themes.dart';
 import 'dart:io';
 
+import '../../../../shared/CustomAppBar.dart';
+import '../../../../shared/themes.dart';
 import 'editEmpProfile.dart';
 
 class EditSearchEmp extends StatefulWidget {
