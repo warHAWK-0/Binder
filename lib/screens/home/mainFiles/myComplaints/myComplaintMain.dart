@@ -91,7 +91,7 @@ class _myComplaintsState extends State<myComplaints> {
                     child: Column(
                       children: <Widget>[
                         new Image.asset('assets/images/sitting-4.png',scale: 1.5,),
-                        new Text("Looks like you have raised a complaint", style: TextStyle(fontSize: 18 , color: Color(0xFF5e5e5e)),)
+                        new Text("Looks like you have no complaints", style: TextStyle(fontSize: 18 , color: Color(0xFF5e5e5e)),)
                       ],
                     ),
                   ),
