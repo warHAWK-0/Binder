@@ -82,20 +82,20 @@ class _myComplaintsState extends State<myComplaints> {
             )),
         body: Stack(
           children: <Widget>[
-            Container(
-              alignment: Alignment.topLeft,
-              padding: EdgeInsets.all(20.0),
-              child: Text("My Complaints",
-                  style: TextStyle(
-                      fontFamily: 'Roboto',
-                      color: Color(0xFF1467B3),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500)),
-            ),
             new Container(
                 padding: EdgeInsets.only(top: 60),
                 child: allData.length == 0
-                    ? new Text("no data")
+                    ? new Center(
+                  child: Container(
+                    margin: EdgeInsets.only(top:140),
+                    child: Column(
+                      children: <Widget>[
+                        new Image.asset('assets/images/sitting-4.png',scale: 1.5,),
+                        new Text("Looks like you have no complaints", style: TextStyle(fontSize: 18 , color: Color(0xFF5e5e5e)),)
+                      ],
+                    ),
+                  ),
+                )
                     : new ListView.builder(
                         itemCount: allData.length,
                         itemBuilder: (_, index) {

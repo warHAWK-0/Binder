@@ -1,7 +1,11 @@
 import 'package:final_binder/shared/CustomAppBar.dart';
 import 'package:final_binder/shared/themes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../models/user.dart';
+import '../../../../services/auth.dart';
 class AddEmployee extends StatefulWidget {
   @override
   _AddEmployeeState createState() => _AddEmployeeState();
@@ -10,6 +14,7 @@ class AddEmployee extends StatefulWidget {
 enum TypeOfEmp { Electrical, Mechanical, Nothing }
 
 class _AddEmployeeState extends State<AddEmployee> {
+  final AuthService _auth = AuthService();
   final _formkey = GlobalKey<FormState>();
   TypeOfEmp emp = TypeOfEmp.Nothing;
   String id = " ";
@@ -37,6 +42,7 @@ class _AddEmployeeState extends State<AddEmployee> {
     "Operator/Engineer",
     "Temporary Operator",
   ];
+
 
 
   @override
@@ -355,8 +361,24 @@ class _AddEmployeeState extends State<AddEmployee> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () {
+                        print(id+name+phoneNo+dept+designation);
                         if (_formkey.currentState.validate()) {
                           /**/
+
+                          try{
+                            AuthResult result = ( _auth.createUserWithEmailAndPassword(email,'emp@12345')) as AuthResult;
+                            FirebaseUser  user = result.user;
+                            if(User(uid: user.uid)!=null)
+                            {
+                              print("User added");
+                            }
+                            else
+                              print("User not added ");
+
+                          }catch(e){
+                            print(e.toString());
+
+                          }
                         }
                       },
                       child: Text(

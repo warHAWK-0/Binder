@@ -1,10 +1,10 @@
-import 'file:///E:/AppDevProject/Flutter/NewBinder/lib/screens/home/redirectingHome.dart';
 
 import '../models/user.dart';
 import 'package:provider/provider.dart';
 import 'authenticate/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'home/home.dart';
+import 'home/redirectingHome.dart';
 
 class Wrapper extends StatelessWidget {
 

@@ -45,8 +45,8 @@ class CustomAppBar extends PreferredSize {
                   child: Icon(Icons.arrow_back_ios,color: Colors.white,),
                 ),
               ) : Container(
-                height: 50,
-                width: 40,
+                height: 46,
+                width: 38,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/Logo/LogoWhite/LogoWhiteS.png'),fit: BoxFit.fill,
