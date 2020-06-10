@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tmapp/ReusableWidgets/themes.dart';
-import 'package:tmapp/MainFiles/myProfile/resetPass.dart';
-import '../../ReusableWidgets/CustomAppBar.dart';
+
+import '../../../../shared/CustomAppBar.dart';
+import '../../../../shared/themes.dart';
+import 'resetPass.dart';
 class profile extends StatefulWidget {
   @override
   _ProfilemoState createState() => _ProfilemoState();

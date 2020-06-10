@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tmapp/ReusableWidgets/themes.dart';
 import 'dart:io';
 
+import '../../../../shared/themes.dart';
 import 'deleteemployee.dart';
 
 class InvalidPersonalNo extends StatefulWidget {

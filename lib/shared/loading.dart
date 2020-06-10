@@ -1,3 +1,4 @@
+import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -5,9 +6,9 @@ class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blue[900],
+      color: primaryblue,
       child: Center(
-        child: SpinKitDualRing(
+        child: SpinKitChasingDots(
           size: 30,
           color: Colors.white,
         ),
