@@ -97,10 +97,11 @@ class _myComplaintsState extends State<myComplaints> {
                 child: allData.length == 0
                     ? new Center(
                   child: Container(
+                    margin: EdgeInsets.only(top:140),
                     child: Column(
                       children: <Widget>[
-                        new Image.asset('assets/images/sitting-4.png'),
-                        new Text("Looks like you have raised a complaint")
+                        new Image.asset('assets/images/sitting-4.png',scale: 1.5,),
+                        new Text("Looks like you have raised a complaint", style: TextStyle(fontSize: 18 ),)
                       ],
                     ),
                   ),
