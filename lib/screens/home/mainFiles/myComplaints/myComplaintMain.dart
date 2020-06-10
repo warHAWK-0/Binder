@@ -95,7 +95,16 @@ class _myComplaintsState extends State<myComplaints> {
             new Container(
                 padding: EdgeInsets.only(top: 60),
                 child: allData.length == 0
-                    ? new Text("no data")
+                    ? new Center(
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        new Image.asset('assets/images/sitting-4.png'),
+                        new Text("Looks like you have raised a complaint")
+                      ],
+                    ),
+                  ),
+                )
                     : new ListView.builder(
                         itemCount: allData.length,
                         itemBuilder: (_, index) {
