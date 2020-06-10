@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
-
+import 'package:final_binder/models/user_Info.dart';
 import '../../../../shared/CustomAppBar.dart';
 import '../../../../shared/themes.dart';
 import 'editEmpProfile.dart';
@@ -13,6 +14,47 @@ class EditSearchEmp extends StatefulWidget {
 
 class _EditSearchEmpState extends State<EditSearchEmp> {
 
+  String userID="";
+  List<user_Info> allData = [];
+  void fetchDepartmentComplaints() async {
+
+    final QuerySnapshot usersList =
+    await Firestore.instance.collection('binder').getDocuments();
+    final List<DocumentSnapshot> docUsers = usersList.documents;
+    allData.clear();
+    for (DocumentSnapshot docUser in docUsers) {
+      String uidUser = docUser.documentID;
+      print(uidUser);
+      final QuerySnapshot userComplaints = await Firestore.instance
+          .collection('binder')
+          .document(uidUser)
+          .collection('user_details')
+          .getDocuments();
+      final List<DocumentSnapshot> docComplaints = userComplaints.documents;
+      for (DocumentSnapshot docComplaint in docComplaints) {
+         print(docComplaint.documentID + " => " );
+        if (PID == docComplaint.data['personalId']) {
+          print(PID); print(docComplaint.data['personalId']);
+          userID= uidUser;
+          user_Info d = new user_Info(
+              docComplaint.data['name'],
+              docComplaint.data['department'],
+              docComplaint.data['designation'],
+              docComplaint.data['mobileNo'],
+              docComplaint.data['email'],
+              docComplaint.data['personalId'],
+              docComplaint.data['blockNo'],
+              docComplaint.documentID);
+          allData.add(d);
+        }
+      }
+    }
+    setState(() {
+      print(allData.length);
+    });
+  }
+
+
   String PID = "";
   bool showDetailsContainer = false;
   bool detailsFound = false;
@@ -21,19 +63,19 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: new Text('Are you sure?'),
-              content: new Text('Do you want to exit the App?'),
-              actions: <Widget>[
-                OutlineButton(
-                  child: Text('Yes'),
-                  onPressed: () => exit(0),
-                ),
-                OutlineButton(
-                  child: Text('No'),
-                  onPressed: () => Navigator.pop(context, false),
-                )
-              ],
-            ));
+          title: new Text('Are you sure?'),
+          content: new Text('Do you want to exit the App?'),
+          actions: <Widget>[
+            OutlineButton(
+              child: Text('Yes'),
+              onPressed: () => exit(0),
+            ),
+            OutlineButton(
+              child: Text('No'),
+              onPressed: () => Navigator.pop(context, false),
+            )
+          ],
+        ));
   }
 
   @override
@@ -70,8 +112,8 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                       enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color:
-                                  Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
-                          ),
+                              Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
+                      ),
                     ),
                     onChanged: (String text){
                       PID = text;
@@ -96,15 +138,22 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () {
-                        setState(() {
-                          showDetailsContainer = true;
-                          if(PID == "pid1"){
-                            detailsFound = true;
-                          }
-                          else{
-                            detailsFound = false;
-                          }
-                        });
+                        fetchDepartmentComplaints();
+                        if(allData.length==1) {
+                          setState(() {
+                            showDetailsContainer=true;
+                            detailsFound=true;
+                            });
+                        }
+//                        setState(() {
+//                          showDetailsContainer = true;
+//                          if(PID == "pid1"){
+//                            detailsFound = true;
+//                          }
+//                          else{
+//                            detailsFound = false;
+//                          }
+//                        });
                       },
                       child: Text(
                         "Get Details",
@@ -159,7 +208,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                             children: <Widget>[
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Name ",
+                                child: Text("Name "+ allData[0].name,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -168,7 +217,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Personal No. ",
+                                child: Text("Personal No. "+allData[0].personal_no,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -177,7 +226,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Block No. ",
+                                child: Text("Block No. "+allData[0].block_no,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -186,7 +235,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Department ",
+                                child: Text("Department "+allData[0].department,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -195,7 +244,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Designation ",
+                                child: Text("Designation "+allData[0].designation,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -204,7 +253,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Phone Number ",
+                                child: Text("Phone Number "+allData[0].phone_no,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -213,7 +262,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Email ID ",
+                                child: Text("Email ID "+allData[0].email,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -234,7 +283,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => EditEmpProfile()),
+                                          builder: (context) => EditEmpProfile(userID:userID,allData: allData,)),
                                     );
                                   },
                                   child: Text(
