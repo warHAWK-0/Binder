@@ -1,3 +1,4 @@
+import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +8,11 @@ import 'editSearchEmp.dart';
 import 'manageAdmin.dart';
 
 class AdminMain extends StatefulWidget {
+
+  final UserDetails userDetails;
+
+  AdminMain({Key key, this.userDetails}) : super(key: key);
+
   @override
   _AdminMainState createState() => _AdminMainState();
 }

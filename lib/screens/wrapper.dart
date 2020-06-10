@@ -16,8 +16,7 @@ class Wrapper extends StatelessWidget {
     if(user == null){
       return SignIn();
     }else{
-      //return RedirectingScreen(user: user,);
-      return Home(user: user,);
+      return RedirectingScreen(user: user,);
     }
   }
 }

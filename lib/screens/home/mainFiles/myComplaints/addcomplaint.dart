@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 
 
 class addComplaint extends StatefulWidget {
-  final UserDetails user;
-  const addComplaint({Key key, this.user}):super(key :key);
+  final UserDetails userDetails;
+  const addComplaint({Key key, this.userDetails}):super(key :key);
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -369,7 +369,7 @@ class _SearchPageState extends State<addComplaint> {
   Widget build(BuildContext context) {
     print('addComplaint');
 
-    print(widget.user);
+    print(widget.userDetails);
     return Scaffold(
       //backgroundColor: Color(0xFFE5E5E5),
       appBar: CustomAppBar(
@@ -598,7 +598,7 @@ class _SearchPageState extends State<addComplaint> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () async {
-                        await Firestore.instance.collection("binder").document(widget.user.uid).collection("complaint").add({
+                        await Firestore.instance.collection("binder").document(widget.userDetails.uid).collection("complaint").add({
                           'machineNo': machineNo,
                           'department': "production",
                           'issue': issue,

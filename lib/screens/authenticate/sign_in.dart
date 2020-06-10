@@ -2,6 +2,7 @@ import 'package:final_binder/services/auth.dart';
 import 'package:final_binder/shared/loading.dart';
 import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -17,6 +18,7 @@ class _SignInState extends State<SignIn> {
   String password = "";
   String error = "";
   bool loading = false;
+  bool _showPassword = false;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +71,7 @@ class _SignInState extends State<SignIn> {
                     height: 30,
                   ),
                   Container(
-                    height: 60,
+                    height: 80,
                     width: double.infinity,
                     child: TextFormField(
                       validator: (val) => val.isEmpty ? 'Enter an Email Id' : null,
@@ -95,11 +97,11 @@ class _SignInState extends State<SignIn> {
                     height: 10.0,
                   ),
                   Container(
-                    height: 60,
+                    height: 80,
                     width: double.infinity,
                     child: TextFormField(
                       validator: (val) => val.isEmpty ? 'Enter a password' : null,
-                      obscureText: true,
+                      obscureText: !_showPassword,
                       onChanged: (val){
                         setState(() => password = val);
                       },
@@ -107,8 +109,20 @@ class _SignInState extends State<SignIn> {
                           filled: true,
                           fillColor: Colors.grey[200],
                           prefixIcon: Icon(
-                            Icons.alternate_email,
+                            Icons.enhanced_encryption,
                             color: primaryblue,
+                          ),
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _showPassword = !_showPassword;
+                              });
+                            },
+                            child: Icon(
+                              _showPassword
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(4.0),

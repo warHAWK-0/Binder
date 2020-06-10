@@ -3,16 +3,23 @@ import 'package:flutter/cupertino.dart';
 class UserDetails{
   String name,
   uid,
-  designation,
+  authLevel,
+  department,
   mobileNo,
-  bay_no;
+  personalId,
+  email,
+  password,
+  bayNo;
 
-  UserDetails({this.name,this.designation,this.mobileNo, this.bay_no, this.uid});
-
-  Map<String, dynamic> toJson() => {
-    'name': name,
-    'designation': designation,
-    'mobile_no': mobileNo,
-    'bay_no': bay_no,
-  };
+  UserDetails({
+    this.name,
+    this.authLevel,
+    this.mobileNo,
+    this.bayNo,
+    this.uid,
+    this.department,
+    this.password,
+    this.personalId,
+    this.email
+  });
 }

@@ -1,3 +1,4 @@
+import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/screens/home/mainFiles/myComplaints/CustomComplaintCard.dart';
 import 'package:final_binder/shared/CustomAppBar.dart';
 import 'package:final_binder/shared/themes.dart';
@@ -5,14 +6,9 @@ import 'package:flutter/material.dart';
 
 class maintenanceDeptComplaints extends StatefulWidget {
 
-  final int authLevel;
-  final String userDepartment;
+  final UserDetails userDetails;
 
-  const maintenanceDeptComplaints({
-    Key key,
-    @required this.authLevel,
-    @required this.userDepartment
-  }) : super(key: key);
+  maintenanceDeptComplaints({Key key, this.userDetails}) : super(key: key);
 
   @override
   _maintenanceDeptComplaintsState createState() => _maintenanceDeptComplaintsState();
@@ -45,14 +41,9 @@ class _maintenanceDeptComplaintsState extends State<maintenanceDeptComplaints> {
 * */
 
 class productionDeptComplaints extends StatefulWidget {
-  final int authLevel;
-  final String userDepartment;
+  final UserDetails userDetails;
 
-  const productionDeptComplaints({
-    Key key,
-    @required this.authLevel,
-    @required this.userDepartment
-  }) : super(key: key);
+  productionDeptComplaints({Key key, this.userDetails}) : super(key: key);
 
   @override
   _productionDeptComplaintsState createState() => _productionDeptComplaintsState();

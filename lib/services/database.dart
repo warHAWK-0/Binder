@@ -25,9 +25,9 @@ class DatabaseServices{
     return UserDetails(
       uid : uid,
       name : snapshot.data['name'],
-      designation : snapshot.data['designation'],
+      authLevel : snapshot.data['designation'],
       mobileNo: snapshot.data['mobile_no'],
-      bay_no : snapshot.data['bay_no'],
+      bayNo : snapshot.data['bay_no'],
     );
   }
 
