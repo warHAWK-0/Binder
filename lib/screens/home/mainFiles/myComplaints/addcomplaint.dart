@@ -606,14 +606,15 @@ class _SearchPageState extends State<addComplaint> {
                           'lineNo': lineNo,
                           'startDate': DateTime.now().toString().substring(0,10),
                           'startTime': DateTime.now().toString().substring(11,16),
-                          'assignedDate': "",
-                          'assignedTime': "",
-                          'endDate': "",
-                          'endTime': "",
-                          'verifiedDate': "",
-                          'verifiedTime': "",
-                          'assignedTo': "",
-                          'raisedBy' : 'Someone'
+                          'assignedDate': null,
+                          'assignedTime': null,
+                          'endDate': null,
+                          'endTime': null,
+                          'verifiedDate': null,
+                          'verifiedTime': null,
+                          'assignedTo': null,
+                          'raisedBy' : 'Someone',
+                          'status':'notsolved'
                         });
                         Navigator.pop(context);
                       },

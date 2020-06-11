@@ -1,5 +1,6 @@
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:final_binder/models/mydata2.dart';
+import 'package:final_binder/models/user_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -609,9 +610,10 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
 class ExpandedComplaintAssign extends StatefulWidget {
   final String complaintNo;
   final myData2 ma;
+  final UserDetails userDetails;
 
 
-  const ExpandedComplaintAssign({Key key, @required this.complaintNo,@required this.ma})
+  const ExpandedComplaintAssign({Key key,@required this.userDetails, @required this.complaintNo,@required this.ma})
       : super(key: key);
 
   @override
@@ -649,13 +651,27 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
   List<String> assign = [];
   final myController = TextEditingController();
   void initState(){
-    fetchComplaints();
+    //fetchComplaints();
+    if(widget.ma.status=='solved'){
+      cstatus=complaintStatusSolved;
+    }
+    else if (widget.ma.status=='ongoing'){
+      cstatus=complaintStatusOngoing;
+    }
+    else if(widget.ma.status=='notsolved'){
+      cstatus=complaintStatusNotSolved;
+    }
+    else if(widget.ma.status=='pending'){
+      cstatus=complaintStatusPending;
+    }
+    else if(widget.ma.status=='transferAME'){
+      cstatus=complaintStatusAME;
+    }
   }
   myData2 d;
-  final String m="lop";
   void fetchComplaints() async{
     final QuerySnapshot result =
-    await Firestore.instance.collection('binder').document('fhLRyOsbSib6Ovakw3iq').collection('complaint').getDocuments();
+    await Firestore.instance.collection('binder').document(widget.userDetails.uid).collection('complaint').getDocuments();
     final List<DocumentSnapshot> documents = result.documents;
     for (DocumentSnapshot document in documents) {
       print(document.documentID + " => " + document.data['issue']);
@@ -673,22 +689,8 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
             document.data['date'],
             document.data['department']
         );
-        //m=document.data['issue'];
-        if(document.data['status']=='solved'){
-          cstatus=complaintStatusSolved;
-        }
-        else if (document.data['status']=='ongoing'){
-          cstatus=complaintStatusOngoing;
-        }
-        else if(document.data['status']=='notsolved'){
-          cstatus=complaintStatusNotSolved;
-        }
-        else if(document.data['status']=='pending'){
-          cstatus=complaintStatusPending;
-        }
-        else if(document.data['status']=='transferAME'){
-          cstatus=complaintStatusAME;
-        }
+        print(d.title);
+
       }
 
     }
@@ -712,9 +714,8 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Hero(
-                  tag: 'Complaint-' + widget.complaintNo,
-                  child: Container(
+                  //tag: 'Complaint-' + widget.complaintNo,
+                  Container(
                     height: 365,
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                     decoration: BoxDecoration(
@@ -736,7 +737,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    widget.ma.title,
+                                    "${widget.ma.title}",
                                     style: TextStyle(
                                       fontFamily: 'Roboto',
                                       color: primaryblue,
@@ -821,7 +822,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                       ),
                     ),
                   ),
-                ),
+
                 SizedBox(
                   height: 15,
                 ),
