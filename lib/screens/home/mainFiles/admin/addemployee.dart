@@ -402,7 +402,6 @@ class _AddEmployeeState extends State<AddEmployee> {
                           dynamic result = await _auth.createUserWithEmailAndPassword(email, '123456',userDetails);
                           if(result == null){
 
-                          }else{
                           }
                         }
                       },

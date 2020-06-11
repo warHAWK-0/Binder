@@ -109,13 +109,6 @@ class _NavBarSelectState extends State<NavBarSelect> {
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
-            icon: Icon(Icons.assessment),
-            title: Text('Statistics'),
-            activeColor: primaryblue,
-            inactiveColor: Colors.white,
-            textAlign: TextAlign.center,
-          ),
-          BottomNavyBarItem(
             icon: Icon(Icons.account_circle),
             title: Text('Profile'),
             activeColor: primaryblue,
@@ -168,13 +161,6 @@ class _NavBarSelectState extends State<NavBarSelect> {
           BottomNavyBarItem(
             icon: Icon(Icons.account_balance),
             title: Text('Department'),
-            activeColor: primaryblue,
-            inactiveColor: Colors.white,
-            textAlign: TextAlign.center,
-          ),
-          BottomNavyBarItem(
-            icon: Icon(Icons.assessment),
-            title: Text('Statistics'),
             activeColor: primaryblue,
             inactiveColor: Colors.white,
             textAlign: TextAlign.center,

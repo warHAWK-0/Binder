@@ -169,11 +169,9 @@ class _SignInState extends State<SignIn> {
                           if (result == null) {
 
                             setState(() {
-                              //error = "Enter valid Personal Id/Password.";
                               Scaffold.of(context).showSnackBar((SnackBar(
                                 content: new Text("Incorrect Email/ Password"),
                                 duration: Duration(seconds: 3),
-//                                backgroundColor: primaryblue,
                               )));
                               loading = false;
                             });
@@ -186,12 +184,6 @@ class _SignInState extends State<SignIn> {
                         }
                       },
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      error,
-                    )
                   ],
                 ),
               )
