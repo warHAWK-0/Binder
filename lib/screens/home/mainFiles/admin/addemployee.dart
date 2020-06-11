@@ -87,7 +87,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                           ),
                     ),
                     validator: (value) {
-                      Pattern p = r'^[a-zA-Z.]*$';
+                      Pattern p = r'^[a-zA-Z ]*$';
                       RegExp regex = new RegExp(p);
                       if (value.isEmpty)
                         return 'Enter Name';
