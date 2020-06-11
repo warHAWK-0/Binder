@@ -87,17 +87,7 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             margin: EdgeInsets.only(left: 15,right: 15),
             child: Card(
-              elevation: 2.5,
-              /*decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                 /* boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(0.0, 2.0),
-                    )
-                  ]*/
-              ),*/
+              elevation: 4,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -107,7 +97,7 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                            margin: EdgeInsets.only(top: 5,left: 5),
+                            margin: EdgeInsets.only(top: 10,left: 12),
                             child: Text(
                               widget.title.toString(),
                               style: TextStyle(
@@ -119,14 +109,14 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(top: 5,left: 5),
+                            margin: EdgeInsets.only(top: 5,left: 12),
                             child: Text(
                                 widget.machineno.toString(),
                                 style: TextStyle(
                                     fontFamily: 'Roboto',
                                     color: primaryblue,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500)
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400)
                             ),
                           ),
                         ],
@@ -142,25 +132,25 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
                   Row(
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.only(left: 5),
+                        margin: EdgeInsets.only(left: 12),
                         child: Text(
                             widget.date.toString(),
                             style: TextStyle(
                                 fontFamily: 'Roboto',
                                 color: primaryblue,
                                 fontSize: 14,
-                                fontWeight: FontWeight.w500)),
+                                fontWeight: FontWeight.w400)),
                       ),
                       Spacer(),
                       Container(
-                        padding: EdgeInsets.only(right: 5),
+                        padding: EdgeInsets.only(right: 8),
                         child: Text(
-                            widget.department.toString(),
+                            widget.department.toString().toUpperCase(),
                             style: TextStyle(
                                 fontFamily: 'Roboto',
                                 color: primaryblue,
                                 fontSize: 14,
-                                fontWeight: FontWeight.w500)),
+                                fontWeight: FontWeight.w400)),
                       ),
                     ],
                   ),

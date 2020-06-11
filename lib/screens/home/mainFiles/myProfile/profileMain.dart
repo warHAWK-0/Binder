@@ -52,7 +52,8 @@ class _ProfileMainState extends State<ProfileMain> {
                             child: TextField(
                                 enabled: false,
                                 decoration: InputDecoration(
-                                    hintText: (widget.userDetails.name.toString())
+                                    hintText: (widget.userDetails.name.toString()),
+                                  hintStyle: TextStyle(fontWeight: FontWeight.w700),
                                 )
 
                             ),
@@ -68,14 +69,15 @@ class _ProfileMainState extends State<ProfileMain> {
                         child:Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text("Designation:    ",style: TextStyle(fontSize: 16),),
+                            Text("Designation:   ",style: TextStyle(fontSize: 16),),
                             Flexible(
                               child: TextField(
                                   enabled: false,
                                   decoration: InputDecoration(
                                       hintText: (widget.userDetails.authLevel.toString()=="0"? "Operator":
-                                      widget.userDetails.authLevel.toString()=="0"? "Production":
-                                      widget.userDetails.authLevel.toString()=="0"? " Admin": "Null")
+                                      widget.userDetails.authLevel.toString()=="1"? "Supervisor":
+                                      widget.userDetails.authLevel.toString()=="2"? " Admin": "Null"),
+                                    hintStyle: TextStyle(fontWeight: FontWeight.w700),
                                   )
 
                               ),
@@ -96,7 +98,8 @@ class _ProfileMainState extends State<ProfileMain> {
                               child: TextField(
                                   enabled: false,
                                   decoration: InputDecoration(
-                                      hintText: (widget.userDetails.personalId.toString())
+                                      hintText: (widget.userDetails.personalId.toString()),
+                                    hintStyle: TextStyle(fontWeight: FontWeight.w700),
                                   )
 
                               ),
@@ -117,7 +120,8 @@ class _ProfileMainState extends State<ProfileMain> {
                             child: TextField(
                                 enabled: false,
                                 decoration: InputDecoration(
-                                    hintText: (widget.userDetails.department.toString())
+                                    hintText: (widget.userDetails.department.toString()),
+                                  hintStyle: TextStyle(fontWeight: FontWeight.w700),
                                 )
 
                             ),
@@ -138,7 +142,8 @@ class _ProfileMainState extends State<ProfileMain> {
                               child: TextField(
                                   enabled: false,
                                   decoration: InputDecoration(
-                                      hintText: (widget.userDetails.email.toString())
+                                      hintText: (widget.userDetails.email.toString()),
+                                    hintStyle: TextStyle(fontWeight: FontWeight.w700),
                                   )
 
                               ),
@@ -159,7 +164,8 @@ class _ProfileMainState extends State<ProfileMain> {
                               child: TextField(
                                   enabled: false,
                                   decoration: InputDecoration(
-                                      hintText: (widget.userDetails.mobileNo.toString())
+                                      hintText: (widget.userDetails.mobileNo.toString()),
+                                    hintStyle: TextStyle(fontWeight: FontWeight.w700),
                                   )
 
                               ),
