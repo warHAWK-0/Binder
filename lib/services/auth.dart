@@ -1,3 +1,6 @@
+import 'package:final_binder/models/user_data.dart';
+import 'package:final_binder/services/database.dart';
+
 import '../models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -41,13 +44,31 @@ class AuthService{
   Future sendPasswordResetEmail(String email) async {
     return _auth.sendPasswordResetEmail(email: email);
   }
+  //.sendPasswordResetEmail(email: email)
 
   // Email & Password Sign Up
-  Future<String> createUserWithEmailAndPassword(String email, String password) async {
-    final authResult = await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+  Future createUserWithEmailAndPassword(String email, String password, UserDetails userDetails) async {
+    try{
+      AuthResult authResult = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      FirebaseUser user = authResult.user;
+      //add User Details
+      await DatabaseServices(uid: user.uid).updateUserData(UserDetails(
+        name: userDetails.name,
+        uid: user.uid,
+        authLevel: userDetails.authLevel,
+        department: userDetails.department,
+        mobileNo: userDetails.mobileNo,
+        personalId: userDetails.personalId,
+        email: userDetails.email,
+        password: "123456",
+        bayNo: userDetails.bayNo,
+      ));
+    }catch(e){
+      print(e);
+    }
   }
 
   //sign Out

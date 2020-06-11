@@ -22,4 +22,16 @@ class UserDetails{
     this.personalId,
     this.email
   });
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
+    "uid": uid,
+    "authLevel": authLevel,
+    "department" : department,
+    "mobileNo" : mobileNo,
+    "personalId" : personalId,
+    "email": email,
+    "password" : password,
+    "bayNo" : bayNo,
+  };
 }

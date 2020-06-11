@@ -1,3 +1,4 @@
+import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/shared/CustomAppBar.dart';
 import 'package:final_binder/shared/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,31 +17,32 @@ enum TypeOfEmp { Electrical, Mechanical, Nothing }
 class _AddEmployeeState extends State<AddEmployee> {
   final AuthService _auth = AuthService();
   final _formkey = GlobalKey<FormState>();
-  TypeOfEmp emp = TypeOfEmp.Nothing;
-  String id = " ";
+  TypeOfEmp issue = TypeOfEmp.Nothing;
+  String personalId = " ";
   String name = " ";
   String phoneNo = " ";
   String email = " ";
-  String block = "";
+  String bayNo = "";
   String dept = "";
   String designation = "";
 
   @override
   void initState() {
     super.initState();
-    block = '';
+    bayNo = '';
     dept = '';
     designation = '';
   }
 
-  List<String> blockNo = ["D5"];
-  List<String> departments = ["Production", "Maintenance", "AME"];
+  List<String> bayNoList = ["Bay1","Bay2","Bay3"];
+  List<String> departments = ["Production", "Maintenance"];
   List<String> designations = [
     "Section Incharge",
     "Line Manager",
     "Supervisor",
     "Operator/Engineer",
     "Temporary Operator",
+    "Admin User"
   ];
 
 
@@ -96,6 +98,11 @@ class _AddEmployeeState extends State<AddEmployee> {
                       } else
                         return null;
                     },
+                    onChanged: (value){
+                      setState(() {
+                        name = value;
+                      });
+                    },
                     onSaved: (value) => name = value,
                   ), //Name//validator
                   SizedBox(
@@ -103,7 +110,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                   ),
                   TextFormField(
                     decoration: InputDecoration(
-                      hintText: "Personal No.",
+                      hintText: "Personal Id",
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
                       fillColor: Color.fromRGBO(20, 103, 179, 0.05),
@@ -121,14 +128,23 @@ class _AddEmployeeState extends State<AddEmployee> {
                     ),
                     validator: (value) =>
                         value.isEmpty ? 'Enter Personal No.' : null,
-                    onSaved: (value) => id = value,
+                    onSaved: (value){
+                      setState(() {
+                        personalId = value;
+                      });
+                    },
+                    onChanged: (value){
+                      setState(() {
+                        personalId = value;
+                      });
+                    },
                   ), //Personal No.
                   SizedBox(
                     height: 20,
                   ),
                   DropdownButtonFormField(
                     decoration: InputDecoration(
-                      hintText: "Block No.",
+                      hintText: "Bay Number",
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
                       fillColor: Color.fromRGBO(20, 103, 179, 0.05),
@@ -144,63 +160,24 @@ class _AddEmployeeState extends State<AddEmployee> {
                                   Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
                           ),
                     ),
-                    value: block.isNotEmpty ? block : null,
+                    value: bayNo.isNotEmpty ? bayNo : null,
                     onSaved: (value) {
                       setState(() {
-                        block = value;
+                        bayNo = value;
                       });
                     },
                     onChanged: (value) {
                       setState(() {
-                        block = value;
+                        bayNo = value;
                       });
                     },
-                    items: blockNo.map((item) {
+                    items: bayNoList.map((item) {
                       return DropdownMenuItem<String>(
                           child: new Text(item), value: item);
                     }).toList(),
                     validator: (value) =>
-                        value == null ? 'Enter Block no.' : null,
+                        value == null ? 'Enter Bay Number' : null,
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  DropdownButtonFormField(
-                    decoration: InputDecoration(
-                      hintText: "Department",
-                      hintStyle: TextStyle(color: Color(0xFF1467B3)),
-                      filled: true,
-                      fillColor: Color.fromRGBO(20, 103, 179, 0.05),
-                      contentPadding: const EdgeInsets.only(
-                          left: 14.0, bottom: 15.0, top: 15.0),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color.fromRGBO(93, 153, 252, 100)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color:
-                                  Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
-                          ),
-                    ),
-                    value: dept.isNotEmpty ? dept : null,
-                    onSaved: (value) {
-                      setState(() {
-                        dept = value;
-                      });
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        dept = value;
-                      });
-                    },
-                    items: departments.map((item) {
-                      return DropdownMenuItem<String>(
-                          child: new Text(item), value: item);
-                    }).toList(),
-                    validator: (value) =>
-                        value == null ? 'Enter Department' : null,
-                  ), //Department
                   SizedBox(
                     height: 20,
                   ),
@@ -241,6 +218,47 @@ class _AddEmployeeState extends State<AddEmployee> {
                     validator: (value) =>
                         value == null ? 'Enter Designation' : null,
                   ), //Designation
+                  designation == "Admin User" ? (){setState(() {
+                    dept = "Admin User";
+                  });} : DropdownButtonFormField(
+                    decoration: InputDecoration(
+                      hintText: "Department",
+                      hintStyle: TextStyle(color: Color(0xFF1467B3)),
+                      filled: true,
+                      fillColor: Color.fromRGBO(20, 103, 179, 0.05),
+                      contentPadding: const EdgeInsets.only(
+                          left: 14.0, bottom: 15.0, top: 15.0),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(93, 153, 252, 100)),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color:
+                              Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
+                      ),
+                    ),
+                    value: dept.isNotEmpty ? dept : null,
+                    onSaved: (value) {
+                      setState(() {
+                        dept = value;
+                      });
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        dept = value;
+                      });
+                    },
+                    items: departments.map((item) {
+                      return DropdownMenuItem<String>(
+                          child: new Text(item), value: item);
+                    }).toList(),
+                    validator: (value) =>
+                    value == null ? 'Enter Department' : null,
+                  ), //Department
+                  designation == "Admin User" ? null : SizedBox(
+                    height: 20,
+                  ),
                   Container(
                     child: designation == "Operator/Engineer"
                         ? new Align(
@@ -256,10 +274,10 @@ class _AddEmployeeState extends State<AddEmployee> {
                                 ),
                                 new Radio(
                                   value: TypeOfEmp.Electrical,
-                                  groupValue: emp,
+                                  groupValue: issue,
                                   onChanged: (TypeOfEmp value) {
                                     setState(() {
-                                      emp = value;
+                                      issue = value;
                                     });
                                   },
                                 ),
@@ -272,10 +290,10 @@ class _AddEmployeeState extends State<AddEmployee> {
                                 ),
                                 new Radio(
                                   value: TypeOfEmp.Mechanical,
-                                  groupValue: emp,
+                                  groupValue: issue,
                                   onChanged: (TypeOfEmp value) {
                                     setState(() {
-                                      emp = value;
+                                      issue = value;
                                     });
                                   },
                                 ),
@@ -314,39 +332,83 @@ class _AddEmployeeState extends State<AddEmployee> {
                       } else
                         return null;
                     },
-                    onSaved: (value) => phoneNo = value,
+                    onChanged: (value){
+                      setState(() {
+                        phoneNo = value;
+                      });
+                    },
+                    onSaved: (value){
+                      setState(() {
+                        phoneNo = value;
+                      });
+                    },
                   ), //Phone No
                   SizedBox(
                     height: 20,
                   ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      hintText: "Email",
-                      hintStyle: TextStyle(color: Color(0xFF1467B3)),
-                      filled: true,
-                      fillColor: Color.fromRGBO(20, 103, 179, 0.05),
-                      contentPadding: const EdgeInsets.only(
-                          left: 14.0, bottom: 15.0, top: 15.0),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color.fromRGBO(93, 153, 252, 100)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color:
-                                  Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
+                  Container(
+                    height: 80,
+                    width: double.infinity,
+                    child: TextFormField(
+                      validator: (val) =>
+                      val.isEmpty
+                          ? 'Enter an Email Id'
+                          : null,
+                      onChanged: (val) {
+                        setState(() => email = val);
+                      },
+                      decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.grey[200],
+                          prefixIcon: Icon(
+                            Icons.alternate_email,
+                            color: primaryblue,
                           ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                            borderSide: BorderSide(color: Colors.grey[300]),
+                          ),
+                          hintText: 'Email Id',
+                          hintStyle: TextStyle(color: Colors.grey)),
                     ),
-                    validator: (value) {
-                      if (value.isEmpty)
-                        return 'Enter email';
-                      else if (!value.contains('@'))
-                        return 'Not a valid email';
-                      else
-                        return null;
-                    },
-                    onSaved: (value) => email = value,
-                  ), //Email
+                  ),
+//                  TextFormField(
+//                    decoration: InputDecoration(
+//                      hintText: "Email",
+//                      hintStyle: TextStyle(color: Color(0xFF1467B3)),
+//                      filled: true,
+//                      fillColor: Color.fromRGBO(20, 103, 179, 0.05),
+//                      contentPadding: const EdgeInsets.only(
+//                          left: 14.0, bottom: 15.0, top: 15.0),
+//                      focusedBorder: OutlineInputBorder(
+//                        borderSide: BorderSide(
+//                            color: Color.fromRGBO(93, 153, 252, 100)),
+//                      ),
+//                      enabledBorder: OutlineInputBorder(
+//                          borderSide: BorderSide(
+//                              color:
+//                                  Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
+//                          ),
+//                    ),
+//                    validator: (value) {
+//                      if (value.isEmpty)
+//                        return 'Enter email';
+//                      else if (!value.contains('@'))
+//                        return 'Not a valid email';
+//                      else
+//                        return null;
+//                    },
+//                    onChanged: (value){
+//                      setState(() {
+//                        email = value;
+//                      });
+//                    },
+//                    onSaved: (value){
+//                      setState(() {
+//                        email = value;
+//                      });
+//                    },
+//                  ), //Email
                   SizedBox(
                     height: 30,
                   ),
@@ -360,24 +422,26 @@ class _AddEmployeeState extends State<AddEmployee> {
                       disabledTextColor: Colors.black,
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
-                      onPressed: () {
-                        print(id+name+phoneNo+dept+designation);
+                      onPressed: () async{
+                        final UserDetails userDetails = UserDetails(
+                        name: name,
+                        uid: '',
+                        authLevel: (designation == "Operator/Engineer" || designation == "Temporary Operator") ? "0"
+                            : (designation == "Section Incharge" || designation == "Line Manager" || designation == "Supervisor") ? "1"
+                            : (designation == "Admin User") ? "2" : "0",
+                        department: dept,
+                        mobileNo: phoneNo,
+                        personalId: personalId,
+                        email: email,
+                        password: "123456",
+                        bayNo: bayNo,
+                        );
+                        print(email);
                         if (_formkey.currentState.validate()) {
-                          /**/
+                          dynamic result = await _auth.createUserWithEmailAndPassword(email, '123456',userDetails);
+                          if(result == null){
 
-                          try{
-                            AuthResult result = ( _auth.createUserWithEmailAndPassword(email,'emp@12345')) as AuthResult;
-                            FirebaseUser  user = result.user;
-                            if(User(uid: user.uid)!=null)
-                            {
-                              print("User added");
-                            }
-                            else
-                              print("User not added ");
-
-                          }catch(e){
-                            print(e.toString());
-
+                          }else{
                           }
                         }
                       },
