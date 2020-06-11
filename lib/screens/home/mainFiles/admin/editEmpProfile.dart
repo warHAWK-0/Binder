@@ -32,6 +32,9 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
   String block = "";
   String dept = "";
   String designation = "";
+
+
+
   @override
   void initState() {
     super.initState();
@@ -91,7 +94,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                       ),
                     ),
                     validator: (value) {
-                      Pattern p = r'^[a-zA-Z.]*$';
+                      Pattern p = r'^[a-z A-Z.]*$';
                       RegExp regex = new RegExp(p);
                       if (value.isEmpty)
                         return 'Enter Name';
@@ -129,7 +132,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                       ),
                     ),
                     validator: (value) =>
-                    value.isEmpty ? 'Enter Personal No.' : null,
+                    value.isEmpty ? '' : null,
                     onChanged: (value) {
                       setState(() {
                         id = value;
@@ -173,7 +176,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                           child: new Text(item), value: item);
                     }).toList(),
                     validator: (value) =>
-                    value == null ? 'Enter Block no.' : null,
+                    value == null ? '' : null,
                   ),
                   SizedBox(
                     height: 20,
@@ -213,7 +216,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                           child: new Text(item), value: item);
                     }).toList(),
                     validator: (value) =>
-                    value == null ? 'Enter Department' : null,
+                    value == null ? '' : null,
                   ), //Department
                   SizedBox(
                     height: 20,
@@ -255,7 +258,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                           child: new Text(item), value: item);
                     }).toList(),
                     validator: (value) =>
-                    value == null ? 'Enter Designation' : null,
+                    value == null ? '' : null,
                   ), //Designation
                   Container(
                     child: designation == "Operator/Engineer"
@@ -323,9 +326,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                     validator: (value) {
                       Pattern p = '[0-9]{10}';
                       RegExp regex = new RegExp(p);
-                      if (value.isEmpty)
-                        return 'Enter Phone No.';
-                      else if (!regex.hasMatch(value)) {
+                      if (!regex.hasMatch(value)) {
                         return 'Not a valid Phone No.';
                       } else
                         return null;
@@ -358,9 +359,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                       ),
                     ),
                     validator: (value) {
-                      if (value.isEmpty)
-                        return 'Enter email';
-                      else if (!value.contains('@'))
+                      if (!value.contains('@'))
                         return 'Not a valid email';
                       else
                         return null;
@@ -386,16 +385,19 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                       splashColor: Colors.blueAccent,
                       onPressed: () {
 
-//                        var db= Firestore.instance.collection('binder').document(widget.userID)
-//                            .collection('user_details').document(widget.userID);
-//                        db.updateData({
-//                          'name':
-//                        });
+                        var db= Firestore.instance.collection('binder').document(widget.userID)
+                            .collection('user_details').document(widget.userID);
+                        db.updateData({
+                          'blockNo': block.isEmpty? widget.allData[0].block_no : block,
+                          'department': dept.isEmpty? widget.allData[0].department : dept,
+                          //'authLevel': designation.isNotEmpty? widget.allData[0].designation : designation,
+                          'name': name.isEmpty? widget.allData[0].name : name,
+                          'personalId':id.isEmpty?widget.allData[0].personal_no : id,
+                          'mobileNo': phoneNo.isEmpty? widget.allData[0].phone_no : phoneNo,
+                          //'email': email.isEmpty? widget.allData[0].email: email,
+                        });
 
-                        print(widget.userID);
-                        if (_formkey.currentState.validate()) {
-                          print("$id=>$name=>$phoneNo=>$email=>$block=>$designation=>$dept=>$emp");
-                        }
+//
                       },
                       child: Text(
                         "Save Changes",
@@ -432,15 +434,6 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
         ),
       ),
     );
-  }
-
-  void update(data) {
-    var db= Firestore.instance.collection('binder').document(widget.userID)
-        .collection('user_details').document(widget.userID);
-    db.updateData(data).catchError((e){
-      print(e);
-
-    });
   }
 }
 
