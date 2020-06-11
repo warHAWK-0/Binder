@@ -14,6 +14,7 @@ class DeleteEmployee extends StatefulWidget {
 class _DeleteEmployeeState extends State<DeleteEmployee> {
   String userID="";
   List<user_Info> allData = [];
+  final db= Firestore.instance;
   void fetchDepartmentComplaints() async {
 
     final QuerySnapshot usersList =
@@ -260,7 +261,9 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
                                   disabledTextColor: Colors.black,
                                   padding: EdgeInsets.all(8.0),
                                   splashColor: Colors.blueAccent,
-                                  onPressed: () {
+                                  onPressed: () async{
+
+                                    //await db.collection('binder').document(userID).delete()
 //                                    Navigator.push(
 //                                      context,
 //                                      MaterialPageRoute(
