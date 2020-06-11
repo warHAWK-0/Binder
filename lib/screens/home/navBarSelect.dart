@@ -188,32 +188,7 @@ class _NavBarSelectState extends State<NavBarSelect> {
           ),
         ],
       ) :
-      (widget.userDetails.authLevel == '2' && widget.userDetails.department == "admin") == true ? BottomNavyBar(
-        selectedIndex: currentIndex,
-        showElevation: true,
-        itemCornerRadius: 10,
-        curve: Curves.easeInBack,
-        onItemSelected: (index) =>
-            setState(() {
-              currentIndex = index;
-            }),
-        items: [
-          BottomNavyBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-            activeColor: primaryblue,
-            inactiveColor: Colors.white,
-            textAlign: TextAlign.center,
-          ),
-          BottomNavyBarItem(
-            icon: Icon(Icons.account_circle),
-            title: Text('Profile'),
-            activeColor: primaryblue,
-            inactiveColor: Colors.white,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ) : null,
+      (widget.userDetails.authLevel == '2' && widget.userDetails.department == "admin") == true ? null : null,
     );
   }
 }

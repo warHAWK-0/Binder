@@ -12,14 +12,9 @@ class DatabaseServices{
 
   DatabaseServices({this.uid});
 
-//  Future updateUserData(UserDetails detail, String uid) async{
-//    return await db.document(uid).collection("user_details").add({
-//      'name': detail.name,
-//      'designation': detail.designation,
-//      'mobile_no': detail.mobileNo,
-//      'bay_no': detail.bay_no,
-//    });
-//  }
+  Future updateUserData(UserDetails userDetails) async{
+    return await collectionReference.document(uid).collection("user_details").document(uid).setData(userDetails.toJson());
+  }
 
   UserDetails userDetailsFromSnapshot(DocumentSnapshot snapshot){
     return UserDetails(
