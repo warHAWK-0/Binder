@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_binder/models/user_Info.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../../shared/CustomAppBar.dart';
@@ -262,6 +263,17 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
                                   padding: EdgeInsets.all(8.0),
                                   splashColor: Colors.blueAccent,
                                   onPressed: () async{
+                                    Firestore.instance.collection('binder')
+                                        .document(userID)
+                                        .collection("user_details")
+                                        .getDocuments()
+                                        .then((snapshot) {
+                                      for (DocumentSnapshot doc in snapshot.documents) {
+                                        doc.reference.delete();
+                                      }});
+
+                                    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+                                    user.delete();
 
                                     //await db.collection('binder').document(userID).delete()
 //                                    Navigator.push(
