@@ -139,11 +139,17 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                       splashColor: Colors.blueAccent,
                       onPressed: () {
                         fetchDepartmentComplaints();
+                        showDetailsContainer=true;
                         if(allData.length==1) {
                           setState(() {
-                            showDetailsContainer=true;
+
                             detailsFound=true;
                             });
+                        }
+                        else{
+                          setState(() {
+                            detailsFound=false;
+                          });
                         }
 //                        setState(() {
 //                          showDetailsContainer = true;
@@ -169,10 +175,9 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                         children: <Widget>[
                           Align(
                             child: Container(
-                              child: Image.asset(
-                                  'assets/images/InvalidPersonalNo.png',
-                                  height: 50,
-                                  fit: BoxFit.cover),
+//                              child: Image.asset(
+//                                  height: 50,
+//                                  fit: BoxFit.cover),
                             ),
                             alignment: Alignment.center,
                           ),
@@ -282,14 +287,14 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                                   padding: EdgeInsets.all(8.0),
                                   splashColor: Colors.blueAccent,
                                   onPressed: () {
-//                                    Navigator.push(
-//                                      context,
-//                                      MaterialPageRoute(
-//                                          builder: (context) => EditEmpProfile(userID:userID,allData: allData,)),
-//                                    );
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => EditEmpProfile(userID:userID,allData: allData,)),
+                                    );
                                   },
                                   child: Text(
-                                    "Delete Employee",
+                                    "Edit Employee",
                                     style: TextStyle(fontSize: 15.0),
                                   ),
                                 ),
@@ -299,7 +304,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                         ),
                       ),
                     ),
-                  ) : Container(),
+                  ) : Container(child: new Text(""),),
                 ],
               ),
             ),

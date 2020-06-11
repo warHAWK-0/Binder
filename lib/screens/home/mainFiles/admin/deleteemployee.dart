@@ -263,24 +263,9 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
                                   padding: EdgeInsets.all(8.0),
                                   splashColor: Colors.blueAccent,
                                   onPressed: () async{
-                                    Firestore.instance.collection('binder')
-                                        .document(userID)
-                                        .collection("user_details")
-                                        .getDocuments()
-                                        .then((snapshot) {
-                                      for (DocumentSnapshot doc in snapshot.documents) {
-                                        doc.reference.delete();
-                                      }});
 
-                                    FirebaseUser user = await FirebaseAuth.instance.currentUser();
-                                    user.delete();
+                                    await db.collection('binder').document(userID).collection('user_details').document(allData[0].id).delete();
 
-                                    //await db.collection('binder').document(userID).delete()
-//                                    Navigator.push(
-//                                      context,
-//                                      MaterialPageRoute(
-//                                          builder: (context) => EditEmpProfile(userID:userID,allData: allData,)),
-//                                    );
                                   },
                                   child: Text(
                                     "Delete Employee",
