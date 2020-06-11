@@ -1,13 +1,17 @@
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
-import 'package:final_binder/shared/CustomAppBar.dart';
-import 'package:final_binder/shared/themes.dart';
+import 'package:final_binder/models/mydata2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../../../../shared/CustomAppBar.dart';
+import '../../../../shared/themes.dart';
+
 
 enum ComplaintVerificationValue { solved, unsolved }
 
 class ExpandedComplainVerify extends StatefulWidget {
-  final int complaintNo;
+  final String complaintNo;
 
   const ExpandedComplainVerify({Key key, @required this.complaintNo})
       : super(key: key);
@@ -17,10 +21,12 @@ class ExpandedComplainVerify extends StatefulWidget {
 }
 
 class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
+  final databaseReference = Firestore.instance;
+  String dbt;
   ComplaintVerificationValue _radioVerifyValue =
       ComplaintVerificationValue.unsolved;
   TextStyle detailsTextStyle =
-      TextStyle(fontFamily: 'Roboto', color: Colors.black, fontSize: 14);
+  TextStyle(fontFamily: 'Roboto', color: Colors.black, fontSize: 14);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +34,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
       backgroundColor: primaryblue,
       appBar: CustomAppBar(
         child: Text(
-          'Complaint No - ' + widget.complaintNo.toString(),
+          'Complaint No - ' + widget.complaintNo,
           style: titleText,
         ),
         backIcon: true,
@@ -230,6 +236,19 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                             color: Color(0xFF1467B3),
                             onPressed: () {
                               print('');
+                              if (_radioVerifyValue==ComplaintVerificationValue.solved) {
+                                try {
+                                  dbt=DateTime.now().toString();
+                                  databaseReference
+                                      .collection('binder')
+                                      .document('nRWTfcVdIldVPtgrOw2NgeuIF4M2')
+                                      .collection('complaint')
+                                      .document('hiIf5uvcpvFTWJ3C6FMb')
+                                      .updateData({'verified_date': dbt.substring(0,10),'verified_time':dbt.substring(11,16)});
+                                } catch (e) {
+                                  print(e.toString());
+                                }
+                              }
                             },
                           ),
                         ),
@@ -256,7 +275,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
 enum ComplaintStatusValue { solved, ongoing, pending, transferAME }
 
 class ExpandedComplainStatus extends StatefulWidget {
-  final int complaintNo;
+  final String complaintNo;
 
   const ExpandedComplainStatus({Key key, @required this.complaintNo})
       : super(key: key);
@@ -266,9 +285,10 @@ class ExpandedComplainStatus extends StatefulWidget {
 }
 
 class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
+  final databaseReference = Firestore.instance;
   ComplaintStatusValue _radioStatusValue = ComplaintStatusValue.pending;
   TextStyle detailsTextStyle =
-      TextStyle(fontFamily: 'Roboto', color: Colors.black, fontSize: 14);
+  TextStyle(fontFamily: 'Roboto', color: Colors.black, fontSize: 14);
 
   @override
   Widget build(BuildContext context) {
@@ -515,6 +535,54 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                             color: Color(0xFF1467B3),
                             onPressed: () {
                               print('');
+                              if (_radioStatusValue==ComplaintVerificationValue.solved) {
+                                try {
+                                  databaseReference
+                                      .collection('binder')
+                                      .document('nRWTfcVdIldVPtgrOw2NgeuIF4M2')
+                                      .collection('complaint')
+                                      .document('hiIf5uvcpvFTWJ3C6FMb')
+                                      .updateData({'status': "solved"});
+                                } catch (e) {
+                                  print(e.toString());
+                                }
+                              }
+                              else if (_radioStatusValue == ComplaintStatusValue.pending) {
+                                try {
+                                  databaseReference
+                                      .collection('binder')
+                                      .document('nRWTfcVdIldVPtgrOw2NgeuIF4M2')
+                                      .collection('complaint')
+                                      .document('hiIf5uvcpvFTWJ3C6FMb')
+                                      .updateData({'status': "pending"});
+                                } catch (e) {
+                                  print(e.toString());
+                                }
+                              }
+                              else if (_radioStatusValue==ComplaintStatusValue.transferAME) {
+                                try {
+                                  databaseReference
+                                      .collection('binder')
+                                      .document('nRWTfcVdIldVPtgrOw2NgeuIF4M2')
+                                      .collection('complaint')
+                                      .document('hiIf5uvcpvFTWJ3C6FMb')
+                                      .updateData({'status': "transferAME"});
+                                } catch (e) {
+                                  print(e.toString());
+                                }
+                              }
+                              else if (_radioStatusValue==ComplaintStatusValue.ongoing) {
+                                try {
+                                  databaseReference
+                                      .collection('binder')
+                                      .document('nRWTfcVdIldVPtgrOw2NgeuIF4M2')
+                                      .collection('complaint')
+                                      .document('hiIf5uvcpvFTWJ3C6FMb')
+                                      .updateData({'status': "ongoing"});
+                                } catch (e) {
+                                  print(e.toString());
+                                }
+                              }
                             },
                           ),
                         ),
@@ -539,24 +607,24 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
 * */
 
 class ExpandedComplaintAssign extends StatefulWidget {
-  final int complaintNo;
+  final String complaintNo;
+  final myData2 ma;
 
-  const ExpandedComplaintAssign({Key key, @required this.complaintNo})
+
+  const ExpandedComplaintAssign({Key key, @required this.complaintNo,@required this.ma})
       : super(key: key);
 
   @override
-  _ExpandedComplaintAssignState createState() =>
-      _ExpandedComplaintAssignState();
+  _ExpandedComplaintAssignState createState() => _ExpandedComplaintAssignState();
 }
 
 class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
   TextStyle detailsTextStyle =
-      TextStyle(fontFamily: 'Roboto', color: Colors.black, fontSize: 14);
-
+  TextStyle(fontFamily: 'Roboto', color: Colors.black, fontSize: 14);
   GlobalKey<AutoCompleteTextFieldState<String>> key = new GlobalKey();
   String currentName = "";
   List<String> assignedTo = [];
-
+  final databaseReference = Firestore.instance;
   List<String> suggestions = [
     "Bhusnur Dattatray Prakash",
     "Jagdale Rajan Yadav",
@@ -575,18 +643,63 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
     "Kotasthane Kedar k.",
     "Mathkar Mahesh M."
   ];
+  Color cstatus;
   AutoCompleteTextField searchTextField;
   bool loading = true;
   List<String> assign = [];
   final myController = TextEditingController();
+  void initState(){
+    fetchComplaints();
+  }
+  myData2 d;
+  final String m="lop";
+  void fetchComplaints() async{
+    final QuerySnapshot result =
+    await Firestore.instance.collection('binder').document('fhLRyOsbSib6Ovakw3iq').collection('complaint').getDocuments();
+    final List<DocumentSnapshot> documents = result.documents;
+    for (DocumentSnapshot document in documents) {
+      print(document.documentID + " => " + document.data['issue']);
+      if (document.documentID==widget.complaintNo){
+        d = new myData2(
+            document.data['issue'],
+            document.data['machineNo'],
+            document.data['lineNo'],
+            document.data['status'],
+            document.data['raisedby'],
+            document.data['startTime'],
+            document.data['assignedTo'],
+            document.data['assignedBy'],
+            document.data['description'],
+            document.data['date'],
+            document.data['department']
+        );
+        //m=document.data['issue'];
+        if(document.data['status']=='solved'){
+          cstatus=complaintStatusSolved;
+        }
+        else if (document.data['status']=='ongoing'){
+          cstatus=complaintStatusOngoing;
+        }
+        else if(document.data['status']=='notsolved'){
+          cstatus=complaintStatusNotSolved;
+        }
+        else if(document.data['status']=='pending'){
+          cstatus=complaintStatusPending;
+        }
+        else if(document.data['status']=='transferAME'){
+          cstatus=complaintStatusAME;
+        }
+      }
 
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: primaryblue,
       appBar: CustomAppBar(
         child: Text(
-          'Complaint No - ' + widget.complaintNo.toString(),
+          'Complaint No - ' + widget.complaintNo,
           style: titleText,
         ),
         backIcon: true,
@@ -600,7 +713,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Hero(
-                  tag: 'Complaint-' + widget.complaintNo.toString(),
+                  tag: 'Complaint-' + widget.complaintNo,
                   child: Container(
                     height: 365,
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -623,7 +736,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    "Title of complaint ",
+                                    widget.ma.title,
                                     style: TextStyle(
                                       fontFamily: 'Roboto',
                                       color: primaryblue,
@@ -633,7 +746,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 10),
-                                    child: Text("Machine No. ",
+                                    child: Text("Machine Number: ${widget.ma.machineno} ",
                                         style: TextStyle(
                                             fontFamily: 'Roboto',
                                             color: primaryblue,
@@ -647,7 +760,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                                   margin: EdgeInsets.only(top: 5, right: 5),
                                   child: Icon(
                                     Icons.brightness_1,
-                                    color: Color(0xFFFF5656),
+                                    color: cstatus,
                                   )),
                             ],
                           ),
@@ -663,23 +776,21 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                                 style: detailsTextStyle,
                               ),
                               SizedBox(height: 8),
-                              Text("Line No. :", style: detailsTextStyle),
+                              Text("Line No. : ${widget.ma.lineno}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Machine No. :", style: detailsTextStyle),
+                              Text("Issue : ${widget.ma.title}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Issue :", style: detailsTextStyle),
+                              Text("Status: ${widget.ma.status}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Status:", style: detailsTextStyle),
+                              Text("Raised by : ${widget.ma.raisedby}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Raised by :", style: detailsTextStyle),
+                              Text("Time : ${widget.ma.time}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Time :", style: detailsTextStyle),
+                              Text("Assigned to : ${widget.ma.assignedto}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Assigned to :", style: detailsTextStyle),
+                              Text("Assigned by : ${widget.ma.assignedby}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Assigned by :", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Description :", style: detailsTextStyle),
+                              Text("Description : ${widget.ma.description}", style: detailsTextStyle),
                             ],
                           ),
                           SizedBox(
@@ -688,7 +799,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                           Row(
                             children: <Widget>[
                               Container(
-                                child: Text("Date ",
+                                child: Text("Date: ${widget.ma.date}",
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: primaryblue,
@@ -697,7 +808,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                               ),
                               Spacer(),
                               Container(
-                                child: Text("Department",
+                                child: Text("Department: ${widget.ma.department}",
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: primaryblue,
@@ -742,13 +853,13 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                           clearOnSubmit: false,
                           suggestions: suggestions,
                           style:
-                              TextStyle(color: Color(0xFF1467B3), fontSize: 14),
+                          TextStyle(color: Color(0xFF1467B3), fontSize: 14),
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderSide:
-                                      BorderSide(color: Color(0xFF1467B3))),
+                                  BorderSide(color: Color(0xFF1467B3))),
                               contentPadding:
-                                  EdgeInsets.fromLTRB(10, 10, 10, 20),
+                              EdgeInsets.fromLTRB(10, 10, 10, 20),
                               hintText: "Search",
                               hintStyle: TextStyle(
                                   color: Color(0xFF1467B3), fontSize: 18)),
@@ -792,7 +903,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                           spacing: 6.0,
                           //runSpacing: 6.0,
                           children:
-                              List<Widget>.generate(assign.length, (int index) {
+                          List<Widget>.generate(assign.length, (int index) {
                             return InputChip(
                               avatar: CircleAvatar(
                                 backgroundColor: Color(0xFF1467B3),
@@ -830,13 +941,20 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                             ),
                             color: Color(0xFF1467B3),
                             onPressed: () {
-//                              currentName != ""
-//                                  ? assignedTo.add(currentName)
-//                                  : null;
-//                              print(assignedTo[0]);
                               assign.add(myController.text);
                               print(assign);
+                              myController.clear();
                               setState(() { });
+                              try {
+                                databaseReference
+                                    .collection('binder')
+                                    .document('nRWTfcVdIldVPtgrOw2NgeuIF4M2')
+                                    .collection('complaint')
+                                    .document(widget.complaintNo)
+                                    .updateData({'assignedTo': assign});
+                              } catch (e) {
+                                print(e.toString());
+                              }
                             },
                           ),
                         ),
