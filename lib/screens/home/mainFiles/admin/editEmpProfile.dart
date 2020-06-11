@@ -389,7 +389,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                             .collection('user_details').document(widget.userID);
                         db.updateData({
                           'blockNo': block.isEmpty? widget.allData[0].block_no : block,
-                          'department': dept.isEmpty? widget.allData[0].department : dept,
+                          'department': dept.isEmpty? widget.allData[0].department : (dept.toLowerCase()),
                           //'authLevel': designation.isNotEmpty? widget.allData[0].designation : designation,
                           'name': name.isEmpty? widget.allData[0].name : name,
                           'personalId':id.isEmpty?widget.allData[0].personal_no : id,
