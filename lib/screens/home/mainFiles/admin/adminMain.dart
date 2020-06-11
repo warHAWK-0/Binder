@@ -74,11 +74,11 @@ class _AdminMainState extends State<AdminMain> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-//                        Container(
-//                          //  margin: EdgeInsets.only(top: 15, bottom: 15, left: 50),
-//                          child: Image.asset('assets/images/AddEmpIcon.png',
-//                              fit: BoxFit.cover, height: 20),
-//                        ),
+                        Container(
+                          //  margin: EdgeInsets.only(top: 15, bottom: 15, left: 50),
+                          child: Image.asset('assets/images/AddEmpIcon.png',
+                              fit: BoxFit.cover, height: 20),
+                        ),
                         Center(
                           child: Container(
                             margin: EdgeInsets.only(left: 5),
@@ -126,13 +126,13 @@ class _AdminMainState extends State<AdminMain> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-//                        Container(
-//                          //  margin: EdgeInsets.only(top: 15, bottom: 15, left: 50),
-//                          child: Image.asset(
-//                              'assets/images/EditEmpIcon.png',
-//                              fit: BoxFit.cover,
-//                              height: 24),
-//                        ),
+                        Container(
+                          //  margin: EdgeInsets.only(top: 15, bottom: 15, left: 50),
+                          child: Image.asset(
+                              'assets/images/EditEmpIcon.png',
+                              fit: BoxFit.cover,
+                              height: 24),
+                        ),
                         Container(
                           margin: EdgeInsets.only(left: 5),
                           child: Text("Edit an Employee",
@@ -178,14 +178,14 @@ class _AdminMainState extends State<AdminMain> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-//                        Container(
-//                          //margin: EdgeInsets.only(top: 15, bottom: 15, left: 45),
-//                          alignment: Alignment.centerRight,
-//                          child: Image.asset(
-//                              'assets/images/DeleteEmpIcon.png',
-//                              fit: BoxFit.cover,
-//                              height: 24),
-//                        ),
+                        Container(
+                          //margin: EdgeInsets.only(top: 15, bottom: 15, left: 45),
+                          alignment: Alignment.centerRight,
+                          child: Image.asset(
+                              'assets/images/DeleteEmpIcon.png',
+                              fit: BoxFit.cover,
+                              height: 24),
+                        ),
                         Container(
                           alignment: Alignment.centerLeft,
                           margin: EdgeInsets.only(left: 5),

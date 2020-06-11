@@ -1,3 +1,4 @@
+import 'package:final_binder/services/auth.dart';
 import 'package:final_binder/shared/CustomAppBar.dart';
 import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,9 @@ class ManageAdmin extends StatefulWidget {
 }
 
 class _ManageAdminState extends State<ManageAdmin> {
+
+  final AuthService _auth = AuthService();
+
   String _email;
   Future<bool> _onBackPressed() {
     Navigator.push(
@@ -47,7 +51,7 @@ class _ManageAdminState extends State<ManageAdmin> {
                     disabledTextColor: Colors.black,
                     padding: EdgeInsets.all(8.0),
                     onPressed: () {
-/*...*/
+
                     },
                     child: Text(
                       "Reset Password",
@@ -65,8 +69,13 @@ class _ManageAdminState extends State<ManageAdmin> {
                     textColor: primaryblue,
                     disabledTextColor: Colors.black,
                     padding: EdgeInsets.all(8.0),
-                    onPressed: () {
-/***/
+                    onPressed: () async {
+                      try {
+                        await _auth.signOut();
+                        Navigator.pop(context);
+                      } catch (e) {
+                        print (e);
+                      }
                     },
                     borderSide: BorderSide(color: Color(0xFF1467B3)),
                     child: Text(

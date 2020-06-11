@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_binder/shared/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -14,10 +15,15 @@ class EditSearchEmp extends StatefulWidget {
 
 class _EditSearchEmpState extends State<EditSearchEmp> {
 
+  bool loading = false;
   String userID="";
   List<user_Info> allData = [];
   void fetchDepartmentComplaints() async {
-
+    setState(() {
+      print(loading);
+      loading = true;
+      print("again"+loading.toString());
+    });
     final QuerySnapshot usersList =
     await Firestore.instance.collection('binder').getDocuments();
     final List<DocumentSnapshot> docUsers = usersList.documents;
@@ -50,7 +56,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
       }
     }
     setState(() {
-      print(allData.length);
+      loading = false;
     });
   }
 
@@ -137,31 +143,23 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                       disabledTextColor: Colors.black,
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
-                      onPressed: () {
-                        fetchDepartmentComplaints();
+                      onPressed: () async{
+                        await fetchDepartmentComplaints();
                         showDetailsContainer=true;
-                        if(allData.length==1) {
+                        if(allData.length>0) {
                           setState(() {
-
+                            loading = false;
                             detailsFound=true;
                             });
                         }
                         else{
                           setState(() {
+                            loading = false;
                             detailsFound=false;
                           });
                         }
-//                        setState(() {
-//                          showDetailsContainer = true;
-//                          if(PID == "pid1"){
-//                            detailsFound = true;
-//                          }
-//                          else{
-//                            detailsFound = false;
-//                          }
-//                        });
                       },
-                      child: Text(
+                      child: loading == true ? Loading() : Text(
                         "Get Details",
                         style: TextStyle(fontSize: 15.0),
                       ),
@@ -193,7 +191,8 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                           ),
                         ],
                       ),
-                    ) : Container(
+                    )
+                        : Container(
                       child: InkWell(
                         splashColor: Colors.blue.withAlpha(30),
                         onTap: () {

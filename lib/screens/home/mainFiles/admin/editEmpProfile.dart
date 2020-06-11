@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_binder/models/user_Info.dart';
 import 'package:final_binder/screens/home/mainFiles/admin/homepageadmin.dart';
@@ -417,15 +415,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () {
-
-
-
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => HomePageAdmin()),
-                        );
+                        Navigator.pop(context);
                       },
                       child: Text(
                         "Cancel",
