@@ -598,6 +598,7 @@ class _SearchPageState extends State<addComplaint> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () async {
+                        print("hoo"+widget.userDetails.uid);
                         await Firestore.instance.collection("binder").document(widget.userDetails.uid).collection("complaint").add({
                           'machineNo': machineNo,
                           'department': "production",

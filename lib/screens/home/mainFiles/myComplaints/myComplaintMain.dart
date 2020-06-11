@@ -25,49 +25,18 @@ class myComplaints extends StatefulWidget {
 
 // ignore: camel_case_types
 class _myComplaintsState extends State<myComplaints> {
-  final List<int> complaintNo = [1, 2, 3, 4, 5, 6];
   List<myData> allData = [];
 
   @override
   void initState(){
     print(1);
     fetchComplaints();
-    //fetchDepartmentComplaints();
   }
-//  void fetchDepartmentComplaints() async {
-//
-//    final QuerySnapshot usersList =
-//    await Firestore.instance.collection('binder').getDocuments();
-//    final List<DocumentSnapshot> docUsers = usersList.documents;
-//    allData.clear();
-//    for (DocumentSnapshot docUser in docUsers) {
-//      String uidUser = docUser.documentID;
-//      print(uidUser);
-//      final QuerySnapshot userComplaints = await Firestore.instance
-//          .collection('binder')
-//          .document(uidUser)
-//          .collection('complaint')
-//          .getDocuments();
-//      final List<DocumentSnapshot> docComplaints = userComplaints.documents;
-//      for (DocumentSnapshot docComplaint in docComplaints) {
-//        print(docComplaint.documentID + " => " + docComplaint.data['issue']);
-//        myData d = new myData(
-//            docComplaint.data['issue'],
-//            docComplaint.data['machineNo'],
-//            docComplaint.data['startDate'],
-//            docComplaint.data['department'],
-//            docComplaint.documentID);
-//        allData.add(d);
-//      }
-//    }
-//    setState(() {
-//      print(allData.length);
-//    });
-//  }
+
   void fetchComplaints() async{
     final databaseReference = Firestore.instance;
     final QuerySnapshot result =
-    await Firestore.instance.collection('binder').document('fhLRyOsbSib6Ovakw3iq').collection('complaint').getDocuments();
+    await Firestore.instance.collection('binder').document(widget.userDetails.uid).collection('complaint').getDocuments();
     final List<DocumentSnapshot> documents = result.documents;
     allData.clear();
     for (DocumentSnapshot document in documents) {
@@ -132,7 +101,17 @@ class _myComplaintsState extends State<myComplaints> {
             new Container(
                 padding: EdgeInsets.only(top: 60),
                 child: allData.length == 0
-                    ? new Text("no data")
+                    ? new Center(
+                  child: Container(
+                    margin: EdgeInsets.only(top:140),
+                    child: Column(
+                      children: <Widget>[
+                        new Image.asset('assets/images/sitting-4.png',scale: 1.5,),
+                        new Text("Looks like you have no complaints", style: TextStyle(fontSize: 18 , color: Color(0xFF5e5e5e)),)
+                      ],
+                    ),
+                  ),
+                )
                     : new ListView.builder(
                   itemCount: allData.length,
                   itemBuilder: (_, index) {
@@ -149,23 +128,13 @@ class _myComplaintsState extends State<myComplaints> {
           ],
         ),
 
-        /*ListView.separated(
-          padding: EdgeInsets.symmetric(horizontal: 10,vertical: 20),
-          itemCount: complaintNo.length,
-          itemBuilder: (BuildContext context, int index) {
-            return CustomComplaintCard(complaintNo: complaintNo[index],);
-          },
-          separatorBuilder: (BuildContext context, int index) => SizedBox(
-            height: 18.0,
-          ),
-        ),*/
         floatingActionButton: FloatingActionButton(
             backgroundColor: primaryblue,
             child: Icon(Icons.add,size: 40,
               color: Colors.white,
             ),
             onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => addComplaint()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => addComplaint(userDetails: widget.userDetails,)));
           }
         ),
       ),
