@@ -1,13 +1,15 @@
 import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'ExpandedComplaintCard.dart';
+import 'package:final_binder/models/mydata2.dart';
 
 class CustomComplaintCard extends StatefulWidget {
 
-  final int complaintNo;
+  final String complaintNo;
   final String userDepartment;
   final String title, machineno, date,department;
+
 
 
   const CustomComplaintCard({
@@ -26,17 +28,58 @@ class CustomComplaintCard extends StatefulWidget {
 }
 
 class _CustomComplaintCardState extends State<CustomComplaintCard> {
+  myData2 d;
+  Color cstatus;
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: 'Complaint-' + widget.complaintNo.toString(),
+      tag: 'Complaint-' + widget.complaintNo,
       child: Material(
         child: InkWell(
-          onTap: (){
+          onTap: () async {
+            final QuerySnapshot result =
+            await Firestore.instance.collection('binder').document('fhLRyOsbSib6Ovakw3iq').collection('complaint').getDocuments();
+            final List<DocumentSnapshot> documents = result.documents;
+            for (DocumentSnapshot document in documents) {
+              print(document.documentID + " => " + document.data['issue']);
+              if (document.documentID==widget.complaintNo){
+                d = new myData2(
+                    document.data['issue'],
+                    document.data['machineNo'],
+                    document.data['lineNo'],
+                    document.data['status'],
+                    document.data['raisedby'],
+                    document.data['startTime'],
+                    document.data['assignedTo'],
+                    document.data['assignedBy'],
+                    document.data['description'],
+                    document.data['startDate'],
+                    document.data['department']
+                );
+                if(document.data['status']=='solved'){
+                  cstatus=complaintStatusSolved;
+                }
+                else if (document.data['status']=='ongoing'){
+                  cstatus=complaintStatusOngoing;
+                }
+                else if(document.data['status']=='notsolved'){
+                  cstatus=complaintStatusNotSolved;
+                }
+                else if(document.data['status']=='pending'){
+                  cstatus=complaintStatusPending;
+                }
+                else if(document.data['status']=='transferAME'){
+                  cstatus=complaintStatusAME;
+                }
+
+
+              }
+
+            }
             setState(() {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ExpandedComplaintAssign(complaintNo: widget.complaintNo,)),
+                MaterialPageRoute(builder: (context) => ExpandedComplaintAssign(complaintNo: widget.complaintNo,ma:d)),
               );
             });
           },
@@ -67,12 +110,12 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
                             margin: EdgeInsets.only(top: 5,left: 5),
                             child: Text(
                               widget.title.toString(),
-                                style: TextStyle(
-                                    fontFamily: 'Roboto',
-                                    color: primaryblue,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                ),
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                color: primaryblue,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                           Container(
@@ -90,8 +133,8 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
                       ),
                       Spacer(),
                       Container(
-                        margin: EdgeInsets.only(top: 5,right: 5),
-                          child: Icon(Icons.brightness_1,color: Color(0xFFFF5656),)
+                          margin: EdgeInsets.only(top: 5,right: 5),
+                          child: Icon(Icons.brightness_1,color: cstatus,)
                       ),
                     ],
                   ),
