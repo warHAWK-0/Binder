@@ -23,6 +23,7 @@ class _AddEmployeeState extends State<AddEmployee> {
   String bayNo = "";
   String dept = "";
   String designation = "";
+  bool userCreated = true;
 
   @override
   void initState() {
@@ -30,6 +31,43 @@ class _AddEmployeeState extends State<AddEmployee> {
     bayNo = '';
     dept = '';
     designation = '';
+  }
+
+  Widget _buildUserCreatedDialog(BuildContext context) {
+    return new AlertDialog(
+      title: const Text('Employee Successfully Created!'),
+      content: Container(
+        child: Image.asset("assets/images/blue_tick.png"),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          onPressed: () {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
+          textColor: primaryblue,
+          child: const Text('Ok!'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildUserNotCreatedDialog(BuildContext context) {
+    return new AlertDialog(
+      title: const Text('Could not add Employee!'),
+      content: Container(
+        child: Text('Please Check your inputs.'),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          textColor: primaryblue,
+          child: const Text('Ok!'),
+        ),
+      ],
+    );
   }
 
   List<String> bayNoList = ["Bay1","Bay2","Bay3"];
@@ -399,10 +437,18 @@ class _AddEmployeeState extends State<AddEmployee> {
                         );
                         print(email);
                         if (_formkey.currentState.validate()) {
-                          dynamic result = await _auth.createUserWithEmailAndPassword(email, '123456',userDetails);
-                          if(result == null){
-
-                          }
+                          await _auth.createUserWithEmailAndPassword(email, '123456',userDetails);
+                          print('user created');
+//                          if(result == null){
+//                            print('here reached');
+//                            _buildUserNotCreatedDialog(context);
+//                            setState(() {
+//                              userCreated = false;
+//                            });
+//                          }else{
+//                          }
+//                          userCreated == true ? _buildUserCreatedDialog(context) : Container();
+                        //Navigator.pop(context);
                         }
                       },
                       child: Text(

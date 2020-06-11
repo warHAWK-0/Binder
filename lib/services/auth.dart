@@ -47,7 +47,7 @@ class AuthService{
   //.sendPasswordResetEmail(email: email)
 
   // Email & Password Sign Up
-  Future createUserWithEmailAndPassword(String email, String password, UserDetails userDetails) async {
+  void createUserWithEmailAndPassword(String email, String password, UserDetails userDetails) async {
     try{
       AuthResult authResult = await _auth.createUserWithEmailAndPassword(
         email: email,
