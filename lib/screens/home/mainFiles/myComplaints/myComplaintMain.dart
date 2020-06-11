@@ -107,6 +107,7 @@ class _myComplaintsState extends State<myComplaints> {
                   itemCount: allData.length,
                   itemBuilder: (_, index) {
                     return CustomComplaintCard(
+                      userDetails: widget.userDetails,
                       complaintNo: allData[index].id,
                       title: allData[index].title,
                       machineno: allData[index].machineno,

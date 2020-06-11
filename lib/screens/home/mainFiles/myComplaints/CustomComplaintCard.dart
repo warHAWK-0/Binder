@@ -1,3 +1,4 @@
+import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,11 +10,13 @@ class CustomComplaintCard extends StatefulWidget {
   final String complaintNo;
   final String userDepartment;
   final String title, machineno, date,department;
+  final UserDetails userDetails;
 
 
 
   const CustomComplaintCard({
     Key key,
+    @required this.userDetails,
     @required this.complaintNo,
     @required this.userDepartment,
     @required this.title,
@@ -38,7 +41,7 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
         child: InkWell(
           onTap: () async {
             final QuerySnapshot result =
-            await Firestore.instance.collection('binder').document('fhLRyOsbSib6Ovakw3iq').collection('complaint').getDocuments();
+            await Firestore.instance.collection('binder').document(widget.userDetails.uid).collection('complaint').getDocuments();
             final List<DocumentSnapshot> documents = result.documents;
             for (DocumentSnapshot document in documents) {
               print(document.documentID + " => " + document.data['issue']);
@@ -79,7 +82,7 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
             setState(() {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ExpandedComplaintAssign(complaintNo: widget.complaintNo,ma:d)),
+                MaterialPageRoute(builder: (context) => ExpandedComplaintAssign(userDetails:widget.userDetails,complaintNo: widget.complaintNo,ma:d)),
               );
             });
           },
