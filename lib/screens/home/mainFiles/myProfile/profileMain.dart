@@ -44,81 +44,128 @@ class _ProfileMainState extends State<ProfileMain> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                       ),
-                      child: Text(
-                        'Name : ' + widget.userDetails.name.toString(),
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black
-                        ),
-                      ),
+                      child:Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text("Name:              ",style: TextStyle(fontSize: 16),),
+                          Flexible(
+                            child: TextField(
+                                enabled: false,
+                                decoration: InputDecoration(
+                                    hintText: (widget.userDetails.name.toString())
+                                )
+
+                            ),
+                          )
+                        ],
+                      )
                     ),
                     SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                       ),
-                      child: Text(
-                        'Designation : ' +
-                            widget.userDetails.name.toString() == "0" ? "Operator"
-                            : widget.userDetails.name.toString() == "1" ? "Production"
-                            : widget.userDetails.name.toString() == "2" ? "Admin" : "",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black
-                        ),
+                        child:Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Designation:    ",style: TextStyle(fontSize: 16),),
+                            Flexible(
+                              child: TextField(
+                                  enabled: false,
+                                  decoration: InputDecoration(
+                                      hintText: (widget.userDetails.authLevel.toString()=="0"? "Operator":
+                                      widget.userDetails.authLevel.toString()=="0"? "Production":
+                                      widget.userDetails.authLevel.toString()=="0"? " Admin": "Null")
+                                  )
+
+                              ),
+                            )
+                          ],
+                        )
+                    ),
+                    SizedBox(height: 10,),
+                      Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
                       ),
+                        child:Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Personal ID:    ",style: TextStyle(fontSize: 16),),
+                            Flexible(
+                              child: TextField(
+                                  enabled: false,
+                                  decoration: InputDecoration(
+                                      hintText: (widget.userDetails.personalId.toString())
+                                  )
+
+                              ),
+                            )
+                          ],
+                        )
                     ),
                     SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                       ),
-                      child: Text(
-                        'Personal Id : ' + widget.userDetails.personalId.toString(),
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black
-                        ),
-                      ),
+                      child:Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text("Department:   ",style: TextStyle(fontSize: 16),),
+                          Flexible(
+                            child: TextField(
+                                enabled: false,
+                                decoration: InputDecoration(
+                                    hintText: (widget.userDetails.department.toString())
+                                )
+
+                            ),
+                          )
+                        ],
+                      )
                     ),
                     SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                       ),
-                      child: Text(
-                        'Department :' + widget.userDetails.department.toString(),
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black
-                        ),
-                      ),
+                        child:Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Email:              ",style: TextStyle(fontSize: 16),),
+                            Flexible(
+                              child: TextField(
+                                  enabled: false,
+                                  decoration: InputDecoration(
+                                      hintText: (widget.userDetails.email.toString())
+                                  )
+
+                              ),
+                            )
+                          ],
+                        )
                     ),
                     SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
                       ),
-                      child: Text(
-                        'email : ' + widget.userDetails.email.toString(),
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10,),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                      ),
-                      child: Text(
-                        'Mobile No : ' + widget.userDetails.mobileNo.toString(),
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black
-                        ),
-                      ),
+                        child:Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Mobile:            ",style: TextStyle(fontSize: 16),),
+                            Flexible(
+                              child: TextField(
+                                  enabled: false,
+                                  decoration: InputDecoration(
+                                      hintText: (widget.userDetails.mobileNo.toString())
+                                  )
+
+                              ),
+                            )
+                          ],
+                        )
                     ),
                     SizedBox(
                       height: 35,

@@ -1,8 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 Color primaryblue = Color(0xFF1467B3);
 Color navbg = Color(0xFF116788);
-Color complaintStatus = Color(0xFFFF5656);
+Color complaintStatusNotSolved = Color(0xFFFF5656);
+Color complaintStatusOngoing = Colors.yellow;
+Color complaintStatusPending = Colors.orange;
+Color complaintStatusSolved = Colors.green;
+Color complaintStatusAME = Colors.purpleAccent;
+Color status;
+
 
 String appBarTitle="";
 
