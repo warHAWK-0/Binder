@@ -53,7 +53,6 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
     "Temporary Operator",
   ];
 
-  TextEditingController test1= new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -243,7 +242,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                               Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
                       ),
                     ),
-                    value: designation.isNotEmpty ? designation : "fd",
+                    value: designation.isNotEmpty ? designation : null,
                     onSaved: (value) {
                       setState(() {
                         designation = value;
@@ -344,7 +343,6 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                     height: 20,
                   ),
                   TextFormField(
-                    controller: test1,
                     decoration: InputDecoration(
                       hintText: widget.allData[0].email,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
@@ -370,11 +368,11 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                       else
                         return null;
                     },
-//                    onChanged: (value) {
-//                      setState(() {
-//                        email = value;
-//                      });
-//                    },
+                    onChanged: (value) {
+                      setState(() {
+                        email = value;
+                      });
+                    },
                   ), //Email
                   SizedBox(
                     height: 30,
@@ -391,8 +389,6 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                       splashColor: Colors.blueAccent,
                       onPressed: () {
 
-
-                        print("hey"+test1.text);
 //                        var db= Firestore.instance.collection('binder').document(widget.userID)
 //                            .collection('user_details').document(widget.userID);
 //                        db.updateData({
