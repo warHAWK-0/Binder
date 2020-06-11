@@ -25,7 +25,7 @@ class RedirectingScreen extends StatelessWidget {
           return NavBarSelect(userDetails: UserDetails(
             uid: user.uid.toString(),
             name: snapshot.data.documents[0]['name'],
-            authLevel: snapshot.data.documents[0]['designation'],
+            authLevel: snapshot.data.documents[0]['authLevel'],
             bayNo: snapshot.data.documents[0]['bayNo'],
             mobileNo: snapshot.data.documents[0]['mobileNo'],
             department: snapshot.data.documents[0]['department'],
