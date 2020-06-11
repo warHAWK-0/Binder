@@ -217,7 +217,8 @@ class _AddEmployeeState extends State<AddEmployee> {
                     }).toList(),
                     validator: (value) =>
                         value == null ? 'Enter Designation' : null,
-                  ), //Designation
+                  ),
+                  SizedBox(height: 20,),//Designation
                   designation == "Admin User" ? (){setState(() {
                     dept = "Admin User";
                   });} : DropdownButtonFormField(
@@ -256,7 +257,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                     validator: (value) =>
                     value == null ? 'Enter Department' : null,
                   ), //Department
-                  designation == "Admin User" ? null : SizedBox(
+                  designation == "Admin User" ? Container() : SizedBox(
                     height: 20,
                   ),
                   Container(
@@ -358,18 +359,22 @@ class _AddEmployeeState extends State<AddEmployee> {
                         setState(() => email = val);
                       },
                       decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.grey[200],
-                          prefixIcon: Icon(
-                            Icons.alternate_email,
-                            color: primaryblue,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(4.0),
-                            borderSide: BorderSide(color: Colors.grey[300]),
-                          ),
-                          hintText: 'Email Id',
-                          hintStyle: TextStyle(color: Colors.grey)),
+                        hintText: "Email Address",
+                        hintStyle: TextStyle(color: Color(0xFF1467B3)),
+                        filled: true,
+                        fillColor: Color.fromRGBO(20, 103, 179, 0.05),
+                        contentPadding: const EdgeInsets.only(
+                            left: 14.0, bottom: 15.0, top: 15.0),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color.fromRGBO(93, 153, 252, 100)),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color:
+                                Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
+                        ),
+                      ),
                     ),
                   ),
 //                  TextFormField(
