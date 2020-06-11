@@ -1,3 +1,6 @@
+
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_binder/models/user_Info.dart';
 import 'package:final_binder/screens/home/mainFiles/admin/homepageadmin.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +76,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                 children: <Widget>[
                   TextFormField(
                     decoration: InputDecoration(
-                      hintText: "Name",
+                      hintText: widget.allData[0].name,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
                       fillColor: Color.fromRGBO(20, 103, 179, 0.05),
@@ -101,6 +104,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                     },
                     onChanged: (value) {
                       setState(() {
+                        bool flag1=true;
                         name = value;
                       });
                     },
@@ -110,7 +114,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                   ),
                   TextFormField(
                     decoration: InputDecoration(
-                      hintText: "Personal No.",
+                      hintText: widget.allData[0].personal_no,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
                       fillColor: Color.fromRGBO(20, 103, 179, 0.05),
@@ -139,12 +143,12 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                   ),
                   DropdownButtonFormField(
                     decoration: InputDecoration(
-                      hintText: "Block No.",
+                      hintText: widget.allData[0].block_no,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
                       fillColor: Color.fromRGBO(20, 103, 179, 0.05),
                       contentPadding: const EdgeInsets.only(
-                          left: 5.0, bottom: 5.0, top: 5.0),
+                          left: 15.0, bottom: 5.0, top: 5.0),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Color.fromRGBO(93, 153, 252, 100)),
@@ -179,12 +183,12 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                   DropdownButtonFormField(
                     //   style: TextStyle(color: Color(0xFF1467B3)),
                     decoration: InputDecoration(
-                      hintText: "Department",
+                      hintText: widget.allData[0].department,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
                       fillColor: Color.fromRGBO(20, 103, 179, 0.05),
                       contentPadding: const EdgeInsets.only(
-                          left: 5.0, bottom: 5.0, top: 5.0),
+                          left: 15.0, bottom: 5.0, top: 5.0),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Color.fromRGBO(93, 153, 252, 100)),
@@ -219,12 +223,14 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                   DropdownButtonFormField(
                     // style: TextStyle(color: Color(0xFF1467B3)),
                     decoration: InputDecoration(
-                      hintText: "Designation",
+                      hintText: (widget.allData[0].designation.toString()=="0"? "Operator":
+                      widget.allData[0].designation.toString()=="0"? "Production":
+                      widget.allData[0].designation.toString()=="0"? " Admin": "Null"),//widget.allData[0].designation,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
                       fillColor: Color.fromRGBO(20, 103, 179, 0.05),
                       contentPadding: const EdgeInsets.only(
-                          left: 5.0, bottom: 5.0, top: 5.0),
+                          left: 15.0, bottom: 5.0, top: 5.0),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Color.fromRGBO(93, 153, 252, 100)),
@@ -300,7 +306,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                   ),
                   TextFormField(
                     decoration: InputDecoration(
-                      hintText: "Phone Number",
+                      hintText: widget.allData[0].phone_no,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
                       fillColor: Color.fromRGBO(20, 103, 179, 0.05),
@@ -337,7 +343,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                   ),
                   TextFormField(
                     decoration: InputDecoration(
-                      hintText: "Email",
+                      hintText: widget.allData[0].email,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
                       fillColor: Color.fromRGBO(20, 103, 179, 0.05),
@@ -381,11 +387,16 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () {
+
+                        var db= Firestore.instance.collection('binder').document(widget.userID)
+                            .collection('user_details').document(widget.userID);
+                        db.updateData({
+                          'name': "name",
+                        });
+
                         print(widget.userID);
-                        print(widget.allData[0].name);
                         if (_formkey.currentState.validate()) {
-                          print(
-                              "$id=>$name=>$phoneNo=>$email=>$block=>$designation=>$dept=>$emp");
+                          print("$id=>$name=>$phoneNo=>$email=>$block=>$designation=>$dept=>$emp");
                         }
                       },
                       child: Text(
@@ -406,6 +417,10 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () {
+
+
+
+
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -429,3 +444,5 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
     );
   }
 }
+
+

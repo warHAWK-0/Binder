@@ -208,7 +208,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                             children: <Widget>[
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Name "+ allData[0].name,
+                                child: Text("Name:                 "+ allData[0].name,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -217,7 +217,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Personal No. "+allData[0].personal_no,
+                                child: Text("Personal No:      "+allData[0].personal_no,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -226,7 +226,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Block No. "+allData[0].block_no,
+                                child: Text("Block No:            "+allData[0].block_no,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -235,7 +235,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Department "+allData[0].department,
+                                child: Text("Department:       "+allData[0].department,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -244,7 +244,9 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Designation "+allData[0].designation,
+                                child: Text("Designation:       "+(allData[0].designation.toString()=="0"? "Operator":
+                                allData[0].designation.toString()=="0"? "Production":
+                                allData[0].designation.toString()=="0"? " Admin": "Null"),
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -253,7 +255,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Phone Number "+allData[0].phone_no,
+                                child: Text("Phone Number: "+allData[0].phone_no,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -262,7 +264,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Email ID "+allData[0].email,
+                                child: Text("Email ID:              "+allData[0].email,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -280,14 +282,14 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                                   padding: EdgeInsets.all(8.0),
                                   splashColor: Colors.blueAccent,
                                   onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => EditEmpProfile(userID:userID,allData: allData,)),
-                                    );
+//                                    Navigator.push(
+//                                      context,
+//                                      MaterialPageRoute(
+//                                          builder: (context) => EditEmpProfile(userID:userID,allData: allData,)),
+//                                    );
                                   },
                                   child: Text(
-                                    "Edit",
+                                    "Delete Employee",
                                     style: TextStyle(fontSize: 15.0),
                                   ),
                                 ),
