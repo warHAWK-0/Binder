@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_binder/models/user_Info.dart';
+import 'package:final_binder/shared/loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +14,16 @@ class DeleteEmployee extends StatefulWidget {
 }
 
 class _DeleteEmployeeState extends State<DeleteEmployee> {
+  bool loading = false;
   String userID="";
   List<user_Info> allData = [];
   final db= Firestore.instance;
   void fetchDepartmentComplaints() async {
+    setState(() {
+      print(loading);
+      loading = true;
+      print("again"+loading.toString());
+    });
 
     final QuerySnapshot usersList =
     await Firestore.instance.collection('binder').getDocuments();
@@ -50,7 +57,7 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
       }
     }
     setState(() {
-      print(allData.length);
+      loading = false;
     });
   }
 
@@ -109,38 +116,36 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
                     height: 10,
                   ),
                   SizedBox(
-                    width: double.infinity,
-                    height: 45,
-                    child: FlatButton(
-                      color: Color(0xFF1467B3),
-                      textColor: Colors.white,
-                      disabledColor: Colors.grey,
-                      disabledTextColor: Colors.black,
-                      padding: EdgeInsets.all(8.0),
-                      splashColor: Colors.blueAccent,
-                      onPressed: () {
-                        fetchDepartmentComplaints();
-                        if(allData.length==1) {
-                          setState(() {
+                        width: double.infinity,
+                        height: 45,
+                        child: FlatButton(
+                          color: Color(0xFF1467B3),
+                          textColor: Colors.white,
+                          disabledColor: Colors.grey,
+                          disabledTextColor: Colors.black,
+                          padding: EdgeInsets.all(8.0),
+                          splashColor: Colors.blueAccent,
+                          onPressed: () async{
+                            await fetchDepartmentComplaints();
                             showDetailsContainer=true;
-                            detailsFound=true;
-                          });
-                        }
-//                        setState(() {
-//                          showDetailsContainer = true;
-//                          if(PID == "pid1"){
-//                            detailsFound = true;
-//                          }
-//                          else{
-//                            detailsFound = false;
-//                          }
-//                        });
-                      },
-                      child: Text(
-                        "Get Details",
-                        style: TextStyle(fontSize: 15.0),
-                      ),
-                    ),
+                            if(allData.length>0) {
+                              setState(() {
+                                loading = false;
+                                detailsFound=true;
+                              });
+                            }
+                            else{
+                              setState(() {
+                                loading = false;
+                                detailsFound=false;
+                              });
+                            }
+                          },
+                          child: loading == true ? Loading() : Text(
+                            "Get Details",
+                            style: TextStyle(fontSize: 15.0),
+                          ),
+                        ),
                   ),
                   showDetailsContainer == true ? Container(
                     margin: EdgeInsets.symmetric(vertical: 15),
@@ -225,9 +230,9 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Designation:       "+(allData[0].designation.toString()=="0"? "Operator":
-                                allData[0].designation.toString()=="0"? "Production":
-                                allData[0].designation.toString()=="0"? " Admin": "Null"),
+                                child: Text("Designation:       "+(allData[0].designation.toString()=="0"? "Operator Level":
+                                allData[0].designation.toString()=="1"? "Supervisor Level":
+                                allData[0].designation.toString()=="2"? " Admin": "Null"),
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),

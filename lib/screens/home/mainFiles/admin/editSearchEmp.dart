@@ -199,9 +199,9 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                           /**/
                         },
                         child: Container(
-                          height: 250,
+                          height: 270,
                           margin:
-                          EdgeInsets.only(top: 10, left: 10, right: 10),
+                          EdgeInsets.only(top: 10, left: 4, right: 4),
                           decoration: BoxDecoration(
                             color: Colors.white,
                           ),
@@ -275,6 +275,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500)),
                               ),
+                              SizedBox(height: 5,),
                               SizedBox(
                                 width: double.infinity,
                                 height: 45,
