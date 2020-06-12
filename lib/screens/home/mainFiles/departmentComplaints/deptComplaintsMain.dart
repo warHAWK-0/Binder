@@ -1,6 +1,7 @@
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/screens/home/mainFiles/myComplaints/CustomComplaintCard.dart';
 import 'package:final_binder/shared/CustomAppBar.dart';
+import 'package:final_binder/shared/loading.dart';
 import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:final_binder/models/myData.dart';
@@ -81,23 +82,66 @@ class _maintenanceDeptComplaintsState extends State<maintenanceDeptComplaints> {
     return Scaffold(
       backgroundColor: Color(0xFFE5E5E5),
       appBar: CustomAppBar(backIcon: false, child: Text('Department Complaints',style: titleText,)),
-      body: ListView.separated(
-        padding: EdgeInsets.symmetric(horizontal: 10,vertical: 20),
-        itemCount: allData.length,
-        itemBuilder: (BuildContext context, int index) {
-          return CustomComplaintCard(
-            complaintNo: allData[index].id,
-            title: allData[index].title,
-            machineno: allData[index].machineno,
-            date: allData[index].date,
-            department: allData[index].department,
-            cstatus: allData[index].cstatus,
-            //allData[index].pno,
-          );
+//
+      body: StreamBuilder<QuerySnapshot>(
+        stream: Firestore.instance.collection("binder").snapshots(),
+        // ignore: missing_return
+        builder: (context,snapshot) {
+          if(! snapshot.hasData){
+            return Container(child: Text('not has data'),);
+          }
+          else{
+            int index = snapshot.data.documents.length;
+            final List<DocumentSnapshot> userDocs = snapshot.data.documents;
+            for (DocumentSnapshot snap in userDocs) {
+             return StreamBuilder<QuerySnapshot>(
+                stream: Firestore.instance.collection("binder").document(snap.documentID).collection("complaints").snapshots(),
+                // ignore: missing_return
+                builder: (context,snap){
+                  if(! snap.hasData){
+                    return Loading();
+                  }
+                  else{
+                    return ListView.builder(
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (_, index) {
+                        DocumentSnapshot data=snapshot.data.documents[index];
+                        Color cstatus;
+                        print(data['issue']);
+                        if(data['status']=='solved'){
+                          cstatus=complaintStatusSolved;
+                        }
+                        else if (data['status']=='ongoing'){
+                          cstatus=complaintStatusOngoing;
+                        }
+                        else if(data['status']=='notsolved'){
+                          cstatus=complaintStatusNotSolved;
+                        }
+                        else if(data['status']=='pending'){
+                          cstatus=complaintStatusPending;
+                        }
+                        else if(data['status']=='transferAME') {
+                          cstatus = complaintStatusAME;
+                        }
+                        return CustomComplaintCard(
+                          userDetails: widget.userDetails,
+                          complaintNo: data.documentID,
+                          title: data["issue"],
+                          machineno: data["machineno"],
+                          date: data["startDate"],
+                          department: data["department"],
+                          cstatus: cstatus,
+
+                        );
+                      },
+                    );
+                    return Container(child: Text('has data'),);
+                  }
+                },
+              );
+            }
+          }
         },
-        separatorBuilder: (BuildContext context, int index) => SizedBox(
-          height: 18.0,
-        ),
       ),
     );
   }

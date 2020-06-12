@@ -17,14 +17,14 @@ class CustomComplaintCard extends StatefulWidget {
 
   const CustomComplaintCard({
     Key key,
-    @required this.userDetails,
-    @required this.complaintNo,
-    @required this.userDepartment,
-    @required this.title,
-    @required this.machineno,
-    @required this.date,
-    @required this.department,
-    @required this.cstatus
+    this.userDetails,
+    this.complaintNo,
+    this.userDepartment,
+    this.title,
+    this.machineno,
+    this.date,
+    this.department,
+    this.cstatus
 
   }) : super(key: key);
 

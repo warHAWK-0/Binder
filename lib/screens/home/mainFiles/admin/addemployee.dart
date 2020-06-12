@@ -33,7 +33,7 @@ class _AddEmployeeState extends State<AddEmployee> {
     designation = '';
   }
 
-  Widget _buildUserCreatedDialog(BuildContext context) {
+  Widget buildUserCreatedDialog(BuildContext context) {
     return new AlertDialog(
       title: const Text('Employee Successfully Created!'),
       content: Container(
@@ -437,8 +437,12 @@ class _AddEmployeeState extends State<AddEmployee> {
                         );
                         print(email);
                         if (_formkey.currentState.validate()) {
-                          await _auth.createUserWithEmailAndPassword(email, '123456',userDetails);
-                        Navigator.pop(context);
+                          dynamic result = await _auth.createUserWithEmailAndPassword(email, '123456',userDetails,context);
+                          if(result == null){
+                            _buildUserNotCreatedDialog(context);
+                          }else{
+                            buildUserCreatedDialog(context);
+                          }
                         }
                       },
                       child: Text(
