@@ -12,6 +12,10 @@ class DatabaseServices{
 
   DatabaseServices({this.uid});
 
+  Future initiateDocument() async{
+    return await collectionReference.document(uid).setData({});
+  }
+
   Future updateUserData(UserDetails userDetails) async{
     return await collectionReference.document(uid).collection("user_details").document(uid).setData(userDetails.toJson());
   }

@@ -20,14 +20,14 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
   List<user_Info> allData = [];
   void fetchDepartmentComplaints() async {
     setState(() {
-      print(loading);
       loading = true;
-      print("again"+loading.toString());
     });
     final QuerySnapshot usersList =
     await Firestore.instance.collection('binder').getDocuments();
     final List<DocumentSnapshot> docUsers = usersList.documents;
     allData.clear();
+    print("Length of documents fetched"+docUsers.length.toString());
+    print("Current PID is: " + PID.toString());
     for (DocumentSnapshot docUser in docUsers) {
       String uidUser = docUser.documentID;
       print(uidUser);
@@ -39,8 +39,9 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
       final List<DocumentSnapshot> docComplaints = userComplaints.documents;
       for (DocumentSnapshot docComplaint in docComplaints) {
          print(docComplaint.documentID + " => " );
+         print(docComplaint.data['personalId']);
         if (PID == docComplaint.data['personalId']) {
-          print(PID); print(docComplaint.data['personalId']);
+          print(PID);
           userID= uidUser;
           user_Info d = new user_Info(
               docComplaint.data['name'],
@@ -49,7 +50,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
               docComplaint.data['mobileNo'],
               docComplaint.data['email'],
               docComplaint.data['personalId'],
-              docComplaint.data['blockNo'],
+              docComplaint.data['bayNo'],
               docComplaint.documentID);
           allData.add(d);
         }
@@ -57,6 +58,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
     }
     setState(() {
       loading = false;
+      print("End Fetch: "+allData.length.toString());
     });
   }
 
@@ -122,10 +124,14 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                       ),
                     ),
                     onChanged: (String text){
-                      PID = text;
+                      setState(() {
+                        PID = text;
+                      });
                     },
                     onSubmitted: (String text){
-                      PID = text;
+                      setState(() {
+                        PID = text;
+                      });
                       // getter method to get details of the PID
                       // and turn details found FLAG to true
                     },
@@ -145,6 +151,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                       splashColor: Colors.blueAccent,
                       onPressed: () async{
                         await fetchDepartmentComplaints();
+                        print("All Data Length: "+ allData.length.toString());
                         showDetailsContainer=true;
                         if(allData.length>0) {
                           setState(() {
@@ -230,7 +237,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Block No:            "+allData[0].block_no,
+                                child: Text("Bay No :              "+allData[0].bayNo,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),

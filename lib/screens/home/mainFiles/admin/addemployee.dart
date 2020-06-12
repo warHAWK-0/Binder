@@ -438,17 +438,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                         print(email);
                         if (_formkey.currentState.validate()) {
                           await _auth.createUserWithEmailAndPassword(email, '123456',userDetails);
-                          print('user created');
-//                          if(result == null){
-//                            print('here reached');
-//                            _buildUserNotCreatedDialog(context);
-//                            setState(() {
-//                              userCreated = false;
-//                            });
-//                          }else{
-//                          }
-//                          userCreated == true ? _buildUserCreatedDialog(context) : Container();
-                        //Navigator.pop(context);
+                        Navigator.pop(context);
                         }
                       },
                       child: Text(

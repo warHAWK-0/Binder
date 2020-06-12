@@ -144,7 +144,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                   ),
                   DropdownButtonFormField(
                     decoration: InputDecoration(
-                      hintText: widget.allData[0].block_no,
+                      hintText: widget.allData[0].bayNo,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
                       fillColor: Color.fromRGBO(20, 103, 179, 0.05),
@@ -388,7 +388,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                         var db= Firestore.instance.collection('binder').document(widget.userID)
                             .collection('user_details').document(widget.userID);
                         db.updateData({
-                          'blockNo': block.isEmpty? widget.allData[0].block_no : block,
+                          'blockNo': block.isEmpty? widget.allData[0].bayNo : block,
                           'department': dept.isEmpty? widget.allData[0].department : (dept.toLowerCase()),
                           //'authLevel': designation.isNotEmpty? widget.allData[0].designation : designation,
                           'name': name.isEmpty? widget.allData[0].name : name,

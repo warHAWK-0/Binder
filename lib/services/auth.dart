@@ -55,6 +55,7 @@ class AuthService{
       );
       FirebaseUser user = authResult.user;
       //add User Details
+      await DatabaseServices(uid: user.uid).initiateDocument();
       await DatabaseServices(uid: user.uid).updateUserData(UserDetails(
         name: userDetails.name,
         uid: user.uid,

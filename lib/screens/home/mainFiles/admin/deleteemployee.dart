@@ -50,7 +50,7 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
               docComplaint.data['mobileNo'],
               docComplaint.data['email'],
               docComplaint.data['personalId'],
-              docComplaint.data['blockNo'],
+              docComplaint.data['bayNo'],
               docComplaint.documentID);
           allData.add(d);
         }
@@ -212,7 +212,7 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Block No:            "+allData[0].block_no,
+                                child: Text("Bay No :              "+allData[0].bayNo,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
