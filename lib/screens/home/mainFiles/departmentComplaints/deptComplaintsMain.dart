@@ -85,7 +85,7 @@ class _maintenanceDeptComplaintsState extends State<maintenanceDeptComplaints> {
         stream: Firestore.instance.collection("binder").snapshots(),
         // ignore: missing_return
         builder: (context,snapshot) {
-          
+
           if(! snapshot.hasData){
             return Container(child: Text('not has data'),);
           }
