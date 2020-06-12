@@ -1,4 +1,6 @@
 import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_binder/models/myData.dart';
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/screens/home/mainFiles/myComplaints/addcomplaint.dart';
@@ -6,8 +8,8 @@ import 'package:final_binder/shared/CustomAppBar.dart';
 import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'CustomComplaintCard.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 // ignore: camel_case_types
 class myComplaints extends StatefulWidget {
@@ -20,8 +22,6 @@ class myComplaints extends StatefulWidget {
 // ignore: camel_case_types
 class _myComplaintsState extends State<myComplaints> {
   List<myData> allData = [];
-
-
   @override
   void initState(){
     //fetchComplaints();
@@ -65,7 +65,6 @@ class _myComplaintsState extends State<myComplaints> {
 //      print(allData.length);
 //    });
 //  }
-
   Future<bool> _onbackpressed() {
     return showDialog(
         context: context,
@@ -102,7 +101,10 @@ class _myComplaintsState extends State<myComplaints> {
             new Container(
                 padding: EdgeInsets.only(top: 25),
                 child: StreamBuilder<QuerySnapshot>(
-                      stream: Firestore.instance.collection('binder').document(widget.userDetails.uid).collection('complaint').snapshots(),
+                      stream: Firestore.instance.collection('binder').document(
+                          widget.userDetails.uid)
+                          .collection('complaint')
+                          .snapshots(),
                       builder: (context, snapshot) {
                         return !snapshot.hasData
                             ? new Center(
