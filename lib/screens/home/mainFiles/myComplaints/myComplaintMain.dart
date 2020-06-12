@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:final_binder/models/myData.dart';
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/screens/home/mainFiles/myComplaints/addcomplaint.dart';
@@ -27,29 +26,47 @@ class myComplaints extends StatefulWidget {
 class _myComplaintsState extends State<myComplaints> {
   List<myData> allData = [];
 
+
   @override
   void initState(){
-    print(1);
     fetchComplaints();
   }
 
   void fetchComplaints() async{
-    final databaseReference = Firestore.instance;
+    Color cstatus;
     final QuerySnapshot result =
     await Firestore.instance.collection('binder').document(widget.userDetails.uid).collection('complaint').getDocuments();
     final List<DocumentSnapshot> documents = result.documents;
     allData.clear();
     for (DocumentSnapshot document in documents) {
       print(document.documentID + " => " + document.data['issue']);
+      if(document.data['status']=='solved'){
+        cstatus=complaintStatusSolved;
+      }
+      else if (document.data['status']=='ongoing'){
+        cstatus=complaintStatusOngoing;
+      }
+      else if(document.data['status']=='notsolved'){
+        cstatus=complaintStatusNotSolved;
+      }
+      else if(document.data['status']=='pending'){
+        cstatus=complaintStatusPending;
+      }
+      else if(document.data['status']=='transferAME'){
+        cstatus=complaintStatusAME;
+      }
       myData d = new myData(
           document.data['issue'],
           document.data['machineNo'],
           document.data['startDate'],
           document.data['department'],
-          document.documentID
+          document.documentID,
+          cstatus
       );
       allData.add(d);
+
     }
+
     setState(() {
       print(allData.length);
     });
@@ -113,7 +130,8 @@ class _myComplaintsState extends State<myComplaints> {
                       machineno: allData[index].machineno,
                       date: allData[index].date,
                       department: allData[index].department,
-                      //allData[index].pno,
+                      cstatus: allData[index].cstatus,
+
                     );
                   },
                 )),

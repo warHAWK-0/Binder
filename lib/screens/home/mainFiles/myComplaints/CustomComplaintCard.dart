@@ -11,6 +11,7 @@ class CustomComplaintCard extends StatefulWidget {
   final String userDepartment;
   final String title, machineno, date,department;
   final UserDetails userDetails;
+  final Color cstatus;
 
 
 
@@ -23,6 +24,7 @@ class CustomComplaintCard extends StatefulWidget {
     @required this.machineno,
     @required this.date,
     @required this.department,
+    @required this.cstatus
 
   }) : super(key: key);
 
@@ -32,7 +34,7 @@ class CustomComplaintCard extends StatefulWidget {
 
 class _CustomComplaintCardState extends State<CustomComplaintCard> {
   myData2 d;
-  Color cstatus;
+  //Color cstatus;
   @override
   Widget build(BuildContext context) {
     return Hero(
@@ -59,30 +61,28 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
                     document.data['startDate'],
                     document.data['department']
                 );
-                if(document.data['status']=='solved'){
-                  cstatus=complaintStatusSolved;
-                }
-                else if (document.data['status']=='ongoing'){
-                  cstatus=complaintStatusOngoing;
-                }
-                else if(document.data['status']=='notsolved'){
-                  cstatus=complaintStatusNotSolved;
-                }
-                else if(document.data['status']=='pending'){
-                  cstatus=complaintStatusPending;
-                }
-                else if(document.data['status']=='transferAME'){
-                  cstatus=complaintStatusAME;
-                }
-
-
+//                if(document.data['status']=='solved'){
+//                  wcstatus=complaintStatusSolved;
+//                }
+//                else if (document.data['status']=='ongoing'){
+//                  cstatus=complaintStatusOngoing;
+//                }
+//                else if(document.data['status']=='notsolved'){
+//                  cstatus=complaintStatusNotSolved;
+//                }
+//                else if(document.data['status']=='pending'){
+//                  cstatus=complaintStatusPending;
+//                }
+//                else if(document.data['status']=='transferAME'){
+//                  cstatus=complaintStatusAME;
+//                }
               }
 
             }
             setState(() {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ExpandedComplaintAssign(userDetails:widget.userDetails,complaintNo: widget.complaintNo,ma:d)),
+                MaterialPageRoute(builder: (context) => ExpandedComplaintAssign(userDetails:widget.userDetails,complaintNo: widget.complaintNo,ma:d,cstatus: widget.cstatus,)),
               );
             });
           },
@@ -127,7 +127,7 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
                       Spacer(),
                       Container(
                           margin: EdgeInsets.only(top: 5,right: 5),
-                          child: Icon(Icons.brightness_1,color: cstatus,)
+                          child: Icon(Icons.brightness_1,color: widget.cstatus,)
                       ),
                     ],
                   ),

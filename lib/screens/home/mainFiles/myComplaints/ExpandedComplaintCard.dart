@@ -610,10 +610,11 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
 class ExpandedComplaintAssign extends StatefulWidget {
   final String complaintNo;
   final myData2 ma;
+  final cstatus;
   final UserDetails userDetails;
 
 
-  const ExpandedComplaintAssign({Key key,@required this.userDetails, @required this.complaintNo,@required this.ma})
+  const ExpandedComplaintAssign({Key key,@required this.userDetails, @required this.complaintNo,@required this.ma,this.cstatus})
       : super(key: key);
 
   @override
@@ -645,28 +646,28 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
     "Kotasthane Kedar k.",
     "Mathkar Mahesh M."
   ];
-  Color cstatus;
+  //Color cstatus;
   AutoCompleteTextField searchTextField;
   bool loading = true;
   List<String> assign = [];
   final myController = TextEditingController();
   void initState(){
     //fetchComplaints();
-    if(widget.ma.status=='solved'){
-      cstatus=complaintStatusSolved;
-    }
-    else if (widget.ma.status=='ongoing'){
-      cstatus=complaintStatusOngoing;
-    }
-    else if(widget.ma.status=='notsolved'){
-      cstatus=complaintStatusNotSolved;
-    }
-    else if(widget.ma.status=='pending'){
-      cstatus=complaintStatusPending;
-    }
-    else if(widget.ma.status=='transferAME'){
-      cstatus=complaintStatusAME;
-    }
+//    if(widget.ma.status=='solved'){
+//      cstatus=complaintStatusSolved;
+//    }
+//    else if (widget.ma.status=='ongoing'){
+//      cstatus=complaintStatusOngoing;
+//    }
+//    else if(widget.ma.status=='notsolved'){
+//      cstatus=complaintStatusNotSolved;
+//    }
+//    else if(widget.ma.status=='pending'){
+//      cstatus=complaintStatusPending;
+//    }
+//    else if(widget.ma.status=='transferAME'){
+//      cstatus=complaintStatusAME;
+//    }
   }
   myData2 d;
   void fetchComplaints() async{
@@ -761,7 +762,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                                   margin: EdgeInsets.only(top: 5, right: 5),
                                   child: Icon(
                                     Icons.brightness_1,
-                                    color: cstatus,
+                                    color: widget.cstatus,
                                   )),
                             ],
                           ),

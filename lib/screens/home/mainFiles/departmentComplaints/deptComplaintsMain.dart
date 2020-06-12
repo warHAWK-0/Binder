@@ -29,6 +29,7 @@ class _maintenanceDeptComplaintsState extends State<maintenanceDeptComplaints> {
     fetchDepartmentComplaints();
   }
   void fetchDepartmentComplaints() async {
+    Color cstatus;
 
     final QuerySnapshot usersList =
     await Firestore.instance.collection('binder').getDocuments();
@@ -45,12 +46,28 @@ class _maintenanceDeptComplaintsState extends State<maintenanceDeptComplaints> {
       final List<DocumentSnapshot> docComplaints = userComplaints.documents;
       for (DocumentSnapshot docComplaint in docComplaints) {
         print(docComplaint.documentID + " => " + docComplaint.data['issue']);
+        if(docComplaint.data['status']=='solved'){
+          cstatus=complaintStatusSolved;
+        }
+        else if (docComplaint.data['status']=='ongoing'){
+          cstatus=complaintStatusOngoing;
+        }
+        else if(docComplaint.data['status']=='notsolved'){
+          cstatus=complaintStatusNotSolved;
+        }
+        else if(docComplaint.data['status']=='pending'){
+          cstatus=complaintStatusPending;
+        }
+        else if(docComplaint.data['status']=='transferAME'){
+          cstatus=complaintStatusAME;
+        }
         myData d = new myData(
             docComplaint.data['issue'],
             docComplaint.data['machineNo'],
             docComplaint.data['startDate'],
             docComplaint.data['department'],
-            docComplaint.documentID);
+            docComplaint.documentID,
+        cstatus);
         allData.add(d);
       }
     }
@@ -74,6 +91,7 @@ class _maintenanceDeptComplaintsState extends State<maintenanceDeptComplaints> {
             machineno: allData[index].machineno,
             date: allData[index].date,
             department: allData[index].department,
+            cstatus: allData[index].cstatus,
             //allData[index].pno,
           );
         },
@@ -109,6 +127,7 @@ class _productionDeptComplaintsState extends State<productionDeptComplaints> {
     fetchDepartmentComplaints();
   }
   void fetchDepartmentComplaints() async {
+    Color cstatus;
 
     final QuerySnapshot usersList =
     await Firestore.instance.collection('binder').getDocuments();
@@ -125,12 +144,28 @@ class _productionDeptComplaintsState extends State<productionDeptComplaints> {
       final List<DocumentSnapshot> docComplaints = userComplaints.documents;
       for (DocumentSnapshot docComplaint in docComplaints) {
         print(docComplaint.documentID + " => " + docComplaint.data['issue']);
+        if(docComplaint.data['status']=='solved'){
+          cstatus=complaintStatusSolved;
+        }
+        else if (docComplaint.data['status']=='ongoing'){
+          cstatus=complaintStatusOngoing;
+        }
+        else if(docComplaint.data['status']=='notsolved'){
+          cstatus=complaintStatusNotSolved;
+        }
+        else if(docComplaint.data['status']=='pending'){
+          cstatus=complaintStatusPending;
+        }
+        else if(docComplaint.data['status']=='transferAME'){
+          cstatus=complaintStatusAME;
+        }
         myData d = new myData(
             docComplaint.data['issue'],
             docComplaint.data['machineNo'],
             docComplaint.data['startDate'],
             docComplaint.data['department'],
-            docComplaint.documentID);
+            docComplaint.documentID,
+        cstatus);
         allData.add(d);
       }
     }
@@ -154,6 +189,7 @@ class _productionDeptComplaintsState extends State<productionDeptComplaints> {
             machineno: allData[index].machineno,
             date: allData[index].date,
             department: allData[index].department,
+            cstatus: allData[index].cstatus,
             //allData[index].pno,
           );
         },
