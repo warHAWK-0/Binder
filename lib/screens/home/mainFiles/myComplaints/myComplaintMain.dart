@@ -11,13 +11,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 // ignore: camel_case_types
 class myComplaints extends StatefulWidget {
-
   final UserDetails userDetails;
-
   const myComplaints({Key key, this.userDetails}) : super(key: key);
-
-
-
   @override
   _myComplaintsState createState() => _myComplaintsState();
 }
@@ -29,48 +24,47 @@ class _myComplaintsState extends State<myComplaints> {
 
   @override
   void initState(){
-    fetchComplaints();
+    //fetchComplaints();
   }
-
-  void fetchComplaints() async{
-    Color cstatus;
-    final QuerySnapshot result =
-    await Firestore.instance.collection('binder').document(widget.userDetails.uid).collection('complaint').getDocuments();
-    final List<DocumentSnapshot> documents = result.documents;
-    allData.clear();
-    for (DocumentSnapshot document in documents) {
-      print(document.documentID + " => " + document.data['issue']);
-      if(document.data['status']=='solved'){
-        cstatus=complaintStatusSolved;
-      }
-      else if (document.data['status']=='ongoing'){
-        cstatus=complaintStatusOngoing;
-      }
-      else if(document.data['status']=='notsolved'){
-        cstatus=complaintStatusNotSolved;
-      }
-      else if(document.data['status']=='pending'){
-        cstatus=complaintStatusPending;
-      }
-      else if(document.data['status']=='transferAME'){
-        cstatus=complaintStatusAME;
-      }
-      myData d = new myData(
-          document.data['issue'],
-          document.data['machineNo'],
-          document.data['startDate'],
-          document.data['department'],
-          document.documentID,
-          cstatus
-      );
-      allData.add(d);
-
-    }
-
-    setState(() {
-      print(allData.length);
-    });
-  }
+//  void fetchComplaints() async{
+//   // Color cstatus;
+//    final QuerySnapshot result =
+//    await Firestore.instance.collection('binder').document(widget.userDetails.uid).collection('complaint').getDocuments();
+//    final List<DocumentSnapshot> documents = result.documents;
+//    allData.clear();
+//    for (DocumentSnapshot document in documents) {
+//      print(document.documentID + " => " + document.data['issue']);
+//      if(document.data['status']=='solved'){
+//        cstatus=complaintStatusSolved;
+//      }
+//      else if (document.data['status']=='ongoing'){
+//        cstatus=complaintStatusOngoing;
+//      }
+//      else if(document.data['status']=='notsolved'){
+//        cstatus=complaintStatusNotSolved;
+//      }
+//      else if(document.data['status']=='pending'){
+//        cstatus=complaintStatusPending;
+//      }
+//      else if(document.data['status']=='transferAME'){
+//        cstatus=complaintStatusAME;
+//      }
+//      myData d = new myData(
+//          document.data['issue'],
+//          document.data['machineNo'],
+//          document.data['startDate'],
+//          document.data['department'],
+//          document.documentID,
+//          cstatus
+//      );
+//      allData.add(d);
+//
+//    }
+//
+//    setState(() {
+//      print(allData.length);
+//    });
+//  }
 
   Future<bool> _onbackpressed() {
     return showDialog(
@@ -90,7 +84,6 @@ class _myComplaintsState extends State<myComplaints> {
           ],
         ));
   }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -108,33 +101,56 @@ class _myComplaintsState extends State<myComplaints> {
 
             new Container(
                 padding: EdgeInsets.only(top: 25),
-                child: allData.length == 0
-                    ? new Center(
-                  child: Container(
-                    margin: EdgeInsets.only(top:140),
-                    child: Column(
-                      children: <Widget>[
+                child: StreamBuilder<QuerySnapshot>(
+                      stream: Firestore.instance.collection('binder').document(widget.userDetails.uid).collection('complaint').snapshots(),
+                      builder: (context, snapshot) {
+                        return !snapshot.hasData
+                            ? new Center(
+                        child: Container(
+                        margin: EdgeInsets.only(top:140),
+                        child: Column(
+                        children: <Widget>[
                         new Image.asset('assets/images/sitting-4.png',scale: 1.5,),
                         new Text("Looks like you have no complaints", style: TextStyle(fontSize: 18 , color: Color(0xFF5e5e5e)),)
-                      ],
-                    ),
-                  ),
-                )
-                    : new ListView.builder(
-                  itemCount: allData.length,
+                        ],
+                        ),
+                        ),
+                        )
+                        : new ListView.builder(
+                          itemCount: snapshot.data.documents.length,
                   itemBuilder: (_, index) {
-                    return CustomComplaintCard(
-                      userDetails: widget.userDetails,
-                      complaintNo: allData[index].id,
-                      title: allData[index].title,
-                      machineno: allData[index].machineno,
-                      date: allData[index].date,
-                      department: allData[index].department,
-                      cstatus: allData[index].cstatus,
+                    DocumentSnapshot data=snapshot.data.documents[index];
+                    Color cstatus;
+                    print(data['issue']);
+                    if(data['status']=='solved'){
+                    cstatus=complaintStatusSolved;
+                    }
+                    else if (data['status']=='ongoing'){
+                    cstatus=complaintStatusOngoing;
+                    }
+                    else if(data['status']=='notsolved'){
+                    cstatus=complaintStatusNotSolved;
+                    }
+                    else if(data['status']=='pending'){
+                    cstatus=complaintStatusPending;
+                    }
+                    else if(data['status']=='transferAME') {
+                      cstatus = complaintStatusAME;
+                    }
+                        return CustomComplaintCard(
+                          userDetails: widget.userDetails,
+                          complaintNo: data.documentID,
+                          title: data["issue"],
+                          machineno: data["machineno"],
+                          date: data["startDate"],
+                          department: data["department"],
+                          cstatus: cstatus,
 
-                    );
+                        );
                   },
-                )),
+                );
+                      }
+                    )),
           ],
         ),
 
