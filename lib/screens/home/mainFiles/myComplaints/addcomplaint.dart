@@ -616,7 +616,17 @@ class _SearchPageState extends State<addComplaint> {
                           'raisedBy' : 'Someone',
                           'status':'notsolved'
                         });
-                        Navigator.pop(context);
+                        return showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: new Text('Complaint raised!'),
+                              actions: <Widget>[
+                                OutlineButton(
+                                  child: Text('Okay'),
+                                  onPressed: () => Navigator.pop(context, false),
+                                ),
+                              ],
+                            ));
                       },
                       child: Text(
                         "Submit",

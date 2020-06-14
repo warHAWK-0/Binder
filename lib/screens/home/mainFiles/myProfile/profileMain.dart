@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/services/auth.dart';
@@ -21,7 +23,24 @@ class ProfileMain extends StatefulWidget {
 class _ProfileMainState extends State<ProfileMain> {
 
   Future<bool> _onBackPressed() {
-    Navigator.pop(context);
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('Do you want to exit the App?'),
+          actions: <Widget>[
+            RaisedButton(
+              color: Color(0xFF1467B3),
+              textColor: Colors.white,
+              child: Text('Yes'),
+              onPressed: () => exit(0),
+            ),
+            OutlineButton(
+              child: Text('No'),
+              onPressed: () => Navigator.pop(context, false),
+            )
+          ],
+        ));
   }
 
   AuthService _auth = AuthService();
@@ -120,7 +139,7 @@ class _ProfileMainState extends State<ProfileMain> {
                             child: TextField(
                                 enabled: false,
                                 decoration: InputDecoration(
-                                    hintText: (widget.userDetails.department.toString()),
+                                    hintText: (widget.userDetails.department.toString().inCaps),
                                   hintStyle: TextStyle(fontWeight: FontWeight.w700),
                                 )
 
@@ -216,7 +235,7 @@ class _ProfileMainState extends State<ProfileMain> {
                         textColor: Color(0xFF1666f0),
                         disabledTextColor: Colors.black,
                         padding: EdgeInsets.all(8.0),
-                        splashColor: Colors.blueAccent,
+                        splashColor: Color(0xffd1e3ff),
                         onPressed: () async {
                           try {
                             await _auth.signOut();
@@ -226,7 +245,7 @@ class _ProfileMainState extends State<ProfileMain> {
                         },
                         borderSide: BorderSide(color: Color(0xFF1467B3)),
                         child: Text(
-                          "Log Out",
+                          "Sign Out",
                           style: TextStyle(
                               fontSize: 15.0, color: Color(0xFF1467B3)),
                         ),
@@ -243,3 +262,8 @@ class _ProfileMainState extends State<ProfileMain> {
   }
 }
 
+
+extension CapExtension on String {
+  String get inCaps => '${this[0].toUpperCase()}${this.substring(1)}';
+  String get allInCaps => this.toUpperCase();
+}
