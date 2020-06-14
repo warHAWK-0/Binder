@@ -80,10 +80,28 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
 
             }
             setState(() {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ExpandedComplaintAssign(userDetails:widget.userDetails,complaintNo: widget.complaintNo,ma:d,cstatus: widget.cstatus,)),
-              );
+             if(widget.userDetails.authLevel=="0" && widget.userDetails.department=="maintenance"){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>ExpandedComplainStatus(userDetails:widget.userDetails,complaintNo: widget.complaintNo,ma:d,cstatus: widget.cstatus,)),
+                );
+              }
+              else if(widget.userDetails.authLevel=="1" && widget.userDetails.department=="maintenance"){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>ExpandedComplaintAssign(userDetails:widget.userDetails,complaintNo: widget.complaintNo,ma:d,cstatus: widget.cstatus,)),
+                );
+              }
+             else{
+               Navigator.push(
+                 context,
+                 MaterialPageRoute(builder: (context) => ExpandedComplainVerify(userDetails:widget.userDetails,complaintNo: widget.complaintNo,ma:d,cstatus: widget.cstatus,)),
+               );
+             }
+//              Navigator.push(
+//                context,
+//                MaterialPageRoute(builder: (context) => ExpandedComplaintAssign(userDetails:widget.userDetails,complaintNo: widget.complaintNo,ma:d,cstatus: widget.cstatus,)),
+//              );
             });
           },
           child: Container(

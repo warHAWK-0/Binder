@@ -78,7 +78,6 @@ class _AddEmployeeState extends State<AddEmployee> {
     "Supervisor",
     "Operator/Engineer",
     "Temporary Operator",
-    "Admin"
   ];
 
 

@@ -414,7 +414,18 @@ class _SearchPageState extends State<addComplaint> {
                           borderSide: BorderSide(color: Color.fromRGBO(
                               223, 232, 247, 100)) //dfe8f7
                       ),
+
                     ),
+                    validator: (value) {
+                      Pattern p = r'^[a-z A-Z.]*$';
+                      RegExp regex = new RegExp(p);
+                      if (value.isEmpty)
+                        return 'Enter a line no.';
+                      else if (!regex.hasMatch(value)) {
+                        return 'Not a valid line no.';
+                      } else
+                        return null;
+                    },
                   ),
                   SizedBox(
                     height: 20,
@@ -598,25 +609,45 @@ class _SearchPageState extends State<addComplaint> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () async {
-                        print("hoo"+widget.userDetails.uid);
-                        await Firestore.instance.collection("binder").document(widget.userDetails.uid).collection("complaint").add({
-                          'machineNo': machineNo,
-                          'department': "production",
-                          'issue': issue,
-                          'lineNo': lineNo,
-                          'startDate': DateTime.now().toString().substring(0,10),
-                          'startTime': DateTime.now().toString().substring(11,16),
-                          'assignedDate': null,
-                          'assignedTime': null,
-                          'endDate': null,
-                          'endTime': null,
-                          'verifiedDate': null,
-                          'verifiedTime': null,
-                          'assignedTo': null,
-                          'raisedBy' : 'Someone',
-                          'status':'notsolved'
-                        });
-                        Navigator.pop(context);
+
+                        if(lineNo.isNotEmpty && machineNo.isNotEmpty && issue.isNotEmpty && issueType.isNotEmpty) {
+                          print("hoo" + widget.userDetails.uid);
+                          await Firestore.instance.collection("binder")
+                              .document(widget.userDetails.uid).collection(
+                              "complaint")
+                              .add({
+                            'machineNo': machineNo,
+                            'department': "production",
+                            'issue': issue,
+                            'lineNo': lineNo,
+                            'startDate': DateTime.now().toString().substring(
+                                0, 10),
+                            'startTime': DateTime.now().toString().substring(
+                                11, 16),
+                            'assignedDate': '',
+                            'assignedTime': '',
+                            'endDate': '',
+                            'endTime': '',
+                            'verifiedDate': '',
+                            'verifiedTime': '',
+                            'assignedTo': '',
+                            'raisedBy': 'Someone',
+                            'status': 'notsolved'
+                          });
+                          return showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  AlertDialog(
+                                    title: new Text('Complaint raised!'),
+                                    actions: <Widget>[
+                                      OutlineButton(
+                                        child: Text('Okay'),
+                                        onPressed: () =>
+                                            Navigator.pop(context, false),
+                                      ),
+                                    ],
+                                  ));
+                        }
                       },
                       child: Text(
                         "Submit",

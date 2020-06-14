@@ -13,8 +13,11 @@ enum ComplaintVerificationValue { solved, unsolved }
 
 class ExpandedComplainVerify extends StatefulWidget {
   final String complaintNo;
+  final myData2 ma;
+  final cstatus;
+  final UserDetails userDetails;
 
-  const ExpandedComplainVerify({Key key, @required this.complaintNo})
+  const ExpandedComplainVerify({Key key, @required this.userDetails, @required this.complaintNo,@required this.ma,this.cstatus})
       : super(key: key);
 
   @override
@@ -48,9 +51,9 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Hero(
-                  tag: 'Complaint-' + widget.complaintNo.toString(),
-                  child: Container(
+
+                  //tag: 'Complaint-' + widget.complaintNo.toString(),
+                Container(
                     height: 365,
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                     decoration: BoxDecoration(
@@ -72,7 +75,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    "Title of complaint ",
+                                    "${widget.ma.title}",
                                     style: TextStyle(
                                       fontFamily: 'Roboto',
                                       color: primaryblue,
@@ -82,7 +85,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 10),
-                                    child: Text("Machine No. ",
+                                    child: Text("${widget.ma.machineno} ",
                                         style: TextStyle(
                                             fontFamily: 'Roboto',
                                             color: primaryblue,
@@ -96,7 +99,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                                   margin: EdgeInsets.only(top: 5, right: 5),
                                   child: Icon(
                                     Icons.brightness_1,
-                                    color: Color(0xFFFF5656),
+                                    color: widget.cstatus,
                                   )),
                             ],
                           ),
@@ -112,23 +115,21 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                                 style: detailsTextStyle,
                               ),
                               SizedBox(height: 8),
-                              Text("Line No. :", style: detailsTextStyle),
+                              Text("Line No. :${widget.ma.lineno}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Machine No. :", style: detailsTextStyle),
+                              Text("Issue : ${widget.ma.title}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Issue :", style: detailsTextStyle),
+                              Text("Status:${widget.ma.status}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Status:", style: detailsTextStyle),
+                              Text("Raised by :${widget.ma.raisedby}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Raised by :", style: detailsTextStyle),
+                              Text("Time :${widget.ma.time}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Time :", style: detailsTextStyle),
+                              Text("Assigned to :${widget.ma.assignedto}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Assigned to :", style: detailsTextStyle),
+                              Text("Assigned by :${widget.ma.assignedby}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Assigned by :", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Description :", style: detailsTextStyle),
+                              Text("Description :${widget.ma.description}", style: detailsTextStyle),
                             ],
                           ),
                           SizedBox(
@@ -137,7 +138,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                           Row(
                             children: <Widget>[
                               Container(
-                                child: Text("Date ",
+                                child: Text("Date :${widget.ma.date}",
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: primaryblue,
@@ -146,7 +147,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                               ),
                               Spacer(),
                               Container(
-                                child: Text("Department",
+                                child: Text("Department :${widget.ma.department}",
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: primaryblue,
@@ -159,7 +160,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                       ),
                     ),
                   ),
-                ),
+
                 SizedBox(
                   height: 15,
                 ),
@@ -242,10 +243,10 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                                   dbt=DateTime.now().toString();
                                   databaseReference
                                       .collection('binder')
-                                      .document('nRWTfcVdIldVPtgrOw2NgeuIF4M2')
+                                      .document(widget.userDetails.uid)
                                       .collection('complaint')
-                                      .document('hiIf5uvcpvFTWJ3C6FMb')
-                                      .updateData({'verified_date': dbt.substring(0,10),'verified_time':dbt.substring(11,16)});
+                                      .document(widget.complaintNo)
+                                      .updateData({'endDate': dbt.substring(0,10),'endTime':dbt.substring(11,16)});
                                 } catch (e) {
                                   print(e.toString());
                                 }
@@ -277,8 +278,12 @@ enum ComplaintStatusValue { solved, ongoing, pending, transferAME }
 
 class ExpandedComplainStatus extends StatefulWidget {
   final String complaintNo;
+  final myData2 ma;
+  final cstatus;
+  final UserDetails userDetails;
 
-  const ExpandedComplainStatus({Key key, @required this.complaintNo})
+
+  const ExpandedComplainStatus({Key key, @required this.userDetails, @required this.complaintNo,@required this.ma,this.cstatus})
       : super(key: key);
 
   @override
@@ -290,7 +295,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
   ComplaintStatusValue _radioStatusValue = ComplaintStatusValue.pending;
   TextStyle detailsTextStyle =
   TextStyle(fontFamily: 'Roboto', color: Colors.black, fontSize: 14);
-
+  String dbt;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -310,9 +315,9 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Hero(
-                  tag: 'Complaint-' + widget.complaintNo.toString(),
-                  child: Container(
+
+                  //tag: 'Complaint-' + widget.complaintNo.toString(),
+                  Container(
                     height: 365,
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                     decoration: BoxDecoration(
@@ -334,7 +339,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    "Title of complaint ",
+                                    "${widget.ma.title}",
                                     style: TextStyle(
                                       fontFamily: 'Roboto',
                                       color: primaryblue,
@@ -344,7 +349,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 10),
-                                    child: Text("Machine No. ",
+                                    child: Text("${widget.ma.machineno} ",
                                         style: TextStyle(
                                             fontFamily: 'Roboto',
                                             color: primaryblue,
@@ -358,7 +363,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                   margin: EdgeInsets.only(top: 5, right: 5),
                                   child: Icon(
                                     Icons.brightness_1,
-                                    color: Color(0xFFFF5656),
+                                    color:widget.cstatus ,
                                   )),
                             ],
                           ),
@@ -374,23 +379,21 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                 style: detailsTextStyle,
                               ),
                               SizedBox(height: 8),
-                              Text("Line No. :", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Machine No. :", style: detailsTextStyle),
+                              Text("Line No. : ${widget.ma.lineno}", style: detailsTextStyle),
                               SizedBox(height: 8),
                               Text("Issue :", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Status:", style: detailsTextStyle),
+                              Text("Status: ${widget.ma.status}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Raised by :", style: detailsTextStyle),
+                              Text("Raised by :${widget.ma.raisedby}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Time :", style: detailsTextStyle),
+                              Text("Time :${widget.ma.time}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Assigned to :", style: detailsTextStyle),
+                              Text("Assigned to : ${widget.ma.assignedto}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Assigned by :", style: detailsTextStyle),
+                              Text("Assigned by :${widget.ma.assignedby}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Description :", style: detailsTextStyle),
+                              Text("Description :${widget.ma.description}", style: detailsTextStyle),
                             ],
                           ),
                           SizedBox(
@@ -399,7 +402,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                           Row(
                             children: <Widget>[
                               Container(
-                                child: Text("Date ",
+                                child: Text("Date :${widget.ma.date}",
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: primaryblue,
@@ -408,7 +411,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                               ),
                               Spacer(),
                               Container(
-                                child: Text("Department",
+                                child: Text("Department :${widget.ma.department}",
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: primaryblue,
@@ -421,7 +424,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                       ),
                     ),
                   ),
-                ),
+
                 SizedBox(
                   height: 15,
                 ),
@@ -536,50 +539,56 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                             color: Color(0xFF1467B3),
                             onPressed: () {
                               print('');
-                              if (_radioStatusValue==ComplaintVerificationValue.solved) {
+                              // ignore: unrelated_type_equality_checks
+                              if (_radioStatusValue == ComplaintStatusValue.solved) {
                                 try {
+                                  dbt=DateTime.now().toString();
                                   databaseReference
                                       .collection('binder')
-                                      .document('nRWTfcVdIldVPtgrOw2NgeuIF4M2')
+                                      .document(widget.userDetails.uid)
                                       .collection('complaint')
-                                      .document('hiIf5uvcpvFTWJ3C6FMb')
-                                      .updateData({'status': "solved"});
+                                      .document(widget.complaintNo)
+                                      .updateData({'verifiedDate': dbt.substring(0,10),'verifiedTime':dbt.substring(11,16),'status': "solved"});
                                 } catch (e) {
                                   print(e.toString());
                                 }
                               }
                               else if (_radioStatusValue == ComplaintStatusValue.pending) {
                                 try {
+                                  dbt=DateTime.now().toString();
                                   databaseReference
                                       .collection('binder')
-                                      .document('nRWTfcVdIldVPtgrOw2NgeuIF4M2')
+                                      .document(widget.userDetails.uid)
                                       .collection('complaint')
-                                      .document('hiIf5uvcpvFTWJ3C6FMb')
-                                      .updateData({'status': "pending"});
+                                      .document(widget.complaintNo)
+                                      .updateData({'verifiedDate': dbt.substring(0,10),'verifiedTime':dbt.substring(11,16),'status': "pending"});
                                 } catch (e) {
                                   print(e.toString());
                                 }
                               }
                               else if (_radioStatusValue==ComplaintStatusValue.transferAME) {
                                 try {
+                                  dbt=DateTime.now().toString();
                                   databaseReference
                                       .collection('binder')
-                                      .document('nRWTfcVdIldVPtgrOw2NgeuIF4M2')
+                                      .document(widget.userDetails.uid)
                                       .collection('complaint')
-                                      .document('hiIf5uvcpvFTWJ3C6FMb')
-                                      .updateData({'status': "transferAME"});
+                                      .document(widget.complaintNo)
+                                      .updateData({'verifiedDate': dbt.substring(0,10),'verifiedTime':dbt.substring(11,16),'status': "transferAME"});
+
                                 } catch (e) {
                                   print(e.toString());
                                 }
                               }
                               else if (_radioStatusValue==ComplaintStatusValue.ongoing) {
                                 try {
+                                  dbt=DateTime.now().toString();
                                   databaseReference
                                       .collection('binder')
-                                      .document('nRWTfcVdIldVPtgrOw2NgeuIF4M2')
+                                      .document(widget.userDetails.uid)
                                       .collection('complaint')
-                                      .document('hiIf5uvcpvFTWJ3C6FMb')
-                                      .updateData({'status': "ongoing"});
+                                      .document(widget.complaintNo)
+                                      .updateData({'verifiedDate': dbt.substring(0,10),'verifiedTime':dbt.substring(11,16),'status': "ongoing"});
                                 } catch (e) {
                                   print(e.toString());
                                 }
@@ -651,7 +660,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
   bool loading = true;
   List<String> assign = [];
   final myController = TextEditingController();
-  void initState(){
+ // void initState(){
     //fetchComplaints();
 //    if(widget.ma.status=='solved'){
 //      cstatus=complaintStatusSolved;
@@ -668,34 +677,35 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
 //    else if(widget.ma.status=='transferAME'){
 //      cstatus=complaintStatusAME;
 //    }
-  }
-  myData2 d;
-  void fetchComplaints() async{
-    final QuerySnapshot result =
-    await Firestore.instance.collection('binder').document(widget.userDetails.uid).collection('complaint').getDocuments();
-    final List<DocumentSnapshot> documents = result.documents;
-    for (DocumentSnapshot document in documents) {
-      print(document.documentID + " => " + document.data['issue']);
-      if (document.documentID==widget.complaintNo){
-        d = new myData2(
-            document.data['issue'],
-            document.data['machineNo'],
-            document.data['lineNo'],
-            document.data['status'],
-            document.data['raisedby'],
-            document.data['startTime'],
-            document.data['assignedTo'],
-            document.data['assignedBy'],
-            document.data['description'],
-            document.data['date'],
-            document.data['department']
-        );
-        print(d.title);
-
-      }
-
-    }
-  }
+//  }
+//  myData2 d;
+//  void fetchComplaints() async{
+//    final QuerySnapshot result =
+//    await Firestore.instance.collection('binder').document(widget.userDetails.uid).collection('complaint').getDocuments();
+//    final List<DocumentSnapshot> documents = result.documents;
+//    for (DocumentSnapshot document in documents) {
+//      print(document.documentID + " => " + document.data['issue']);
+//      if (document.documentID==widget.complaintNo){
+//        d = new myData2(
+//            document.data['issue'],
+//            document.data['machineNo'],
+//            document.data['lineNo'],
+//            document.data['status'],
+//            document.data['raisedby'],
+//            document.data['startTime'],
+//            document.data['assignedTo'],
+//            document.data['assignedBy'],
+//            document.data['description'],
+//            document.data['date'],
+//            document.data['department']
+//        );
+//        print(d.title);
+//
+//      }
+//
+//    }
+//  }
+  String dbt;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -778,21 +788,21 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                                 style: detailsTextStyle,
                               ),
                               SizedBox(height: 8),
-                              Text("Line No. : ${widget.ma.lineno}", style: detailsTextStyle),
+                              Text("Line No.:  ${widget.ma.lineno}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Issue : ${widget.ma.title}", style: detailsTextStyle),
+                              Text("Issue:  ${widget.ma.title}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Status: ${widget.ma.status}", style: detailsTextStyle),
+                              Text("Status:  ${widget.ma.status}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Raised by : ${widget.ma.raisedby}", style: detailsTextStyle),
+                              Text("Raised by:  ${widget.ma.raisedby}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Time : ${widget.ma.time}", style: detailsTextStyle),
+                              Text("Time:  ${widget.ma.time}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Assigned to : ${widget.ma.assignedto}", style: detailsTextStyle),
+                              Text("Assigned to:  ${widget.ma.assignedto}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Assigned by : ${widget.ma.assignedby}", style: detailsTextStyle),
+                              Text("Assigned by:  ${widget.ma.assignedby}", style: detailsTextStyle),
                               SizedBox(height: 8),
-                              Text("Description : ${widget.ma.description}", style: detailsTextStyle),
+                              Text("Description:  ${widget.ma.description}", style: detailsTextStyle),
                             ],
                           ),
                           SizedBox(
@@ -948,12 +958,13 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                               myController.clear();
                               setState(() { });
                               try {
+                                dbt=DateTime.now().toString();
                                 databaseReference
                                     .collection('binder')
-                                    .document('nRWTfcVdIldVPtgrOw2NgeuIF4M2')
+                                    .document(widget.userDetails.uid)
                                     .collection('complaint')
                                     .document(widget.complaintNo)
-                                    .updateData({'assignedTo': assign});
+                                    .updateData({'assignedDate': dbt.substring(0,10),'assignedTime':dbt.substring(11,16),'assignedTo': assign});
                               } catch (e) {
                                 print(e.toString());
                               }
