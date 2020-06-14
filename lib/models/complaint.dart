@@ -7,9 +7,9 @@ class Complaint{
   department,
   issue,
   raisedBy,
-  assignedTo,
-  lineNo;
-  DateTime startDate,startTime,
+  assignedTo;
+  String lineNo,
+  startDate,startTime,
   assignedDate,assignedTime,
   endDate,endTime,
   verifiedDate,verifiedTime;

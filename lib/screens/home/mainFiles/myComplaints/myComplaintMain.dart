@@ -22,8 +22,9 @@ class myComplaints extends StatefulWidget {
 // ignore: camel_case_types
 class _myComplaintsState extends State<myComplaints> {
   List<myData> allData = [];
+
   @override
-  void initState(){
+  void initState() {
     //fetchComplaints();
   }
 //  void fetchComplaints() async{
@@ -69,20 +70,21 @@ class _myComplaintsState extends State<myComplaints> {
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('Do you want to exit the App?'),
-          actions: <Widget>[
-            OutlineButton(
-              child: Text('Yes'),
-              onPressed: () => exit(0),
-            ),
-            OutlineButton(
-              child: Text('No'),
-              onPressed: () => Navigator.pop(context, false),
-            )
-          ],
-        ));
+              title: new Text('Are you sure?'),
+              content: new Text('Do you want to exit the App?'),
+              actions: <Widget>[
+                OutlineButton(
+                  child: Text('Yes'),
+                  onPressed: () => exit(0),
+                ),
+                OutlineButton(
+                  child: Text('No'),
+                  onPressed: () => Navigator.pop(context, false),
+                )
+              ],
+            ));
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -97,74 +99,82 @@ class _myComplaintsState extends State<myComplaints> {
             )),
         body: Stack(
           children: <Widget>[
-
             new Container(
                 padding: EdgeInsets.only(top: 25),
                 child: StreamBuilder<QuerySnapshot>(
-                      stream: Firestore.instance.collection('binder').document(
-                          widget.userDetails.uid)
-                          .collection('complaint')
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        return !snapshot.hasData
-                            ? new Center(
-                        child: Container(
-                        margin: EdgeInsets.only(top:140),
-                        child: Column(
-                        children: <Widget>[
-                        new Image.asset('assets/images/sitting-4.png',scale: 1.5,),
-                        new Text("Looks like you have no complaints", style: TextStyle(fontSize: 18 , color: Color(0xFF5e5e5e)),)
-                        ],
-                        ),
-                        ),
-                        )
-                        : new ListView.builder(
-                          itemCount: snapshot.data.documents.length,
-                  itemBuilder: (_, index) {
-                    DocumentSnapshot data=snapshot.data.documents[index];
-                    Color cstatus;
-                    print(data['issue']);
-                    if(data['status']=='solved'){
-                    cstatus=complaintStatusSolved;
-                    }
-                    else if (data['status']=='ongoing'){
-                    cstatus=complaintStatusOngoing;
-                    }
-                    else if(data['status']=='notsolved'){
-                    cstatus=complaintStatusNotSolved;
-                    }
-                    else if(data['status']=='pending'){
-                    cstatus=complaintStatusPending;
-                    }
-                    else if(data['status']=='transferAME') {
-                      cstatus = complaintStatusAME;
-                    }
-                        return CustomComplaintCard(
-                          userDetails: widget.userDetails,
-                          complaintNo: data.documentID,
-                          title: data["issue"],
-                          machineno: data["machineno"],
-                          date: data["startDate"],
-                          department: data["department"],
-                          cstatus: cstatus,
-
-                        );
-                  },
-                );
-                      }
-                    )),
+                    stream: Firestore.instance
+                        .collection('binder')
+                        .document(widget.userDetails.uid)
+                        .collection('complaint')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      return !snapshot.hasData
+                          ? new Center(
+                              child: Container(
+                                margin: EdgeInsets.only(top: 140),
+                                child: Column(
+                                  children: <Widget>[
+                                    new Image.asset(
+                                      'assets/images/sitting-4.png',
+                                      scale: 1.5,
+                                    ),
+                                    new Text(
+                                      "Looks like you have no complaints",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Color(0xFF5e5e5e)),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                          : new ListView.builder(
+                              itemCount: snapshot.data.documents.length,
+                              itemBuilder: (_, index) {
+                                DocumentSnapshot data =
+                                    snapshot.data.documents[index];
+                                Color cstatus;
+                                if (data['status'] == 'solved') {
+                                  cstatus = complaintStatusSolved;
+                                } else if (data['status'] == 'ongoing') {
+                                  cstatus = complaintStatusOngoing;
+                                } else if (data['status'] == 'notsolved') {
+                                  cstatus = complaintStatusNotSolved;
+                                } else if (data['status'] == 'pending') {
+                                  cstatus = complaintStatusPending;
+                                } else if (data['status'] == 'transferAME') {
+                                  cstatus = complaintStatusAME;
+                                }
+                                return CustomComplaintCard(
+                                  userDetails: widget.userDetails,
+                                  complaintNo: data.documentID,
+                                  title: data["issue"],
+                                  machineno: data["machineno"],
+                                  date: data["startDate"],
+                                  department: data["department"],
+                                  cstatus: cstatus,
+                                );
+                              },
+                            );
+                    })),
           ],
         ),
 
         floatingActionButton: FloatingActionButton(
             backgroundColor: primaryblue,
-            child: Icon(Icons.add,size: 40,
+            child: Icon(
+              Icons.add,
+              size: 40,
               color: Colors.white,
             ),
-            onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => addComplaint(userDetails: widget.userDetails,)));
-          }
-        ),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => addComplaint(
+                            userDetails: widget.userDetails,
+                          )));
+            }),
       ),
     );
   }
