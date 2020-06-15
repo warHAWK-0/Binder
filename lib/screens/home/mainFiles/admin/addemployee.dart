@@ -443,6 +443,23 @@ class _AddEmployeeState extends State<AddEmployee> {
                             Navigator.pop(context);
                           }
                         }
+
+                        return showDialog(
+                            context: context,
+                            builder: (context) =>
+                                AlertDialog(
+                                  title: new Text('Employee Added'),
+                                  actions: <Widget>[
+                                    RaisedButton(
+                                      color: Color(0xFF1467B3),
+                                      textColor: Colors.white,
+                                      child: Text('Okay'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                ));
                       },
                       child: Text(
                         "Add Employee",

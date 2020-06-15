@@ -271,6 +271,23 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
 
                                     await db.collection('binder').document(userID).collection('user_details').document(allData[0].id).delete();
 
+                                    return showDialog(
+                                        context: context,
+                                        builder: (context) =>
+                                            AlertDialog(
+                                              title: new Text('Employee Deleted'),
+                                              actions: <Widget>[
+                                                RaisedButton(
+                                                  color: Color(0xFF1467B3),
+                                                  textColor: Colors.white,
+                                                  child: Text('Okay'),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
+                                              ],
+                                            ));
+
                                   },
                                   child: Text(
                                     "Delete Employee",

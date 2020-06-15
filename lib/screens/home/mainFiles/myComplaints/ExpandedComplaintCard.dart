@@ -245,6 +245,26 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                                   print(e.toString());
                                 }
                               }
+
+                              return showDialog(
+                                  context: context,
+                                  builder: (context) =>
+                                      AlertDialog(
+                                        title: new Text('Complaint Verified'),
+                                        actions: <Widget>[
+                                          RaisedButton(
+                                            color: Color(0xFF1467B3),
+                                            textColor: Colors.white,
+                                            child: Text('Okay'),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ],
+                                      ));
+
+
+
                             },
                           ),
                         ),

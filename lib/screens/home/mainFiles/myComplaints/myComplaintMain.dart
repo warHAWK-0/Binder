@@ -69,19 +69,21 @@ class _myComplaintsState extends State<myComplaints> {
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: new Text('Are you sure?'),
-              content: new Text('Do you want to exit the App?'),
-              actions: <Widget>[
-                OutlineButton(
-                  child: Text('Yes'),
-                  onPressed: () => exit(0),
-                ),
-                OutlineButton(
-                  child: Text('No'),
-                  onPressed: () => Navigator.pop(context, false),
-                )
-              ],
-            ));
+          title: new Text('Are you sure?'),
+          content: new Text('Do you want to exit the App?'),
+          actions: <Widget>[
+            RaisedButton(
+              color: Color(0xFF1467B3),
+              textColor: Colors.white,
+              child: Text('Yes'),
+              onPressed: () => exit(0),
+            ),
+            OutlineButton(
+              child: Text('No'),
+              onPressed: () => Navigator.pop(context, false),
+            )
+          ],
+        ));
   }
 
   @override

@@ -641,12 +641,14 @@ class _SearchPageState extends State<addComplaint> {
                                   AlertDialog(
                                     title: new Text('Complaint raised!'),
                                     actions: <Widget>[
-                                      OutlineButton(
+                                      RaisedButton(
+                                        color: Color(0xFF1467B3),
+                                        textColor: Colors.white,
                                         child: Text('Okay'),
                                         onPressed: () {
                                           Navigator.pop(context);
                                           Navigator.pop(context);
-                                        }
+                                        },
                                       ),
                                     ],
                                   ));
