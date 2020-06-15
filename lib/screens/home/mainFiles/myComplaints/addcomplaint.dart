@@ -103,8 +103,8 @@ class _SearchPageState extends State<addComplaint> {
     "overload trip",
     "Movement jam",
     "Conveyor not working",
-    "Oil Leakage"
-        "Coolant leakage",
+    "Oil Leakage",
+    "Coolant leakage",
     "Job fallen"
   ];
   List<String> machines = ['HD16',
