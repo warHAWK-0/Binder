@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:final_binder/screens/home/mainFiles/admin/editSearchEmp.dart';
 import 'models/user.dart';
 import 'screens/home/mainFiles/admin/addemployee.dart';
-import 'screens/home/mainFiles/admin/addemployee.dart';
 import 'screens/wrapper.dart';
 import 'services/auth.dart';
 
