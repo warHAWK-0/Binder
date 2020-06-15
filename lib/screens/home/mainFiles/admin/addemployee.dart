@@ -440,7 +440,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                           if(result == null){
                             _buildUserNotCreatedDialog(context);
                           }else{
-                            buildUserCreatedDialog(context);
+                            Navigator.pop(context);
                           }
                         }
                       },
