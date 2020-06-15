@@ -30,7 +30,7 @@ class _NavBarSelectState extends State<NavBarSelect> {
 
   //widget.authLevel == 1  && widget.userDepartment  == "maintenance" <=> Maintenance Supervisor
   List<Widget> _maintenanceSupervisorScreenList() => [
-    maintenanceDeptComplaints(userDetails: widget.userDetails,),
+    deptComplaints(userDetails: widget.userDetails,),
     ProfileMain(userDetails: widget.userDetails,),
   ];
 
@@ -43,7 +43,7 @@ class _NavBarSelectState extends State<NavBarSelect> {
   //widget.authLevel == 1 && widget.userDepartment = "production" <=> Production Supervisor
   List<Widget> _productionSupervisorScreenList() => [
     myComplaints(userDetails: widget.userDetails,),
-    productionDeptComplaints(userDetails: widget.userDetails,),
+    deptComplaints(userDetails: widget.userDetails,),
     ProfileMain(userDetails: widget.userDetails,),
   ];
 

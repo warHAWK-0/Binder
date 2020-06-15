@@ -397,6 +397,24 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                           //'email': email.isEmpty? widget.allData[0].email: email,
                         });
 
+                        return showDialog(
+                            context: context,
+                            builder: (context) =>
+                                AlertDialog(
+                                  title: new Text('Employee Edited'),
+                                  actions: <Widget>[
+                                    RaisedButton(
+                                      color: Color(0xFF1467B3),
+                                      textColor: Colors.white,
+                                      child: Text('Okay'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+
+                                      },
+                                    ),
+                                  ],
+                                ));
 //
                       },
                       child: Text(

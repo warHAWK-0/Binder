@@ -33,7 +33,7 @@ class _AddEmployeeState extends State<AddEmployee> {
     designation = '';
   }
 
-  Widget _buildUserCreatedDialog(BuildContext context) {
+  Widget buildUserCreatedDialog(BuildContext context) {
     return new AlertDialog(
       title: const Text('Employee Successfully Created!'),
       content: Container(
@@ -436,9 +436,30 @@ class _AddEmployeeState extends State<AddEmployee> {
                         );
                         print(email);
                         if (_formkey.currentState.validate()) {
-                          await _auth.createUserWithEmailAndPassword(email, '123456',userDetails);
-                        Navigator.pop(context);
+                          dynamic result = await _auth.createUserWithEmailAndPassword(email, '123456',userDetails,context);
+                          if(result == null){
+                            _buildUserNotCreatedDialog(context);
+                          }else{
+                            Navigator.pop(context);
+                          }
                         }
+
+                        return showDialog(
+                            context: context,
+                            builder: (context) =>
+                                AlertDialog(
+                                  title: new Text('Employee Added'),
+                                  actions: <Widget>[
+                                    RaisedButton(
+                                      color: Color(0xFF1467B3),
+                                      textColor: Colors.white,
+                                      child: Text('Okay'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                ));
                       },
                       child: Text(
                         "Add Employee",

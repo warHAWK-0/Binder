@@ -2,7 +2,6 @@ import 'package:final_binder/services/auth.dart';
 import 'package:final_binder/shared/loading.dart';
 import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../shared/themes.dart';
 
@@ -149,40 +148,47 @@ class _SignInState extends State<SignIn> {
                     SizedBox(
                       height: 10.0,
                     ),
-                    FlatButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4.0),
-                          side: BorderSide(color: primaryblue, width: 1.5)
-                      ),
-                      color: primaryblue,
-                      textColor: Colors.white,
-                      child: loading ? Loading() : Text(
-                          'SignIn'
-                      ),
-                      onPressed: () async {
-                        if (_formKey.currentState.validate()) {
-                          setState(() {
-                            loading = true;
-                          });
-                          dynamic result = await _auth.singnInUsingEmail(
-                              email, password);
-                          if (result == null) {
+                    Container(
+                      width: double.infinity,
+                      height: 50,
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                            side: BorderSide(color: primaryblue, width: 1.5)
+                        ),
+                        color: primaryblue,
+                        textColor: Colors.white,
+                        child: loading ? Loading() : Text(
+                            'Sign in',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                        onPressed: () async {
+                          if (_formKey.currentState.validate()) {
+                            setState(() {
+                              loading = true;
+                            });
+                            dynamic result = await _auth.singnInUsingEmail(
+                                email, password);
+                            if (result == null) {
 
-                            setState(() {
-                              Scaffold.of(context).showSnackBar((SnackBar(
-                                content: new Text("Incorrect Email/ Password"),
-                                duration: Duration(seconds: 3),
-                              )));
-                              loading = false;
-                            });
-                          } else {
-                            setState(() {
-                              error = "";
-                              loading = false;
-                            });
+                              setState(() {
+                                Scaffold.of(context).showSnackBar((SnackBar(
+                                  content: new Text("Incorrect Email/ Password"),
+                                  duration: Duration(seconds: 3),
+                                )));
+                                loading = false;
+                              });
+                            } else {
+                              setState(() {
+                                error = "";
+                                loading = false;
+                              });
+                            }
                           }
-                        }
-                      },
+                        },
+                      ),
                     ),
                   ],
                 ),

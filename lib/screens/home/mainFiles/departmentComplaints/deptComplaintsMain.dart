@@ -1,247 +1,153 @@
+import 'package:final_binder/models/complaint.dart';
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/screens/home/mainFiles/myComplaints/CustomComplaintCard.dart';
 import 'package:final_binder/shared/CustomAppBar.dart';
 import 'package:final_binder/shared/loading.dart';
 import 'package:final_binder/shared/themes.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:final_binder/models/myData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class maintenanceDeptComplaints extends StatefulWidget {
-
+class deptComplaints extends StatefulWidget {
   final UserDetails userDetails;
 
-  const maintenanceDeptComplaints({Key key, this.userDetails}) : super(key: key);
-
-
+  const deptComplaints({Key key, this.userDetails})
+      : super(key: key);
 
   @override
-  _maintenanceDeptComplaintsState createState() => _maintenanceDeptComplaintsState();
+  _deptComplaintsState createState() =>
+      _deptComplaintsState();
 }
 
-class _maintenanceDeptComplaintsState extends State<maintenanceDeptComplaints> {
-  final List<int> complaintNo = [1,2,3,4,5,6];
-  List<myData> allData = [];
+class _deptComplaintsState extends State<deptComplaints> {
+  List<String> documentNames = [];
+  bool loading = false;
 
-  @override
-  void initState(){
-    print(1);
-
-   // fetchDepartmentComplaints();
+  Future getAllDocuments() async{
+    QuerySnapshot querySnapshot = await Firestore.instance.collection("binder").getDocuments();
+    documentNames.clear();
+    for(DocumentSnapshot documentSnapshot in querySnapshot.documents){
+      documentNames.add(documentSnapshot.documentID.toString());
+    }
+    return querySnapshot.documents;
   }
-//  void fetchDepartmentComplaints() async {
-//    Color cstatus;
-//
-//    final QuerySnapshot usersList =
-//    await Firestore.instance.collection('binder').getDocuments();
-//    final List<DocumentSnapshot> docUsers = usersList.documents;
-//    allData.clear();
-//    for (DocumentSnapshot docUser in docUsers) {
-//      String uidUser = docUser.documentID;
-//      print(uidUser);
-//      final QuerySnapshot userComplaints = await Firestore.instance
-//          .collection('binder')
-//          .document(uidUser)
-//          .collection('complaint')
-//          .getDocuments();
-//      final List<DocumentSnapshot> docComplaints = userComplaints.documents;
-//      for (DocumentSnapshot docComplaint in docComplaints) {
-//        print(docComplaint.documentID + " => " + docComplaint.data['issue']);
-//        if(docComplaint.data['status']=='solved'){
-//          cstatus=complaintStatusSolved;
-//        }
-//        else if (docComplaint.data['status']=='ongoing'){
-//          cstatus=complaintStatusOngoing;
-//        }
-//        else if(docComplaint.data['status']=='notsolved'){
-//          cstatus=complaintStatusNotSolved;
-//        }
-//        else if(docComplaint.data['status']=='pending'){
-//          cstatus=complaintStatusPending;
-//        }
-//        else if(docComplaint.data['status']=='transferAME'){
-//          cstatus=complaintStatusAME;
-//        }
-//        myData d = new myData(
-//            docComplaint.data['issue'],
-//            docComplaint.data['machineNo'],
-//            docComplaint.data['startDate'],
-//            docComplaint.data['department'],
-//            docComplaint.documentID,
-//            cstatus);
-//        allData.add(d);
-//      }
-//    }
-//    setState(() {
-//      print(allData.length);
-//    });
-//  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Color(0xFFE5E5E5),
+      backgroundColor: Colors.white,
       appBar: CustomAppBar(backIcon: false, child: Text('Department Complaints',style: titleText,)),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance.collection("binder").snapshots(),
-        // ignore: missing_return
-        builder: (context,snapshot) {
-
-          if(! snapshot.hasData){
-            return Container(child: Text('not has data'),);
-          }
-          else{
-            int index = snapshot.data.documents.length;
-            final List<DocumentSnapshot> userDocs = snapshot.data.documents;
-
-            for (DocumentSnapshot s in userDocs) {
-              print(s.documentID);
-              return StreamBuilder<QuerySnapshot>(
-                stream: Firestore.instance.collection("binder").document(s.documentID).collection("complaint").snapshots(),
-                // ignore: missing_return
-                builder: (context,snap){
-                  if(! snap.hasData){
-                    return Loading();
-                  }
-                  else{
-                    return ListView.builder(
-                      itemCount: snap.data.documents.length,
-                      itemBuilder: (_, index) {
-                        print(snap.data.documents.length);
-                        DocumentSnapshot data=snap.data.documents[index];
-                        print(snapshot.data.documents.length);
-                        Color cstatus;
-                        print(data['issue']);
-                        if(data['status']=='solved'){
-                          cstatus=complaintStatusSolved;
+//
+//      body: Container(
+//        child: Column(
+//          children: documentNames.map(
+//            (userDoc){
+//              print(userDoc);
+//              StreamBuilder(
+//                stream: Firestore.instance.collection("binder").document(userDoc).collection("complaint").snapshots(),
+//                builder: (context,snapshot){
+//                  if(!snapshot.hasData){
+//                    return Loading();
+//                  }
+//                  else{
+//                    return ListView.builder(
+//                      itemCount: snapshot.data.documents.length,
+//                      itemBuilder: (_, index) {
+//                        DocumentSnapshot data =
+//                        snapshot.data.documents[index];
+//                        Color cstatus;
+//                        print(data['issue']);
+//                        if (data['status'] == 'solved') {
+//                          cstatus = complaintStatusSolved;
+//                        } else if (data['status'] == 'ongoing') {
+//                          cstatus = complaintStatusOngoing;
+//                        } else if (data['status'] == 'notsolved') {
+//                          cstatus = complaintStatusNotSolved;
+//                        } else if (data['status'] == 'pending') {
+//                          cstatus = complaintStatusPending;
+//                        } else if (data['status'] == 'transferAME') {
+//                          cstatus = complaintStatusAME;
+//                        }
+//                        return CustomComplaintCard(
+//                          userDetails: widget.userDetails,
+//                          complaintNo: data.documentID,
+//                          title: data["issue"],
+//                          machineno: data["machineno"],
+//                          date: data["startDate"],
+//                          department: data["department"],
+//                          cstatus: cstatus,
+//                        );
+//                      },
+//                    );
+//                  }
+//                },
+//              );
+//            }
+//          ).toList(),
+//        ),
+//      ),
+      body: SingleChildScrollView(
+        child: FutureBuilder(
+          future: getAllDocuments(),
+          builder: (_,snapshot){
+            if(snapshot.connectionState == ConnectionState.waiting){
+              return Loading();
+            }
+            else{
+              return Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: documentNames.map((uid){
+                    return StreamBuilder(
+                      stream: Firestore.instance.collection("binder").document(uid)
+                          .collection("complaint").snapshots(),
+                      builder: (_,snapshot){
+                        if(!snapshot.hasData){
+                          return Container();
                         }
-                        else if (data['status']=='ongoing'){
-                          cstatus=complaintStatusOngoing;
+                        else{
+                          return ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: snapshot.data.documents.length,
+                            itemBuilder: (_,index){
+                              return CustomComplaintCard(
+                                  userDetails: widget.userDetails,
+                                  complaint: Complaint(
+                                    complaintId: uid,
+                                    assignedDate: snapshot.data.documents[index]['assignedDate'],
+                                    assignedTime: snapshot.data.documents[index]['assignedTime'],
+                                    assignedTo:[ snapshot.data.documents[index]['assignedTo']],
+                                    department: snapshot.data.documents[index]['department'],
+                                    endDate: snapshot.data.documents[index]['endDate'],
+                                    endTime: snapshot.data.documents[index]['endDate'],
+                                    mobileNo: snapshot.data.documents[index]['mobileNo'],
+                                    issue: snapshot.data.documents[index]['issue'],
+                                    lineNo: snapshot.data.documents[index]['lineNo'],
+                                    machineNo: snapshot.data.documents[index]['machineNo'],
+                                    raisedBy: snapshot.data.documents[index]['raisedBy'],
+                                    startDate: snapshot.data.documents[index]['startDate'],
+                                    startTime: snapshot.data.documents[index]['startDate'],
+                                    status: snapshot.data.documents[index]['status'],
+                                    verifiedDate: snapshot.data.documents[index]['verifiedDate'],
+                                    verifiedTime: snapshot.data.documents[index]['verifiedTime'],
+                                  )
+                              );
+                            },
+                          );
                         }
-                        else if(data['status']=='notsolved'){
-                          cstatus=complaintStatusNotSolved;
-                        }
-                        else if(data['status']=='pending'){
-                          cstatus=complaintStatusPending;
-                        }
-                        else if(data['status']=='transferAME') {
-                          cstatus = complaintStatusAME;
-                        }
-                        return CustomComplaintCard(
-                          userDetails: widget.userDetails,
-                          complaintNo: data.documentID,
-                          title: data["issue"],
-                          machineno: data["machineno"],
-                          date: data["startDate"],
-                          department: data["department"],
-                          cstatus: cstatus,
-                        );
                       },
                     );
-                  }
-                },
+                  }).toList(),
+                ),
               );
             }
-          }
-        },
-      ),
-    );
-  }
-}
-
-/*
-* ==================================================================================================================================================
-* */
-
-class productionDeptComplaints extends StatefulWidget {
-  final UserDetails userDetails;
-
-  const productionDeptComplaints({Key key, this.userDetails}) : super(key: key);
-
-  @override
-  _productionDeptComplaintsState createState() => _productionDeptComplaintsState();
-}
-
-class _productionDeptComplaintsState extends State<productionDeptComplaints> {
-  final List<int> complaintNo = [1,2,3,4,5,6];
-  List<myData> allData = [];
-
-  @override
-  void initState(){
-    print(1);
-
-    fetchDepartmentComplaints();
-  }
-  void fetchDepartmentComplaints() async {
-    Color cstatus;
-
-    final QuerySnapshot usersList =
-    await Firestore.instance.collection('binder').getDocuments();
-    final List<DocumentSnapshot> docUsers = usersList.documents;
-    allData.clear();
-    for (DocumentSnapshot docUser in docUsers) {
-      String uidUser = docUser.documentID;
-      print(uidUser);
-      final QuerySnapshot userComplaints = await Firestore.instance
-          .collection('binder')
-          .document(uidUser)
-          .collection('complaint')
-          .getDocuments();
-      final List<DocumentSnapshot> docComplaints = userComplaints.documents;
-      for (DocumentSnapshot docComplaint in docComplaints) {
-        print(docComplaint.documentID + " => " + docComplaint.data['issue']);
-        if(docComplaint.data['status']=='solved'){
-          cstatus=complaintStatusSolved;
-        }
-        else if (docComplaint.data['status']=='ongoing'){
-          cstatus=complaintStatusOngoing;
-        }
-        else if(docComplaint.data['status']=='notsolved'){
-          cstatus=complaintStatusNotSolved;
-        }
-        else if(docComplaint.data['status']=='pending'){
-          cstatus=complaintStatusPending;
-        }
-        else if(docComplaint.data['status']=='transferAME'){
-          cstatus=complaintStatusAME;
-        }
-        myData d = new myData(
-            docComplaint.data['issue'],
-            docComplaint.data['machineNo'],
-            docComplaint.data['startDate'],
-            docComplaint.data['department'],
-            docComplaint.documentID,
-            cstatus);
-        allData.add(d);
-      }
-    }
-    setState(() {
-      print(allData.length);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFFE5E5E5),
-      appBar: CustomAppBar(backIcon: false, child: Text('Department Complaints',style: titleText,)),
-      body: ListView.separated(
-        padding: EdgeInsets.symmetric(horizontal: 10,vertical: 20),
-        itemCount: allData.length,
-        itemBuilder: (BuildContext context, int index) {
-          return CustomComplaintCard(
-            complaintNo: allData[index].id,
-            title: allData[index].title,
-            machineno: allData[index].machineno,
-            date: allData[index].date,
-            department: allData[index].department,
-            cstatus: allData[index].cstatus,
-            //allData[index].pno,
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) => SizedBox(
-          height: 18.0,
+          },
         ),
       ),
     );
   }
 }
+

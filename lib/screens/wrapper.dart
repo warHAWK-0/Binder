@@ -1,9 +1,7 @@
-
 import '../models/user.dart';
 import 'package:provider/provider.dart';
 import 'authenticate/sign_in.dart';
 import 'package:flutter/material.dart';
-import 'home/home.dart';
 import 'home/redirectingHome.dart';
 
 class Wrapper extends StatelessWidget {
