@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_binder/models/myData.dart';
+import 'package:final_binder/models/complaint.dart';
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/screens/home/mainFiles/myComplaints/addcomplaint.dart';
 import 'package:final_binder/shared/CustomAppBar.dart';
@@ -21,7 +21,6 @@ class myComplaints extends StatefulWidget {
 
 // ignore: camel_case_types
 class _myComplaintsState extends State<myComplaints> {
-  List<myData> allData = [];
 
   @override
   void initState() {
@@ -105,7 +104,7 @@ class _myComplaintsState extends State<myComplaints> {
                     stream: Firestore.instance
                         .collection('binder')
                         .document(widget.userDetails.uid)
-                        .collection('complaint')
+                        . collection( widget.userDetails.department == "production" ? "complaint" : "complaint_assigned")
                         .snapshots(),
                     builder: (context, snapshot) {
                       return !snapshot.hasData
@@ -133,26 +132,28 @@ class _myComplaintsState extends State<myComplaints> {
                               itemBuilder: (_, index) {
                                 DocumentSnapshot data =
                                     snapshot.data.documents[index];
-                                Color cstatus;
-                                if (data['status'] == 'solved') {
-                                  cstatus = complaintStatusSolved;
-                                } else if (data['status'] == 'ongoing') {
-                                  cstatus = complaintStatusOngoing;
-                                } else if (data['status'] == 'notsolved') {
-                                  cstatus = complaintStatusNotSolved;
-                                } else if (data['status'] == 'pending') {
-                                  cstatus = complaintStatusPending;
-                                } else if (data['status'] == 'transferAME') {
-                                  cstatus = complaintStatusAME;
-                                }
                                 return CustomComplaintCard(
                                   userDetails: widget.userDetails,
-                                  complaintNo: data.documentID,
-                                  title: data["issue"],
-                                  machineno: data["machineno"],
-                                  date: data["startDate"],
-                                  department: data["department"],
-                                  cstatus: cstatus,
+                                  complaint: Complaint(
+                                    complaintId: snapshot.data.documents[index].documentID,
+                                    assignedDate: snapshot.data.documents[index]['assignedDate'],
+                                    assignedTime: snapshot.data.documents[index]['assignedTime'],
+                                    assignedTo: snapshot.data.documents[index]['assignedTo'],
+                                    assignedBy: snapshot.data.documents[index]['assignedBy'],
+                                    mobileNo: snapshot.data.documents[index]['mobileNo'],
+                                    department: snapshot.data.documents[index]['department'],
+                                    endDate: snapshot.data.documents[index]['endDate'],
+                                    endTime: snapshot.data.documents[index]['endDate'],
+                                    issue: snapshot.data.documents[index]['issue'],
+                                    lineNo: snapshot.data.documents[index]['lineNo'],
+                                    machineNo: snapshot.data.documents[index]['machineNo'],
+                                    raisedBy: snapshot.data.documents[index]['raisedBy'],
+                                    startDate: snapshot.data.documents[index]['startDate'],
+                                    startTime: snapshot.data.documents[index]['startDate'],
+                                    status: snapshot.data.documents[index]['status'],
+                                    verifiedDate: snapshot.data.documents[index]['verifiedDate'],
+                                    verifiedTime: snapshot.data.documents[index]['verifiedTime'],
+                                  ),
                                 );
                               },
                             );

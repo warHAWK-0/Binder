@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_binder/models/complaint.dart';
 import 'package:final_binder/models/user.dart';
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/shared/CustomAppBar.dart';
@@ -615,25 +616,25 @@ class _SearchPageState extends State<addComplaint> {
                           await Firestore.instance.collection("binder")
                               .document(widget.userDetails.uid).collection(
                               "complaint")
-                              .add({
-                            'machineNo': machineNo,
-                            'department': "production",
-                            'issue': issue,
-                            'lineNo': lineNo,
-                            'startDate': DateTime.now().toString().substring(
-                                0, 10),
-                            'startTime': DateTime.now().toString().substring(
-                                11, 16),
-                            'assignedDate': '',
-                            'assignedTime': '',
-                            'endDate': '',
-                            'endTime': '',
-                            'verifiedDate': '',
-                            'verifiedTime': '',
-                            'assignedTo': '',
-                            'raisedBy': 'Someone',
-                            'status': 'notsolved'
-                          });
+                              .add(Complaint(
+                              machineNo : machineNo,
+                              department: "production",
+                              issue: issue,
+                              lineNo: lineNo,
+                              startDate: DateTime.now().toString().substring(0, 10),
+                              startTime: DateTime.now().toString().substring(11, 16),
+                              assignedDate: '',
+                              assignedTime: '',
+                              endDate: '',
+                              endTime: '',
+                              verifiedDate: '',
+                              verifiedTime: '',
+                              assignedTo: null,
+                              raisedBy: widget.userDetails.name,
+                              mobileNo : widget.userDetails.mobileNo,
+                              assignedBy: "",
+                              status: 'notsolved'
+                                ).toJson());
                           return showDialog(
                               context: context,
                               builder: (context) =>
@@ -642,8 +643,10 @@ class _SearchPageState extends State<addComplaint> {
                                     actions: <Widget>[
                                       OutlineButton(
                                         child: Text('Okay'),
-                                        onPressed: () =>
-                                            Navigator.pop(context, false),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        }
                                       ),
                                     ],
                                   ));

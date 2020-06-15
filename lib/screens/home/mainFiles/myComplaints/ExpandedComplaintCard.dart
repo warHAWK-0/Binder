@@ -1,5 +1,5 @@
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
-import 'package:final_binder/models/mydata2.dart';
+import 'package:final_binder/models/complaint.dart';
 import 'package:final_binder/models/user_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,16 +8,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../../shared/CustomAppBar.dart';
 import '../../../../shared/themes.dart';
 
-
 enum ComplaintVerificationValue { solved, unsolved }
 
 class ExpandedComplainVerify extends StatefulWidget {
-  final String complaintNo;
-  final myData2 ma;
-  final cstatus;
+  final Complaint complaint;
   final UserDetails userDetails;
 
-  const ExpandedComplainVerify({Key key, @required this.userDetails, @required this.complaintNo,@required this.ma,this.cstatus})
+  const ExpandedComplainVerify(
+      {Key key,
+      @required this.userDetails,
+      @required this.complaint,
+      })
       : super(key: key);
 
   @override
@@ -30,7 +31,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
   ComplaintVerificationValue _radioVerifyValue =
       ComplaintVerificationValue.unsolved;
   TextStyle detailsTextStyle =
-  TextStyle(fontFamily: 'Roboto', color: Colors.black, fontSize: 14);
+      TextStyle(fontFamily: 'Roboto', color: Colors.black, fontSize: 14);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
       backgroundColor: primaryblue,
       appBar: CustomAppBar(
         child: Text(
-          'Complaint No - ' + widget.complaintNo,
+          widget.complaint.issue,
           style: titleText,
         ),
         backIcon: true,
@@ -51,116 +52,105 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-
-                  //tag: 'Complaint-' + widget.complaintNo.toString(),
+                //tag: 'Complaint-' + widget.complaintNo.toString(),
                 Container(
-                    height: 365,
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.0),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: Colors.grey,
-                            offset: Offset(0.0, 2.0),
-                          )
-                        ]),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    "${widget.ma.title}",
-                                    style: TextStyle(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(0.0, 2.0),
+                        )
+                      ]),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Text("Machine Number : " + "${widget.complaint.machineNo} ",
+                                  style: TextStyle(
                                       fontFamily: 'Roboto',
                                       color: primaryblue,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Text("${widget.ma.machineno} ",
-                                        style: TextStyle(
-                                            fontFamily: 'Roboto',
-                                            color: primaryblue,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500)),
-                                  ),
-                                ],
-                              ),
-                              Spacer(),
-                              Container(
-                                  margin: EdgeInsets.only(top: 5, right: 5),
-                                  child: Icon(
-                                    Icons.brightness_1,
-                                    color: widget.cstatus,
-                                  )),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(height: 8),
-                              Text(
-                                "Personal No. :",
-                                style: detailsTextStyle,
-                              ),
-                              SizedBox(height: 8),
-                              Text("Line No. :${widget.ma.lineno}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Issue : ${widget.ma.title}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Status:${widget.ma.status}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Raised by :${widget.ma.raisedby}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Time :${widget.ma.time}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Assigned to :${widget.ma.assignedto}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Assigned by :${widget.ma.assignedby}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Description :${widget.ma.description}", style: detailsTextStyle),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Container(
-                                child: Text("Date :${widget.ma.date}",
-                                    style: TextStyle(
-                                        fontFamily: 'Roboto',
-                                        color: primaryblue,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
-                              ),
-                              Spacer(),
-                              Container(
-                                child: Text("Department :${widget.ma.department}",
-                                    style: TextStyle(
-                                        fontFamily: 'Roboto',
-                                        color: primaryblue,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500)),
+                            ),
+                            Spacer(),
+                            Container(
+                                margin: EdgeInsets.only(top: 5, right: 5),
+                                child: Icon(
+                                  Icons.brightness_1,
+                                  color: widget.complaint.status == "solved" ? complaintStatusSolved
+                                      : widget.complaint.status == "ongoing" ? complaintStatusOngoing
+                                      : widget.complaint.status == "pending" ? complaintStatusPending
+                                      : widget.complaint.status == "notsolved" ? complaintStatusNotSolved
+                                      : widget.complaint.status == "transferAME" ? complaintStatusAME : Colors.black,
+                                )),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(height: 8),
+                            Text(
+                              "Mobile Number : ${widget.complaint.mobileNo}",
+                              style: detailsTextStyle,
+                            ),
+                            SizedBox(height: 8),
+                            Text("Line Number :${widget.complaint.lineNo}",
+                                style: detailsTextStyle),
+                            SizedBox(height: 8),
+                            Text("Raised by :${widget.complaint.raisedBy}",
+                                style: detailsTextStyle),
+                            SizedBox(height: 8),
+                            Text("Time :${widget.complaint.startDate}",
+                                style: detailsTextStyle),
+                            SizedBox(height: 8),
+                            Text("Assigned to :${widget.complaint.assignedTo}",
+                                style: detailsTextStyle),
+                            SizedBox(height: 8),
+                            Text("Assigned by :${widget.complaint.assignedBy}",
+                                style: detailsTextStyle),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              child: Text("Date :${widget.complaint.startDate}",
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      color: primaryblue,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500)),
+                            ),
+                            Spacer(),
+                            Container(
+                              child: Text("Department :${widget.complaint.department}",
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      color: primaryblue,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500)),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                      ],
                     ),
                   ),
-
+                ),
                 SizedBox(
                   height: 15,
                 ),
@@ -238,15 +228,19 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                             color: Color(0xFF1467B3),
                             onPressed: () {
                               print('');
-                              if (_radioVerifyValue==ComplaintVerificationValue.solved) {
+                              if (_radioVerifyValue ==
+                                  ComplaintVerificationValue.solved) {
                                 try {
-                                  dbt=DateTime.now().toString();
+                                  dbt = DateTime.now().toString();
                                   databaseReference
                                       .collection('binder')
                                       .document(widget.userDetails.uid)
                                       .collection('complaint')
-                                      .document(widget.complaintNo)
-                                      .updateData({'endDate': dbt.substring(0,10),'endTime':dbt.substring(11,16)});
+                                      .document(widget.complaint.complaintId)
+                                      .updateData({
+                                    'endDate': dbt.substring(0, 10),
+                                    'endTime': dbt.substring(11, 16)
+                                  });
                                 } catch (e) {
                                   print(e.toString());
                                 }
@@ -277,13 +271,13 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
 enum ComplaintStatusValue { solved, ongoing, pending, transferAME }
 
 class ExpandedComplainStatus extends StatefulWidget {
-  final String complaintNo;
-  final myData2 ma;
-  final cstatus;
+  final Complaint complaint;
   final UserDetails userDetails;
 
-
-  const ExpandedComplainStatus({Key key, @required this.userDetails, @required this.complaintNo,@required this.ma,this.cstatus})
+  const ExpandedComplainStatus(
+      {Key key,
+      @required this.userDetails,
+      @required this.complaint})
       : super(key: key);
 
   @override
@@ -294,7 +288,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
   final databaseReference = Firestore.instance;
   ComplaintStatusValue _radioStatusValue = ComplaintStatusValue.pending;
   TextStyle detailsTextStyle =
-  TextStyle(fontFamily: 'Roboto', color: Colors.black, fontSize: 14);
+      TextStyle(fontFamily: 'Roboto', color: Colors.black, fontSize: 15);
   String dbt;
   @override
   Widget build(BuildContext context) {
@@ -302,7 +296,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
       backgroundColor: primaryblue,
       appBar: CustomAppBar(
         child: Text(
-          'Complaint No - ' + widget.complaintNo.toString(),
+          widget.complaint.issue,
           style: titleText,
         ),
         backIcon: true,
@@ -315,116 +309,108 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-
-                  //tag: 'Complaint-' + widget.complaintNo.toString(),
-                  Container(
-                    height: 365,
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.0),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: Colors.grey,
-                            offset: Offset(0.0, 2.0),
-                          )
-                        ]),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    "${widget.ma.title}",
-                                    style: TextStyle(
+                //tag: 'Complaint-' + widget.complaintNo.toString(),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(0.0, 2.0),
+                        )
+                      ]),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Text("Machine Number : " + "${widget.complaint.machineNo} ",
+                                  style: TextStyle(
                                       fontFamily: 'Roboto',
                                       color: primaryblue,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Text("${widget.ma.machineno} ",
-                                        style: TextStyle(
-                                            fontFamily: 'Roboto',
-                                            color: primaryblue,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500)),
-                                  ),
-                                ],
-                              ),
-                              Spacer(),
-                              Container(
-                                  margin: EdgeInsets.only(top: 5, right: 5),
-                                  child: Icon(
-                                    Icons.brightness_1,
-                                    color:widget.cstatus ,
-                                  )),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(height: 8),
-                              Text(
-                                "Personal No. :",
-                                style: detailsTextStyle,
-                              ),
-                              SizedBox(height: 8),
-                              Text("Line No. : ${widget.ma.lineno}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Issue :", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Status: ${widget.ma.status}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Raised by :${widget.ma.raisedby}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Time :${widget.ma.time}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Assigned to : ${widget.ma.assignedto}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Assigned by :${widget.ma.assignedby}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Description :${widget.ma.description}", style: detailsTextStyle),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Container(
-                                child: Text("Date :${widget.ma.date}",
-                                    style: TextStyle(
-                                        fontFamily: 'Roboto',
-                                        color: primaryblue,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
-                              ),
-                              Spacer(),
-                              Container(
-                                child: Text("Department :${widget.ma.department}",
-                                    style: TextStyle(
-                                        fontFamily: 'Roboto',
-                                        color: primaryblue,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500)),
+                            ),
+                            Spacer(),
+                            Container(
+                                margin: EdgeInsets.only(top: 5, right: 5),
+                                child: Icon(
+                                  Icons.brightness_1,
+                                  color: widget.complaint.status == "solved" ? complaintStatusSolved
+                                      : widget.complaint.status == "ongoing" ? complaintStatusOngoing
+                                      : widget.complaint.status == "pending" ? complaintStatusPending
+                                      : widget.complaint.status == "notsolved" ? complaintStatusNotSolved
+                                      : widget.complaint.status == "transferAME" ? complaintStatusAME : Colors.black,
+                                )),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(height: 8),
+                            Text(
+                              "Personal No. :",
+                              style: detailsTextStyle,
+                            ),
+                            SizedBox(height: 8),
+                            Text("Line No. :${widget.complaint.lineNo}",
+                                style: detailsTextStyle),
+                            SizedBox(height: 8),
+                            Text("Status:${widget.complaint.status}",
+                                style: detailsTextStyle),
+                            SizedBox(height: 8),
+                            Text("Raised by :${widget.complaint.raisedBy}",
+                                style: detailsTextStyle),
+                            SizedBox(height: 8),
+                            Text("Time :${widget.complaint.startDate}",
+                                style: detailsTextStyle),
+                            SizedBox(height: 8),
+                            Text("Assigned to :${widget.complaint.assignedTo}",
+                                style: detailsTextStyle),
+                            SizedBox(height: 8),
+                            Text("Assigned by :${widget.complaint.assignedBy}",
+                                style: detailsTextStyle),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              child: Text("Date :${widget.complaint.startDate}",
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      color: primaryblue,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500)),
+                            ),
+                            Spacer(),
+                            Container(
+                              child: Text("Department :${widget.complaint.department}",
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      color: primaryblue,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500)),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                      ],
                     ),
                   ),
-
+                ),
                 SizedBox(
                   height: 15,
                 ),
@@ -448,7 +434,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                             style: TextStyle(
                                 fontFamily: 'Roboto',
                                 color: primaryblue,
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w500)),
                       ),
                       Row(
@@ -465,7 +451,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                           new Text(
                             'Solved',
                             style: new TextStyle(
-                                fontFamily: 'Roboto', fontSize: 16.0),
+                                fontFamily: 'Roboto', fontSize: 14.0),
                           ),
                           new Radio(
                             value: ComplaintStatusValue.ongoing,
@@ -480,13 +466,10 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                             'Ongoing',
                             style: new TextStyle(
                               fontFamily: 'Roboto',
-                              fontSize: 16.0,
+                              fontSize: 14.0,
                             ),
                           ),
                         ],
-                      ),
-                      SizedBox(
-                        height: 5,
                       ),
                       Row(
                         children: <Widget>[
@@ -502,7 +485,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                           new Text(
                             'Pending',
                             style: new TextStyle(
-                                fontFamily: 'Roboto', fontSize: 16.0),
+                                fontFamily: 'Roboto', fontSize: 14.0),
                           ),
                           new Radio(
                             value: ComplaintStatusValue.transferAME,
@@ -517,7 +500,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                             'Transfer to AME',
                             style: new TextStyle(
                               fontFamily: 'Roboto',
-                              fontSize: 16.0,
+                              fontSize: 14.0,
                             ),
                           ),
                         ],
@@ -540,55 +523,71 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                             onPressed: () {
                               print('');
                               // ignore: unrelated_type_equality_checks
-                              if (_radioStatusValue == ComplaintStatusValue.solved) {
+                              if (_radioStatusValue ==
+                                  ComplaintStatusValue.solved) {
                                 try {
-                                  dbt=DateTime.now().toString();
+                                  dbt = DateTime.now().toString();
                                   databaseReference
                                       .collection('binder')
                                       .document(widget.userDetails.uid)
                                       .collection('complaint')
-                                      .document(widget.complaintNo)
-                                      .updateData({'verifiedDate': dbt.substring(0,10),'verifiedTime':dbt.substring(11,16),'status': "solved"});
+                                      .document(widget.complaint.complaintId)
+                                      .updateData({
+                                    'verifiedDate': dbt.substring(0, 10),
+                                    'verifiedTime': dbt.substring(11, 16),
+                                    'status': "solved"
+                                  });
                                 } catch (e) {
                                   print(e.toString());
                                 }
-                              }
-                              else if (_radioStatusValue == ComplaintStatusValue.pending) {
+                              } else if (_radioStatusValue ==
+                                  ComplaintStatusValue.pending) {
                                 try {
-                                  dbt=DateTime.now().toString();
+                                  dbt = DateTime.now().toString();
                                   databaseReference
                                       .collection('binder')
                                       .document(widget.userDetails.uid)
                                       .collection('complaint')
-                                      .document(widget.complaintNo)
-                                      .updateData({'verifiedDate': dbt.substring(0,10),'verifiedTime':dbt.substring(11,16),'status': "pending"});
+                                      .document(widget.complaint.complaintId)
+                                      .updateData({
+                                    'verifiedDate': dbt.substring(0, 10),
+                                    'verifiedTime': dbt.substring(11, 16),
+                                    'status': "pending"
+                                  });
                                 } catch (e) {
                                   print(e.toString());
                                 }
-                              }
-                              else if (_radioStatusValue==ComplaintStatusValue.transferAME) {
+                              } else if (_radioStatusValue ==
+                                  ComplaintStatusValue.transferAME) {
                                 try {
-                                  dbt=DateTime.now().toString();
+                                  dbt = DateTime.now().toString();
                                   databaseReference
                                       .collection('binder')
                                       .document(widget.userDetails.uid)
                                       .collection('complaint')
-                                      .document(widget.complaintNo)
-                                      .updateData({'verifiedDate': dbt.substring(0,10),'verifiedTime':dbt.substring(11,16),'status': "transferAME"});
-
+                                      .document(widget.complaint.complaintId)
+                                      .updateData({
+                                    'verifiedDate': dbt.substring(0, 10),
+                                    'verifiedTime': dbt.substring(11, 16),
+                                    'status': "transferAME"
+                                  });
                                 } catch (e) {
                                   print(e.toString());
                                 }
-                              }
-                              else if (_radioStatusValue==ComplaintStatusValue.ongoing) {
+                              } else if (_radioStatusValue ==
+                                  ComplaintStatusValue.ongoing) {
                                 try {
-                                  dbt=DateTime.now().toString();
+                                  dbt = DateTime.now().toString();
                                   databaseReference
                                       .collection('binder')
                                       .document(widget.userDetails.uid)
                                       .collection('complaint')
-                                      .document(widget.complaintNo)
-                                      .updateData({'verifiedDate': dbt.substring(0,10),'verifiedTime':dbt.substring(11,16),'status': "ongoing"});
+                                      .document(widget.complaint.complaintId)
+                                      .updateData({
+                                    'verifiedDate': dbt.substring(0, 10),
+                                    'verifiedTime': dbt.substring(11, 16),
+                                    'status': "ongoing"
+                                  });
                                 } catch (e) {
                                   print(e.toString());
                                 }
@@ -617,22 +616,24 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
 * */
 
 class ExpandedComplaintAssign extends StatefulWidget {
-  final String complaintNo;
-  final myData2 ma;
-  final cstatus;
+  final Complaint complaint;
   final UserDetails userDetails;
 
-
-  const ExpandedComplaintAssign({Key key,@required this.userDetails, @required this.complaintNo,@required this.ma,this.cstatus})
+  const ExpandedComplaintAssign(
+      {Key key,
+      @required this.userDetails,
+      @required this.complaint
+      })
       : super(key: key);
 
   @override
-  _ExpandedComplaintAssignState createState() => _ExpandedComplaintAssignState();
+  _ExpandedComplaintAssignState createState() =>
+      _ExpandedComplaintAssignState();
 }
 
 class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
   TextStyle detailsTextStyle =
-  TextStyle(fontFamily: 'Roboto', color: Colors.black, fontSize: 14);
+      TextStyle(fontFamily: 'Roboto', color: Colors.black, fontSize: 15);
   GlobalKey<AutoCompleteTextFieldState<String>> key = new GlobalKey();
   String currentName = "";
   List<String> assignedTo = [];
@@ -653,58 +654,15 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
     "Malusare Atmaram Krishna",
     "Lanke Kiran S.",
     "Kotasthane Kedar k.",
-    "Mathkar Mahesh M."
+    "Mathkar Mahesh M.",
+    "mainop"
   ];
   //Color cstatus;
   AutoCompleteTextField searchTextField;
   bool loading = true;
   List<String> assign = [];
   final myController = TextEditingController();
- // void initState(){
-    //fetchComplaints();
-//    if(widget.ma.status=='solved'){
-//      cstatus=complaintStatusSolved;
-//    }
-//    else if (widget.ma.status=='ongoing'){
-//      cstatus=complaintStatusOngoing;
-//    }
-//    else if(widget.ma.status=='notsolved'){
-//      cstatus=complaintStatusNotSolved;
-//    }
-//    else if(widget.ma.status=='pending'){
-//      cstatus=complaintStatusPending;
-//    }
-//    else if(widget.ma.status=='transferAME'){
-//      cstatus=complaintStatusAME;
-//    }
-//  }
-//  myData2 d;
-//  void fetchComplaints() async{
-//    final QuerySnapshot result =
-//    await Firestore.instance.collection('binder').document(widget.userDetails.uid).collection('complaint').getDocuments();
-//    final List<DocumentSnapshot> documents = result.documents;
-//    for (DocumentSnapshot document in documents) {
-//      print(document.documentID + " => " + document.data['issue']);
-//      if (document.documentID==widget.complaintNo){
-//        d = new myData2(
-//            document.data['issue'],
-//            document.data['machineNo'],
-//            document.data['lineNo'],
-//            document.data['status'],
-//            document.data['raisedby'],
-//            document.data['startTime'],
-//            document.data['assignedTo'],
-//            document.data['assignedBy'],
-//            document.data['description'],
-//            document.data['date'],
-//            document.data['department']
-//        );
-//        print(d.title);
-//
-//      }
-//
-//    }
-//  }
+
   String dbt;
   @override
   Widget build(BuildContext context) {
@@ -712,7 +670,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
       backgroundColor: primaryblue,
       appBar: CustomAppBar(
         child: Text(
-          'Complaint No - ' + widget.complaintNo,
+          widget.complaint.issue,
           style: titleText,
         ),
         backIcon: true,
@@ -725,115 +683,108 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                  //tag: 'Complaint-' + widget.complaintNo,
-                  Container(
-                    height: 365,
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.0),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: Colors.grey,
-                            offset: Offset(0.0, 2.0),
-                          )
-                        ]),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    "${widget.ma.title}",
-                                    style: TextStyle(
+                //tag: 'Complaint-' + widget.complaintNo,
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(0.0, 2.0),
+                        )
+                      ]),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Text("Machine Number : " + "${widget.complaint.machineNo} ",
+                                  style: TextStyle(
                                       fontFamily: 'Roboto',
                                       color: primaryblue,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Text("Machine Number: ${widget.ma.machineno} ",
-                                        style: TextStyle(
-                                            fontFamily: 'Roboto',
-                                            color: primaryblue,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500)),
-                                  ),
-                                ],
-                              ),
-                              Spacer(),
-                              Container(
-                                  margin: EdgeInsets.only(top: 5, right: 5),
-                                  child: Icon(
-                                    Icons.brightness_1,
-                                    color: widget.cstatus,
-                                  )),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(height: 8),
-                              Text(
-                                "Personal No. :",
-                                style: detailsTextStyle,
-                              ),
-                              SizedBox(height: 8),
-                              Text("Line No.:  ${widget.ma.lineno}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Issue:  ${widget.ma.title}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Status:  ${widget.ma.status}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Raised by:  ${widget.ma.raisedby}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Time:  ${widget.ma.time}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Assigned to:  ${widget.ma.assignedto}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Assigned by:  ${widget.ma.assignedby}", style: detailsTextStyle),
-                              SizedBox(height: 8),
-                              Text("Description:  ${widget.ma.description}", style: detailsTextStyle),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Container(
-                                child: Text("Date: ${widget.ma.date}",
-                                    style: TextStyle(
-                                        fontFamily: 'Roboto',
-                                        color: primaryblue,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
-                              ),
-                              Spacer(),
-                              Container(
-                                child: Text("Department: ${widget.ma.department}",
-                                    style: TextStyle(
-                                        fontFamily: 'Roboto',
-                                        color: primaryblue,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500)),
+                            ),
+                            Spacer(),
+                            Container(
+                                margin: EdgeInsets.only(top: 5, right: 5),
+                                child: Icon(
+                                  Icons.brightness_1,
+                                  color: widget.complaint.status == "solved" ? complaintStatusSolved
+                                      : widget.complaint.status == "ongoing" ? complaintStatusOngoing
+                                      : widget.complaint.status == "pending" ? complaintStatusPending
+                                      : widget.complaint.status == "notsolved" ? complaintStatusNotSolved
+                                      : widget.complaint.status == "transferAME" ? complaintStatusAME : Colors.black,
+                                )),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(height: 8),
+                            Text(
+                              "Personal No. :",
+                              style: detailsTextStyle,
+                            ),
+                            SizedBox(height: 8),
+                            Text("Line No. :${widget.complaint.lineNo}",
+                                style: detailsTextStyle),
+                            SizedBox(height: 8),
+                            Text("Status:${widget.complaint.status}",
+                                style: detailsTextStyle),
+                            SizedBox(height: 8),
+                            Text("Raised by :${widget.complaint.raisedBy}",
+                                style: detailsTextStyle),
+                            SizedBox(height: 8),
+                            Text("Time :${widget.complaint.startDate}",
+                                style: detailsTextStyle),
+                            SizedBox(height: 8),
+                            Text("Assigned to :${widget.complaint.assignedTo}",
+                                style: detailsTextStyle),
+                            SizedBox(height: 8),
+                            Text("Assigned by :${widget.complaint.assignedBy}",
+                                style: detailsTextStyle),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              child: Text("Date :${widget.complaint.startDate}",
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      color: primaryblue,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500)),
+                            ),
+                            Spacer(),
+                            Container(
+                              child: Text("Department :${widget.complaint.department}",
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      color: primaryblue,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500)),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                      ],
                     ),
                   ),
-
+                ),
                 SizedBox(
                   height: 15,
                 ),
@@ -856,7 +807,6 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                       SizedBox(
                         height: 20,
                       ),
-
                       Container(
                         height: 50,
                         padding: EdgeInsets.only(left: 20, right: 20),
@@ -865,13 +815,13 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                           clearOnSubmit: false,
                           suggestions: suggestions,
                           style:
-                          TextStyle(color: Color(0xFF1467B3), fontSize: 14),
+                              TextStyle(color: Color(0xFF1467B3), fontSize: 14),
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderSide:
-                                  BorderSide(color: Color(0xFF1467B3))),
+                                      BorderSide(color: Color(0xFF1467B3))),
                               contentPadding:
-                              EdgeInsets.fromLTRB(10, 10, 10, 20),
+                                  EdgeInsets.fromLTRB(10, 10, 10, 20),
                               hintText: "Search",
                               hintStyle: TextStyle(
                                   color: Color(0xFF1467B3), fontSize: 18)),
@@ -915,27 +865,25 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                           spacing: 6.0,
                           //runSpacing: 6.0,
                           children:
-                          List<Widget>.generate(assign.length, (int index) {
+                              List<Widget>.generate(assign.length, (int index) {
                             return InputChip(
                               avatar: CircleAvatar(
                                 backgroundColor: Color(0xFF1467B3),
                                 child: Text(assign[index][0]),
                               ),
                               deleteIcon: Icon(Icons.cancel),
-                              onDeleted: (){
+                              onDeleted: () {
                                 setState(() {
                                   assign.removeAt(index);
                                 });
                               },
                               deleteIconColor: Colors.grey,
                               label: Text(assign[index]),
-                              onPressed: () {
-                              },
+                              onPressed: () {},
                             );
                           }),
                         ),
                       ),
-
                       SizedBox(
                         height: 10,
                       ),
@@ -952,19 +900,73 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                               textAlign: TextAlign.center,
                             ),
                             color: Color(0xFF1467B3),
-                            onPressed: () {
+                            onPressed: () async {
                               assign.add(myController.text);
                               print(assign);
                               myController.clear();
-                              setState(() { });
+                              setState(() {});
                               try {
-                                dbt=DateTime.now().toString();
+                                print("*********************");
+                                dbt = DateTime.now().toString();
+                                //assigning to all mainops
+                                for (var i = 0; i < assign.length; i++) {
+                                  print(i);
+                                  final QuerySnapshot result = await Firestore
+                                      .instance
+                                      .collection('binder')
+                                      .getDocuments();
+                                  final List<DocumentSnapshot> users =
+                                      result.documents;
+                                  for (DocumentSnapshot user in users) {
+                                    print(user.documentID + " = ");
+                                    final QuerySnapshot result2 =
+                                        await Firestore.instance
+                                            .collection('binder')
+                                            .document(user.documentID)
+                                            .collection('user_details')
+                                            .getDocuments();
+                                    final List<DocumentSnapshot> details =
+                                        result2.documents;
+                                    print(details[0].data["name"]);
+                                    if (details[0].data["name"] == assign[i]) {
+                                      await Firestore.instance
+                                          .collection("binder")
+                                          .document(user.documentID)
+                                          .collection("complaint_assigned")
+                                          .add({
+                                        'machineNo': widget.complaint.machineNo,
+                                        'department': "production",
+                                        'issue': widget.complaint.issue,
+                                        'lineNo': widget.complaint.lineNo,
+                                        'startDate': widget.complaint.startDate,
+                                        'startTime': widget.complaint.startTime,
+                                        'assignedBy': widget.userDetails.name,
+                                        'assignedDate': dbt.substring(0, 10),
+                                        'assignedTime': dbt.substring(11, 16),
+                                        'endDate': '',
+                                        'endTime': '',
+                                        'verifiedDate': '',
+                                        'verifiedTime': '',
+                                        'assignedTo': assign,
+                                        'raisedBy': widget.complaint.raisedBy,
+                                        'status': 'notsolved'
+                                      });
+                                    }
+//
+                                  }
+                                }
+
                                 databaseReference
                                     .collection('binder')
                                     .document(widget.userDetails.uid)
                                     .collection('complaint')
-                                    .document(widget.complaintNo)
-                                    .updateData({'assignedDate': dbt.substring(0,10),'assignedTime':dbt.substring(11,16),'assignedTo': assign});
+                                    .document(widget.complaint.complaintId)
+                                    .updateData({
+                                  'assignedDate': dbt.substring(0, 10),
+                                  'assignedTime': dbt.substring(11, 16),
+                                  'assignedTo': assign,
+                                  'assignedBy' : widget.userDetails.name,
+                                });
                               } catch (e) {
                                 print(e.toString());
                               }
