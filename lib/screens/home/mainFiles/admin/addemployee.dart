@@ -125,7 +125,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                           ),
                     ),
                     validator: (value) {
-                      Pattern p = r'^[a-zA-Z ]*$';
+                      Pattern p = r'^[a-z A-Z ]*$';
                       RegExp regex = new RegExp(p);
                       if (value.isEmpty)
                         return 'Enter Name';
@@ -382,10 +382,14 @@ class _AddEmployeeState extends State<AddEmployee> {
                     height: 80,
                     width: double.infinity,
                     child: TextFormField(
-                      validator: (val) =>
-                      val.isEmpty
-                          ? 'Enter an Email Id'
-                          : null,
+                      validator: (value) {
+                        Pattern p = '[0-9]{10}^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)';
+                        RegExp regex = new RegExp(p);
+                        if (!regex.hasMatch(value)) {
+                          return 'Not a valid email';
+                        } else
+                          return null;
+                      },
                       onChanged: (val) {
                         setState(() => email = val);
                       },
@@ -405,7 +409,9 @@ class _AddEmployeeState extends State<AddEmployee> {
                                 color:
                                 Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
                         ),
+
                       ),
+
                     ),
                   ),
                   SizedBox(
