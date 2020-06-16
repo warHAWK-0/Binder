@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/services/auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -60,16 +59,13 @@ class _ProfileMainState extends State<ProfileMain> {
 
   @override
   Widget build(BuildContext context) {
-    final Function wp = Screen(MediaQuery.of(context).size).wp;
-    final Function hp = Screen(MediaQuery.of(context).size).hp;
-
 
     return WillPopScope(
       onWillPop: _onBackPressed,
         child: Scaffold(
           appBar: CustomAppBar(backIcon: false, child: Text('Profile',style: titleText,textAlign: TextAlign.center,)),
           body: SingleChildScrollView(
-            child: Container(height: hp(70),width: wp(100),
+            child: Container(
               child: Padding(
                 padding: EdgeInsets.all(30.0),
                 child: Form(
