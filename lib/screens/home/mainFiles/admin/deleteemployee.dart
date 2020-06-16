@@ -4,6 +4,7 @@ import 'package:final_binder/shared/loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import '../../../../shared/CustomAppBar.dart';
 import '../../../../shared/themes.dart';
 import 'invalidPersonalNo.dart';
@@ -271,22 +272,21 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
 
                                     await db.collection('binder').document(userID).collection('user_details').document(allData[0].id).delete();
 
-                                    return showDialog(
-                                        context: context,
-                                        builder: (context) =>
-                                            AlertDialog(
-                                              title: new Text('Employee Deleted'),
-                                              actions: <Widget>[
-                                                RaisedButton(
-                                                  color: Color(0xFF1467B3),
-                                                  textColor: Colors.white,
-                                                  child: Text('Okay'),
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                ),
-                                              ],
-                                            ));
+                                    return Alert(
+                                      context: context,
+                                      type: AlertType.success,
+                                      title: "Employee Deleted!",
+                                      buttons: [
+                                        DialogButton(
+                                            child: Text(
+                                              "Okay",
+                                              style: TextStyle(color: Colors.white, fontSize: 20),
+                                            ),
+                                            onPressed: (){ Navigator.pop(context);},
+                                          color: Color(0xFF1467B3),
+                                        ),
+                                      ],
+                                    ).show();
 
                                   },
                                   child: Text(

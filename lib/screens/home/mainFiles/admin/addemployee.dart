@@ -3,6 +3,7 @@ import 'package:final_binder/shared/CustomAppBar.dart';
 import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../../../services/auth.dart';
 class AddEmployee extends StatefulWidget {
@@ -444,22 +445,21 @@ class _AddEmployeeState extends State<AddEmployee> {
                           }
                         }
 
-                        return showDialog(
-                            context: context,
-                            builder: (context) =>
-                                AlertDialog(
-                                  title: new Text('Employee Added'),
-                                  actions: <Widget>[
-                                    RaisedButton(
-                                      color: Color(0xFF1467B3),
-                                      textColor: Colors.white,
-                                      child: Text('Okay'),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                  ],
-                                ));
+                        return Alert(
+                          context: context,
+                          type: AlertType.success,
+                          title: "Employee Added!",
+                          buttons: [
+                            DialogButton(
+                                child: Text(
+                                  "Okay",
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                ),
+                                onPressed: (){ Navigator.pop(context);},
+                              color: Color(0xFF1467B3),
+                            ),
+                          ],
+                        ).show();
                       },
                       child: Text(
                         "Add Employee",

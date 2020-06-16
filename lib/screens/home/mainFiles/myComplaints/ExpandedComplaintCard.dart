@@ -4,6 +4,7 @@ import 'package:final_binder/models/user_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../../../shared/CustomAppBar.dart';
 import '../../../../shared/themes.dart';
@@ -246,22 +247,21 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                                 }
                               }
 
-                              return showDialog(
-                                  context: context,
-                                  builder: (context) =>
-                                      AlertDialog(
-                                        title: new Text('Complaint Verified'),
-                                        actions: <Widget>[
-                                          RaisedButton(
-                                            color: Color(0xFF1467B3),
-                                            textColor: Colors.white,
-                                            child: Text('Okay'),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                        ],
-                                      ));
+                              return Alert(
+                                context: context,
+                                type: AlertType.success,
+                                title: "Complaint verified!",
+                                buttons: [
+                                  DialogButton(
+                                    child: Text(
+                                      "Okay",
+                                      style: TextStyle(color: Colors.white, fontSize: 20),
+                                    ),
+                                    onPressed: (){ Navigator.pop(context);},
+                                    color: Color(0xFF1467B3),
+                                  ),
+                                ],
+                              ).show();
 
 
 
