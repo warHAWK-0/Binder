@@ -659,9 +659,7 @@ class _SearchPageState extends State<addComplaint> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () async {
-
                         if(lineNo.isNotEmpty && machineNo.isNotEmpty && issue.isNotEmpty && issuetype.isNotEmpty) {
-                          print("hoo" + widget.userDetails.uid);
                           await Firestore.instance.collection("binder")
                               .document(widget.userDetails.uid).collection(
                               "complaint")
@@ -682,7 +680,7 @@ class _SearchPageState extends State<addComplaint> {
                               raisedBy: widget.userDetails.name,
                               mobileNo : widget.userDetails.mobileNo,
                               assignedBy: "",
-                              status: 'notsolved'
+                              status: 'raised'
                                 ).toJson());
                         }
                         return Alert(

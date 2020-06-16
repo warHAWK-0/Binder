@@ -223,7 +223,6 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                             ),
                             color: Color(0xFF1467B3),
                             onPressed: () {
-                              print('');
                               if (_radioVerifyValue ==
                                   ComplaintVerificationValue.notfinished) {
                                 try {
@@ -234,7 +233,22 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                                     .collection('complaint')
                                     .document(widget.complaint.complaintId)
                                     .updateData({
-                                    'endDate': dbt.substring(0, 10),
+                                    'status': "raised",
+                                  });
+                                } catch (e) {
+                                  print(e.toString());
+                                }
+                              }
+                              else if(_radioVerifyValue == ComplaintVerificationValue.finish){
+                                try {
+                                  dbt = DateTime.now().toString();
+                                  databaseReference
+                                      .collection('binder')
+                                      .document(widget.userDetails.uid)
+                                      .collection('complaint')
+                                      .document(widget.complaint.complaintId)
+                                      .updateData({
+                                    'endDate': dbt.substring(0, 10) ,
                                     'endTime': dbt.substring(11, 16),
                                     'status': _radioVerifyValue,
                                   });
@@ -525,7 +539,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                           //width: double.infinity,
                           child: new RaisedButton(
                             child: new Text(
-                              "Verify",
+                              "Update",
                               style: TextStyle(
                                   fontFamily: 'Roboto',
                                   color: Colors.white,
@@ -534,76 +548,20 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                             ),
                             color: Color(0xFF1467B3),
                             onPressed: () {
-                              print('');
-                              // ignore: unrelated_type_equality_checks
-                              if (_radioStatusValue ==
-                                  ComplaintStatusValue.solved) {
-                                try {
-                                  dbt = DateTime.now().toString();
-                                  databaseReference
-                                      .collection('binder')
-                                      .document(widget.userDetails.uid)
-                                      .collection('complaint')
-                                      .document(widget.complaint.complaintId)
-                                      .updateData({
-                                    'verifiedDate': dbt.substring(0, 10),
-                                    'verifiedTime': dbt.substring(11, 16),
-                                    'status': "solved"
-                                  });
-                                } catch (e) {
-                                  print(e.toString());
-                                }
-                              } else if (_radioStatusValue ==
-                                  ComplaintStatusValue.pending) {
-                                try {
-                                  dbt = DateTime.now().toString();
-                                  databaseReference
-                                      .collection('binder')
-                                      .document(widget.userDetails.uid)
-                                      .collection('complaint')
-                                      .document(widget.complaint.complaintId)
-                                      .updateData({
-                                    'verifiedDate': dbt.substring(0, 10),
-                                    'verifiedTime': dbt.substring(11, 16),
-                                    'status': "pending"
-                                  });
-                                } catch (e) {
-                                  print(e.toString());
-                                }
-                              } else if (_radioStatusValue ==
-                                  ComplaintStatusValue.transferAME) {
-                                try {
-                                  dbt = DateTime.now().toString();
-                                  databaseReference
-                                      .collection('binder')
-                                      .document(widget.userDetails.uid)
-                                      .collection('complaint')
-                                      .document(widget.complaint.complaintId)
-                                      .updateData({
-                                    'verifiedDate': dbt.substring(0, 10),
-                                    'verifiedTime': dbt.substring(11, 16),
-                                    'status': "transferAME"
-                                  });
-                                } catch (e) {
-                                  print(e.toString());
-                                }
-                              } else if (_radioStatusValue ==
-                                  ComplaintStatusValue.ongoing) {
-                                try {
-                                  dbt = DateTime.now().toString();
-                                  databaseReference
-                                      .collection('binder')
-                                      .document(widget.userDetails.uid)
-                                      .collection('complaint')
-                                      .document(widget.complaint.complaintId)
-                                      .updateData({
-                                    'verifiedDate': dbt.substring(0, 10),
-                                    'verifiedTime': dbt.substring(11, 16),
-                                    'status': "ongoing"
-                                  });
-                                } catch (e) {
-                                  print(e.toString());
-                                }
+                              try {
+                                dbt = DateTime.now().toString();
+                                databaseReference
+                                    .collection('binder')
+                                    .document(widget.userDetails.uid)
+                                    .collection('complaint')
+                                    .document(widget.complaint.complaintId)
+                                    .updateData({
+                                  'verifiedDate': dbt.substring(0, 10),
+                                  'verifiedTime': dbt.substring(11, 16),
+                                  'status': _radioStatusValue
+                                });
+                              } catch (e) {
+                                print(e.toString());
                               }
                             },
                           ),
@@ -918,11 +876,8 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                               assign.add(myController.text);
                               print(assign);
                               myController.clear();
-                              setState(() {});
                               try {
-                                print("*********************");
                                 dbt = DateTime.now().toString();
-                                //assigning to all mainops
                                 for (var i = 0; i < assign.length; i++) {
                                   print(i);
                                   final QuerySnapshot result = await Firestore
