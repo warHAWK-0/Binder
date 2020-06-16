@@ -59,10 +59,10 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8.0),
                       boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(0.0, 2.0),
-                        )
+//                        BoxShadow(
+//                          color: Colors.grey,
+//                          offset: Offset(0.0, 2.0),
+//                        )
                       ]),
                   child: SingleChildScrollView(
                     child: Column(
@@ -336,11 +336,12 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8.0),
                       boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(0.0, 2.0),
-                        )
-                      ]),
+//                        BoxShadow(
+//                          color: Colors.grey,
+//                          offset: Offset(0.0, 2.0),
+//                        )
+                      ]
+                  ),
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -710,11 +711,12 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8.0),
                       boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(0.0, 2.0),
-                        )
-                      ]),
+//                        BoxShadow(
+//                          //color: Colors.grey,
+//                          offset: Offset(0.0, 2.0),
+//                        )
+                      ]
+                  ),
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
