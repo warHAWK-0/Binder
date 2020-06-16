@@ -16,7 +16,7 @@ enum TypeOfEmp { Electrical, Mechanical, Nothing }
 class _AddEmployeeState extends State<AddEmployee> {
   final AuthService _auth = AuthService();
   final _formkey = GlobalKey<FormState>();
-  TypeOfEmp issue = TypeOfEmp.Nothing;
+  TypeOfEmp typeOfOp = TypeOfEmp.Nothing;
   String personalId = " ";
   String name = " ";
   String phoneNo = " ";
@@ -306,10 +306,10 @@ class _AddEmployeeState extends State<AddEmployee> {
                                 ),
                                 new Radio(
                                   value: TypeOfEmp.Electrical,
-                                  groupValue: issue,
+                                  groupValue: typeOfOp,
                                   onChanged: (TypeOfEmp value) {
                                     setState(() {
-                                      issue = value;
+                                      typeOfOp = value;
                                     });
                                   },
                                 ),
@@ -322,10 +322,10 @@ class _AddEmployeeState extends State<AddEmployee> {
                                 ),
                                 new Radio(
                                   value: TypeOfEmp.Mechanical,
-                                  groupValue: issue,
+                                  groupValue: typeOfOp,
                                   onChanged: (TypeOfEmp value) {
                                     setState(() {
-                                      issue = value;
+                                      typeOfOp = value;
                                     });
                                   },
                                 ),
@@ -422,9 +422,12 @@ class _AddEmployeeState extends State<AddEmployee> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () async{
+
+                        String type =typeOfOp.toString().substring(10);
                         final UserDetails userDetails = UserDetails(
                         name: name,
                         uid: '',
+                        typeofOperator: type,
                         authLevel: (designation == "Operator/Engineer" || designation == "Temporary Operator") ? "0"
                             : (designation == "Section Incharge" || designation == "Line Manager" || designation == "Supervisor") ? "1"
                             : (designation == "Admin") ? "2" : "0",

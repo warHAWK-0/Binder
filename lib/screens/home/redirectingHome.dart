@@ -30,6 +30,7 @@ class RedirectingScreen extends StatelessWidget {
             mobileNo: snapshot.data.documents[0]['mobileNo'],
             department: snapshot.data.documents[0]['department'],
             email: snapshot.data.documents[0]['email'],
+            typeofOperator: snapshot.data.documents[0]['typeOfOperator'],
             //password: snapshot.data.documents[0]['password'],
             personalId: snapshot.data.documents[0]['personalId'],
           ));
