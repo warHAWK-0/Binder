@@ -4,11 +4,12 @@ import 'package:final_binder/models/user_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../../../shared/CustomAppBar.dart';
 import '../../../../shared/themes.dart';
 
-enum ComplaintVerificationValue { solved, unsolved }
+enum ComplaintVerificationValue { finish, notfinished }
 
 class ExpandedComplainVerify extends StatefulWidget {
   final Complaint complaint;
@@ -29,7 +30,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
   final databaseReference = Firestore.instance;
   String dbt;
   ComplaintVerificationValue _radioVerifyValue =
-      ComplaintVerificationValue.unsolved;
+      ComplaintVerificationValue.notfinished;
   TextStyle detailsTextStyle =
       TextStyle(fontFamily: 'Roboto', color: Colors.black, fontSize: 14);
 
@@ -47,22 +48,17 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                //tag: 'Complaint-' + widget.complaintNo.toString(),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8.0),
                       boxShadow: <BoxShadow>[
-//                        BoxShadow(
-//                          color: Colors.grey,
-//                          offset: Offset(0.0, 2.0),
-//                        )
                       ]),
                   child: SingleChildScrollView(
                     child: Column(
@@ -154,7 +150,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                 SizedBox(
                   height: 15,
                 ),
-                Container(
+                widget.complaint.status == "solved" ? Container(
                   padding: EdgeInsets.only(top: 20),
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -180,7 +176,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                       Row(
                         children: <Widget>[
                           new Radio(
-                            value: ComplaintVerificationValue.solved,
+                            value: ComplaintVerificationValue.finish,
                             groupValue: _radioVerifyValue,
                             onChanged: (ComplaintVerificationValue value) {
                               setState(() {
@@ -189,12 +185,12 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                             },
                           ),
                           new Text(
-                            'Solved',
+                            'Finished',
                             style: new TextStyle(
                                 fontFamily: 'Roboto', fontSize: 16.0),
                           ),
                           new Radio(
-                            value: ComplaintVerificationValue.unsolved,
+                            value: ComplaintVerificationValue.notfinished,
                             groupValue: _radioVerifyValue,
                             onChanged: (ComplaintVerificationValue value) {
                               setState(() {
@@ -203,7 +199,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                             },
                           ),
                           new Text(
-                            'Not Solved',
+                            'Not Finished',
                             style: new TextStyle(
                               fontFamily: 'Roboto',
                               fontSize: 16.0,
@@ -229,42 +225,38 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                             onPressed: () {
                               print('');
                               if (_radioVerifyValue ==
-                                  ComplaintVerificationValue.solved) {
+                                  ComplaintVerificationValue.notfinished) {
                                 try {
                                   dbt = DateTime.now().toString();
                                   databaseReference
-                                      .collection('binder')
-                                      .document(widget.userDetails.uid)
-                                      .collection('complaint')
-                                      .document(widget.complaint.complaintId)
-                                      .updateData({
+                                    .collection('binder')
+                                    .document(widget.userDetails.uid)
+                                    .collection('complaint')
+                                    .document(widget.complaint.complaintId)
+                                    .updateData({
                                     'endDate': dbt.substring(0, 10),
-                                    'endTime': dbt.substring(11, 16)
+                                    'endTime': dbt.substring(11, 16),
+                                    'status': _radioVerifyValue,
                                   });
                                 } catch (e) {
                                   print(e.toString());
                                 }
                               }
-
-                              return showDialog(
-                                  context: context,
-                                  builder: (context) =>
-                                      AlertDialog(
-                                        title: new Text('Complaint Verified'),
-                                        actions: <Widget>[
-                                          RaisedButton(
-                                            color: Color(0xFF1467B3),
-                                            textColor: Colors.white,
-                                            child: Text('Okay'),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                        ],
-                                      ));
-
-
-
+                              return Alert(
+                                context: context,
+                                type: AlertType.success,
+                                title: "Complaint verified!",
+                                buttons: [
+                                  DialogButton(
+                                    child: Text(
+                                      "Okay",
+                                      style: TextStyle(color: Colors.white, fontSize: 20),
+                                    ),
+                                    onPressed: (){ Navigator.pop(context);},
+                                    color: Color(0xFF1467B3),
+                                  ),
+                                ],
+                              ).show();
                             },
                           ),
                         ),
@@ -274,7 +266,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                       )
                     ],
                   ),
-                )
+                ) : Container(),
               ],
             ),
           ),

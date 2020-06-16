@@ -695,8 +695,8 @@ class _SearchPageState extends State<addComplaint> {
                                   "Okay",
                                   style: TextStyle(color: Colors.white, fontSize: 20),
                                 ),
-                                onPressed: (){ Navigator.pop(context);}
-                              //color: Color(0xFF1467B3),
+                                onPressed: (){ Navigator.pop(context);},
+                              color: Color(0xFF1467B3),
                             ),
                           ],
                         ).show();
