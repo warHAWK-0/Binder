@@ -6,7 +6,7 @@ class UserDetails{
   mobileNo,
   personalId,
   email,
-  password,
+  //password,
   bayNo;
 
   UserDetails({
@@ -16,7 +16,7 @@ class UserDetails{
     this.bayNo,
     this.uid,
     this.department,
-    this.password,
+    //this.password,
     this.personalId,
     this.email
   });
@@ -29,7 +29,7 @@ class UserDetails{
     "mobileNo" : mobileNo,
     "personalId" : personalId,
     "email": email,
-    "password" : password,
+    //"password" : password,
     "bayNo" : bayNo,
   };
 }
