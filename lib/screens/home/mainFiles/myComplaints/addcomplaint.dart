@@ -21,6 +21,7 @@ class _SearchPageState extends State<addComplaint> {
   GlobalKey<AutoCompleteTextFieldState<String>> key = new GlobalKey();
   GlobalKey<AutoCompleteTextFieldState<String>> key1 = new GlobalKey();
   GlobalKey<AutoCompleteTextFieldState<String>> key2 = new GlobalKey();
+  String type = "";
   List<String> suggestions = [
     "Up/Down movement not working",
     "hoist movement jam",
@@ -358,14 +359,20 @@ class _SearchPageState extends State<addComplaint> {
     'F519',
     'F520',
   ];
-  List<String> type = ["Mechanical Issue", "Electrical Issue"];
+  List<String> linetype = ["4SP Krauseco Cylinder Headline","4SP Makino Cylinder Headline","2.2L Cylinder Headline","5L Cylinder Headline","3l/3.3L Cylinder Headline","Hoists and Cranes","Mancooling Fan"];
+  List<String> issuetype = ["Mechanical Issue", "Electrical Issue"];
   String lineNo="";
   String machineNo = "";
   String issue = "";
-  String issueType = "";
   AutoCompleteTextField searchTextField;
   bool loading = true;
 
+  @override
+  void initState() {
+    super.initState();
+    type = '';
+    lineNo='';
+  }
   @override
   Widget build(BuildContext context) {
     print('addComplaint');
@@ -393,15 +400,12 @@ class _SearchPageState extends State<addComplaint> {
                     height: 20,
                   ),
                   //text
-                  TextFormField(
-                    onChanged: (val){
-                      setState(() {
-                        lineNo = val;
-                      });
-                    },
+                  DropdownButtonFormField(
+                    // style: TextStyle(color: Color(0xFF1467B3)),
                     decoration: InputDecoration(
-                      hintText: "Line",
-                      hintStyle: TextStyle(color: Color(0xFF1467B3)),
+                      hintText: "Line No.",
+                      hintStyle: TextStyle(
+                          color: Color(0xFF1467B3), fontSize: 16),
                       filled: true,
                       fillColor: Color.fromRGBO(20, 103, 179, 0.05),
                       contentPadding:
@@ -415,18 +419,24 @@ class _SearchPageState extends State<addComplaint> {
                           borderSide: BorderSide(color: Color.fromRGBO(
                               223, 232, 247, 100)) //dfe8f7
                       ),
-
                     ),
-                    validator: (value) {
-                      Pattern p = r'^[a-z A-Z.]*$';
-                      RegExp regex = new RegExp(p);
-                      if (value.isEmpty)
-                        return 'Enter a line no.';
-                      else if (!regex.hasMatch(value)) {
-                        return 'Not a valid line no.';
-                      } else
-                        return null;
+                    value: lineNo.isNotEmpty ? lineNo : null,
+                    onSaved: (value) {
+                      setState(() {
+                        lineNo = value;
+                      });
                     },
+                    onChanged: (value) {
+                      setState(() {
+                        lineNo = value;
+                      });
+                    },
+                    items: linetype.map((item) {
+                      return DropdownMenuItem<String>(
+                          child: new Text(item), value: item);
+                    }).toList(),
+                    validator: (value) =>
+                    value == null ? '' : null,
                   ),
                   SizedBox(
                     height: 20,
@@ -539,18 +549,65 @@ class _SearchPageState extends State<addComplaint> {
                       },
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  //type of issue
-                  Container(
-                    height: 50,
-                    child: AutoCompleteTextField<String>(
-                      key: key1,
-                      clearOnSubmit: false,
-                      suggestions: type,
-                      //style: TextStyle(color: Colors.blue,fontSize: 14),
-                      decoration: InputDecoration(
+//                  SizedBox(
+//                    height: 20,
+//                  ),
+//                  //type of issue
+//                  Container(
+//                    height: 50,
+//                    child: AutoCompleteTextField<String>(
+//                      key: key1,
+//                      clearOnSubmit: false,
+//                      suggestions: type,
+//                      //style: TextStyle(color: Colors.blue,fontSize: 14),
+//                      decoration: InputDecoration(
+//                        hintText: "Type of Issue",
+//                        hintStyle: TextStyle(
+//                            color: Color(0xFF1467B3), fontSize: 16),
+//                        filled: true,
+//                        fillColor: Color.fromRGBO(20, 103, 179, 0.05),
+//                        contentPadding:
+//                        const EdgeInsets.only(
+//                            left: 14.0, bottom: 15.0, top: 15.0),
+//                        focusedBorder: OutlineInputBorder(
+//                          borderSide: BorderSide(
+//                              color: Color.fromRGBO(93, 153, 252, 100)),
+//                        ),
+//                        enabledBorder: OutlineInputBorder(
+//                            borderSide: BorderSide(color: Color.fromRGBO(
+//                                223, 232, 247, 100)) //dfe8f7
+//                        ),
+//                      ),
+//                      itemFilter: (item, query) {
+//                        return item.toLowerCase().startsWith(
+//                            query.toLowerCase());
+//                      },
+//                      itemSorter: (a, b) {
+//                        return a.compareTo(b);
+//                      },
+//                      itemSubmitted: (item) {
+//                        setState(() {
+//                          issueType = item.toString();
+//                          searchTextField.textField.controller.text = item;
+//                        });
+//                      },
+//                      itemBuilder: (context, item) {
+//                        return Row(
+//                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                          children: <Widget>[
+//                            Text(
+//                              item, style: TextStyle(
+//                                fontSize: 18, color: Colors.black),
+//                            ),
+//                          ],
+//                        );
+//                      },
+//                    ),
+//                  ),
+                  SizedBox(height: 20,),
+                  DropdownButtonFormField(
+                    // style: TextStyle(color: Color(0xFF1467B3)),
+                    decoration: InputDecoration(
                         hintText: "Type of Issue",
                         hintStyle: TextStyle(
                             color: Color(0xFF1467B3), fontSize: 16),
@@ -568,33 +625,24 @@ class _SearchPageState extends State<addComplaint> {
                                 223, 232, 247, 100)) //dfe8f7
                         ),
                       ),
-                      itemFilter: (item, query) {
-                        return item.toLowerCase().startsWith(
-                            query.toLowerCase());
-                      },
-                      itemSorter: (a, b) {
-                        return a.compareTo(b);
-                      },
-                      itemSubmitted: (item) {
-                        setState(() {
-                          issueType = item.toString();
-                          searchTextField.textField.controller.text = item;
-                        });
-                      },
-                      itemBuilder: (context, item) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              item, style: TextStyle(
-                                fontSize: 18, color: Colors.black),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
+                    value: type.isNotEmpty ? type : null,
+                    onSaved: (value) {
+                      setState(() {
+                        type = value;
+                      });
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        type = value;
+                      });
+                    },
+                    items: issuetype.map((item) {
+                      return DropdownMenuItem<String>(
+                          child: new Text(item), value: item);
+                    }).toList(),
+                    validator: (value) =>
+                    value == null ? '' : null,
                   ),
-
                   SizedBox(
                     height: 30,
                   ),
@@ -611,7 +659,7 @@ class _SearchPageState extends State<addComplaint> {
                       splashColor: Colors.blueAccent,
                       onPressed: () async {
 
-                        if(lineNo.isNotEmpty && machineNo.isNotEmpty && issue.isNotEmpty && issueType.isNotEmpty) {
+                        if(lineNo.isNotEmpty && machineNo.isNotEmpty && issue.isNotEmpty && issuetype.isNotEmpty) {
                           print("hoo" + widget.userDetails.uid);
                           await Firestore.instance.collection("binder")
                               .document(widget.userDetails.uid).collection(
