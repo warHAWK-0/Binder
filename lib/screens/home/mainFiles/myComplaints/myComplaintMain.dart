@@ -26,45 +26,7 @@ class _myComplaintsState extends State<myComplaints> {
   void initState() {
     //fetchComplaints();
   }
-//  void fetchComplaints() async{
-//   // Color cstatus;
-//    final QuerySnapshot result =
-//    await Firestore.instance.collection('binder').document(widget.userDetails.uid).collection('complaint').getDocuments();
-//    final List<DocumentSnapshot> documents = result.documents;
-//    allData.clear();
-//    for (DocumentSnapshot document in documents) {
-//      print(document.documentID + " => " + document.data['issue']);
-//      if(document.data['status']=='solved'){
-//        cstatus=complaintStatusSolved;
-//      }
-//      else if (document.data['status']=='ongoing'){
-//        cstatus=complaintStatusOngoing;
-//      }
-//      else if(document.data['status']=='notsolved'){
-//        cstatus=complaintStatusNotSolved;
-//      }
-//      else if(document.data['status']=='pending'){
-//        cstatus=complaintStatusPending;
-//      }
-//      else if(document.data['status']=='transferAME'){
-//        cstatus=complaintStatusAME;
-//      }
-//      myData d = new myData(
-//          document.data['issue'],
-//          document.data['machineNo'],
-//          document.data['startDate'],
-//          document.data['department'],
-//          document.documentID,
-//          cstatus
-//      );
-//      allData.add(d);
-//
-//    }
-//
-//    setState(() {
-//      print(allData.length);
-//    });
-//  }
+
   Future<bool> _onbackpressed() {
     return Alert(
       context: context,
@@ -169,7 +131,7 @@ class _myComplaintsState extends State<myComplaints> {
           ],
         ),
 
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: (widget.userDetails.department == "production") ? FloatingActionButton(
             backgroundColor: primaryblue,
             child: Icon(
               Icons.add,
@@ -183,7 +145,7 @@ class _myComplaintsState extends State<myComplaints> {
                       builder: (context) => addComplaint(
                             userDetails: widget.userDetails,
                           )));
-            }),
+            }) : null,
       ),
     );
   }
