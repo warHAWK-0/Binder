@@ -140,7 +140,7 @@ class _myComplaintsState extends State<myComplaints> {
                               itemBuilder: (_, index) {
                                 DocumentSnapshot data =
                                     snapshot.data.documents[index];
-                                return CustomComplaintCard(
+                                return snapshot.data.documents[index]['status'] == "finsished" ? CustomComplaintCard(
                                   userDetails: widget.userDetails,
                                   complaint: Complaint(
                                     complaintId: snapshot.data.documents[index].documentID,
@@ -162,7 +162,7 @@ class _myComplaintsState extends State<myComplaints> {
                                     verifiedDate: snapshot.data.documents[index]['verifiedDate'],
                                     verifiedTime: snapshot.data.documents[index]['verifiedTime'],
                                   ),
-                                );
+                                ) : Container();
                               },
                             );
                     })),
