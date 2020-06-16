@@ -21,6 +21,7 @@ class UserDetails{
     this.email
   });
 
+
   Map<String, dynamic> toJson() => {
     "name": name,
     "uid": uid,
