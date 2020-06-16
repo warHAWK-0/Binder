@@ -129,7 +129,7 @@ class _deptComplaintsState extends State<deptComplaints> {
                                     machineNo: snapshot.data.documents[index]['machineNo'],
                                     raisedBy: snapshot.data.documents[index]['raisedBy'],
                                     startDate: snapshot.data.documents[index]['startDate'],
-                                    startTime: snapshot.data.documents[index]['startDate'],
+                                    startTime: snapshot.data.documents[index]['startTime'],
                                     status: snapshot.data.documents[index]['status'],
                                     verifiedDate: snapshot.data.documents[index]['verifiedDate'],
                                     verifiedTime: snapshot.data.documents[index]['verifiedTime'],

@@ -432,12 +432,12 @@ class _AddEmployeeState extends State<AddEmployee> {
                         mobileNo: phoneNo,
                         personalId: personalId,
                         email: email,
-                        password: "123456",
+                        //password: "123456",
                         bayNo: bayNo,
                         );
                         print(email);
                         //if (_formkey.currentState.validate()) {
-                          dynamic result = await _auth.createUserWithEmailAndPassword(email, '123456',userDetails,context);
+                          dynamic result = await _auth.createUserWithEmailAndPassword(email,'123456',userDetails,context);
                           if(result == null){
                             setState(() {
                               userCreated = false;

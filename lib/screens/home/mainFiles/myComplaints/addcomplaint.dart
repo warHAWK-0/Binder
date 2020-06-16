@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
+import 'package:intl/intl.dart';
 
 class addComplaint extends StatefulWidget {
   final UserDetails userDetails;
@@ -659,8 +659,12 @@ class _SearchPageState extends State<addComplaint> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () async {
+                        var now = new DateTime.now();
+                        var formatter1 = new DateFormat('dd/MM/yyyy');
+                        String date = formatter1.format(now);
+                        //print(date);
 
-                        if(lineNo.isNotEmpty && machineNo.isNotEmpty && issue.isNotEmpty && issuetype.isNotEmpty) {
+                        if(lineNo.isNotEmpty && machineNo.isNotEmpty && issue.isNotEmpty && type.isNotEmpty) {
                           print("hoo" + widget.userDetails.uid);
                           await Firestore.instance.collection("binder")
                               .document(widget.userDetails.uid).collection(
@@ -669,9 +673,10 @@ class _SearchPageState extends State<addComplaint> {
                               machineNo : machineNo,
                               department: "production",
                               issue: issue,
+                              typeofIssue: type,
                               lineNo: lineNo,
-                              startDate: DateTime.now().toString().substring(0, 10),
-                              startTime: DateTime.now().toString().substring(11, 16),
+                              startDate: date,
+                              startTime: DateFormat.yMEd().add_jms().format(DateTime.now()).substring(15,25),
                               assignedDate: '',
                               assignedTime: '',
                               endDate: '',
