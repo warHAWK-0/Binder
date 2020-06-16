@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_binder/models/complaint.dart';
 import 'package:final_binder/models/user_data.dart';
@@ -66,24 +66,30 @@ class _myComplaintsState extends State<myComplaints> {
 //    });
 //  }
   Future<bool> _onbackpressed() {
-    return showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('Do you want to exit the App?'),
-          actions: <Widget>[
-            RaisedButton(
-              color: Color(0xFF1467B3),
-              textColor: Colors.white,
-              child: Text('Yes'),
-              onPressed: () => exit(0),
-            ),
-            OutlineButton(
-              child: Text('No'),
-              onPressed: () => Navigator.pop(context, false),
-            )
-          ],
-        ));
+    return Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "Are you Sure?",
+      desc: "Do you want to exit the App?",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Yes",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => exit(0),
+          color: Color(0xFF1467B3),
+        ),
+        DialogButton(
+          child: Text(
+            "No",
+            style: TextStyle(color:Color(0xFF1467B3), fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Colors.white,
+        )
+      ],
+    ).show();
   }
 
   @override

@@ -126,21 +126,21 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                         Row(
                           children: <Widget>[
                             Container(
-                              child: Text("Date :${widget.complaint.startDate}",
+                              child: Text("Date: ${widget.complaint.startDate}",
                                   style: TextStyle(
                                       fontFamily: 'Roboto',
                                       color: primaryblue,
                                       fontSize: 14,
-                                      fontWeight: FontWeight.w500)),
+                                      fontWeight: FontWeight.w400)),
                             ),
                             Spacer(),
                             Container(
-                              child: Text("Department :${widget.complaint.department}",
+                              child: Text("Department: ${widget.complaint.department.inCaps}",
                                   style: TextStyle(
                                       fontFamily: 'Roboto',
                                       color: primaryblue,
                                       fontSize: 14,
-                                      fontWeight: FontWeight.w500)),
+                                      fontWeight: FontWeight.w400)),
                             ),
                           ],
                         ),
@@ -905,7 +905,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                         ),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 3.5,
                       ),
                       Container(
                         child: new SizedBox(
@@ -994,6 +994,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                           ),
                         ),
                       ),
+                      SizedBox(height: 12,)
                     ],
                   ),
                 )
@@ -1004,4 +1005,9 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
       ),
     );
   }
+}
+
+extension CapExtension on String {
+  String get inCaps => '${this[0].toUpperCase()}${this.substring(1)}';
+  String get allInCaps => this.toUpperCase();
 }

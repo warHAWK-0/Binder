@@ -50,7 +50,7 @@ class _ProfileMainState extends State<ProfileMain> {
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
-        appBar: CustomAppBar(backIcon: false, child: Text('Profile',style: titleText,)),
+        appBar: CustomAppBar(backIcon: false, child: Text('Profile',style: titleText,textAlign: TextAlign.center,)),
         body: SingleChildScrollView(
           child: Container(
             child: Padding(

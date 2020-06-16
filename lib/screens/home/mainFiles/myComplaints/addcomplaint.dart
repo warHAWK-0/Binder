@@ -7,6 +7,7 @@ import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 
 class addComplaint extends StatefulWidget {
@@ -683,24 +684,22 @@ class _SearchPageState extends State<addComplaint> {
                               assignedBy: "",
                               status: 'notsolved'
                                 ).toJson());
-                          return showDialog(
-                              context: context,
-                              builder: (context) =>
-                                  AlertDialog(
-                                    title: new Text('Complaint raised!'),
-                                    actions: <Widget>[
-                                      RaisedButton(
-                                        color: Color(0xFF1467B3),
-                                        textColor: Colors.white,
-                                        child: Text('Okay'),
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                    ],
-                                  ));
                         }
+                        return Alert(
+                          context: context,
+                          type: AlertType.success,
+                          title: "Complaint Raised!",
+                          buttons: [
+                            DialogButton(
+                                child: Text(
+                                  "Okay",
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                ),
+                                onPressed: (){ Navigator.pop(context);}
+                              //color: Color(0xFF1467B3),
+                            ),
+                          ],
+                        ).show();
                       },
                       child: Text(
                         "Submit",
