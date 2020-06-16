@@ -435,31 +435,66 @@ class _AddEmployeeState extends State<AddEmployee> {
                         bayNo: bayNo,
                         );
                         print(email);
-                        if (_formkey.currentState.validate()) {
+                        //if (_formkey.currentState.validate()) {
                           dynamic result = await _auth.createUserWithEmailAndPassword(email, '123456',userDetails,context);
                           if(result == null){
-                            _buildUserNotCreatedDialog(context);
+                            setState(() {
+                              userCreated = false;
+                            });
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Cannot Create User!'),
+                                content: Container(
+                                  child: Text('Please Check your inputs.'),
+                                ),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    textColor: primaryblue,
+                                    child: const Text('Ok!'),
+                                  ),
+                                ],
+                              )
+                            );
                           }else{
+                            setState(() {
+                              userCreated = true;
+                            });
                             Navigator.pop(context);
                           }
-                        }
+                       // }
 
-                        return showDialog(
+                        return userCreated == true ? showDialog(
                             context: context,
                             builder: (context) =>
                                 AlertDialog(
-                                  title: new Text('Employee Added'),
+                                  title: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        height: 35,
+                                        width: 35,
+                                        child: Image.asset("assets/images/blue_tick.png"),
+                                      ),
+                                      Text('Employee Successfully Created!',style: TextStyle(fontSize: 12),),
+                                    ],
+                                  ),
+                                  content: Container(
+                                    child: Text('For confirmation purposes you are redirected to the new user. Please verify details.'),
+                                  ),
                                   actions: <Widget>[
-                                    RaisedButton(
-                                      color: Color(0xFF1467B3),
-                                      textColor: Colors.white,
-                                      child: Text('Okay'),
+                                    FlatButton(
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
+                                      textColor: primaryblue,
+                                      child: const Text('Ok!'),
                                     ),
                                   ],
-                                ));
+                                )
+                        ) : null;
                       },
                       child: Text(
                         "Add Employee",
