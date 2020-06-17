@@ -245,7 +245,6 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                                   print(e.toString());
                                 }
                               }
-
                               return showDialog(
                                   context: context,
                                   builder: (context) =>
@@ -262,9 +261,6 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                                           ),
                                         ],
                                       ));
-
-
-
                             },
                           ),
                         ),
