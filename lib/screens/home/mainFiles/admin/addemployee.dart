@@ -16,7 +16,7 @@ enum TypeOfEmp { Electrical, Mechanical, Nothing }
 class _AddEmployeeState extends State<AddEmployee> {
   final AuthService _auth = AuthService();
   final _formkey = GlobalKey<FormState>();
-  TypeOfEmp issue = TypeOfEmp.Nothing;
+  TypeOfEmp typeOfOp = TypeOfEmp.Nothing;
   String personalId = " ";
   String name = " ";
   String phoneNo = " ";
@@ -107,7 +107,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                           ),
                     ),
                     validator: (value) {
-                      Pattern p = r'^[a-zA-Z ]*$';
+                      Pattern p = r'^[a-z A-Z ]*$';
                       RegExp regex = new RegExp(p);
                       if (value.isEmpty)
                         return 'Enter Name';
@@ -288,10 +288,10 @@ class _AddEmployeeState extends State<AddEmployee> {
                                 ),
                                 new Radio(
                                   value: TypeOfEmp.Electrical,
-                                  groupValue: issue,
+                                  groupValue: typeOfOp,
                                   onChanged: (TypeOfEmp value) {
                                     setState(() {
-                                      issue = value;
+                                      typeOfOp = value;
                                     });
                                   },
                                 ),
@@ -304,10 +304,10 @@ class _AddEmployeeState extends State<AddEmployee> {
                                 ),
                                 new Radio(
                                   value: TypeOfEmp.Mechanical,
-                                  groupValue: issue,
+                                  groupValue: typeOfOp,
                                   onChanged: (TypeOfEmp value) {
                                     setState(() {
-                                      issue = value;
+                                      typeOfOp = value;
                                     });
                                   },
                                 ),
@@ -364,10 +364,14 @@ class _AddEmployeeState extends State<AddEmployee> {
                     height: 80,
                     width: double.infinity,
                     child: TextFormField(
-                      validator: (val) =>
-                      val.isEmpty
-                          ? 'Enter an Email Id'
-                          : null,
+                      validator: (value) {
+                        Pattern p = '[0-9]{10}^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)';
+                        RegExp regex = new RegExp(p);
+                        if (!regex.hasMatch(value)) {
+                          return 'Not a valid email';
+                        } else
+                          return null;
+                      },
                       onChanged: (val) {
                         setState(() => email = val);
                       },
@@ -387,7 +391,9 @@ class _AddEmployeeState extends State<AddEmployee> {
                                 color:
                                 Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
                         ),
+
                       ),
+
                     ),
                   ),
                   SizedBox(
@@ -404,9 +410,12 @@ class _AddEmployeeState extends State<AddEmployee> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () async{
+
+                        String type =typeOfOp.toString().substring(10);
                         final UserDetails userDetails = UserDetails(
                         name: name,
                         uid: '',
+                        typeofOperator: type,
                         authLevel: (designation == "Operator/Engineer" || designation == "Temporary Operator") ? "0"
                             : (designation == "Section Incharge" || designation == "Line Manager" || designation == "Supervisor") ? "1"
                             : (designation == "Admin") ? "2" : "0",

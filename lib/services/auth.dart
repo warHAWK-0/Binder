@@ -89,6 +89,7 @@ class AuthService{
         mobileNo: userDetails.mobileNo,
         personalId: userDetails.personalId,
         email: userDetails.email,
+        typeofOperator: userDetails.typeofOperator,
         //password: "123456",
         bayNo: userDetails.bayNo,
       ));

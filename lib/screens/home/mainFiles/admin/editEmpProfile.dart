@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_binder/models/user_Info.dart';
+import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/screens/home/mainFiles/admin/homepageadmin.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -12,7 +13,7 @@ enum TypeOfEmp { Electrical, Mechanical, Nothing }
 
 class EditEmpProfile extends StatefulWidget {
   final String userID;
-  final List<user_Info> allData;
+  final List<UserDetails> allData;
   const EditEmpProfile({
     Key key,
     @required this.userID,
@@ -25,11 +26,11 @@ class EditEmpProfile extends StatefulWidget {
 
 class _EditEmpProfileState extends State<EditEmpProfile> {
   final _formkey = GlobalKey<FormState>();
-  String id = " ";
-  String name = " ";
-  String phoneNo = " ";
+  String id = "";
+  String name = "";
+  String phoneNo = "";
   String email = " ";
-  TypeOfEmp emp = TypeOfEmp.Nothing;
+  TypeOfEmp typeOfOp = TypeOfEmp.Nothing;
   String block = "";
   String dept = "";
   String designation = "";
@@ -116,7 +117,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                   ),
                   TextFormField(
                     decoration: InputDecoration(
-                      hintText: widget.allData[0].personal_no,
+                      hintText: widget.allData[0].personalId,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
                       fillColor: Color.fromRGBO(20, 103, 179, 0.05),
@@ -225,9 +226,9 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                   DropdownButtonFormField(
                     // style: TextStyle(color: Color(0xFF1467B3)),
                     decoration: InputDecoration(
-                      hintText: (widget.allData[0].designation.toString()=="0"? "Operator":
-                      widget.allData[0].designation.toString()=="0"? "Production":
-                      widget.allData[0].designation.toString()=="0"? " Admin": "Null"),//widget.allData[0].designation,
+                      hintText: (widget.allData[0].authLevel.toString()=="0"? "Operator":
+                      widget.allData[0].authLevel.toString()=="0"? "Production":
+                      widget.allData[0].authLevel.toString()=="0"? " Admin": "Null"),//widget.allData[0].designation,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
                       fillColor: Color.fromRGBO(20, 103, 179, 0.05),
@@ -276,10 +277,10 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                           ),
                           new Radio(
                             value: TypeOfEmp.Electrical,
-                            groupValue: emp,
+                            groupValue: typeOfOp,
                             onChanged: (TypeOfEmp value) {
                               setState(() {
-                                emp = value;
+                                typeOfOp = value;
                               });
                             },
                           ),
@@ -292,10 +293,10 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                           ),
                           new Radio(
                             value: TypeOfEmp.Mechanical,
-                            groupValue: emp,
+                            groupValue: typeOfOp,
                             onChanged: (TypeOfEmp value) {
                               setState(() {
-                                emp = value;
+                                typeOfOp = value;
                               });
                             },
                           ),
@@ -308,7 +309,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                   ),
                   TextFormField(
                     decoration: InputDecoration(
-                      hintText: widget.allData[0].phone_no,
+                      hintText: widget.allData[0].mobileNo,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
                       fillColor: Color.fromRGBO(20, 103, 179, 0.05),
@@ -392,9 +393,10 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                           'blockNo': block.isEmpty? widget.allData[0].bayNo : block,
                           'department': dept.isEmpty? widget.allData[0].department : (dept.toLowerCase()),
                           //'authLevel': designation.isNotEmpty? widget.allData[0].designation : designation,
+                          'typeOfOperator': typeOfOp.toString().isEmpty? widget.allData[0].typeofOperator: typeOfOp.toString().substring(10),
                           'name': name.isEmpty? widget.allData[0].name : name,
-                          'personalId':id.isEmpty?widget.allData[0].personal_no : id,
-                          'mobileNo': phoneNo.isEmpty? widget.allData[0].phone_no : phoneNo,
+                          'personalId':id.isNotEmpty? id: widget.allData[0].personalId,
+                          'mobileNo': phoneNo.isEmpty? widget.allData[0].mobileNo: phoneNo,
                           //'email': email.isEmpty? widget.allData[0].email: email,
                         });
 
