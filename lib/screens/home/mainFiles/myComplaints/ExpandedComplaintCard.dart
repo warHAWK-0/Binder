@@ -4,6 +4,7 @@ import 'package:final_binder/models/user_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../../../shared/CustomAppBar.dart';
@@ -616,6 +617,13 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
 /*
 * =========================================================================================================
 * */
+class object{
+  final String uid;
+  final String name;
+
+  object({this.uid, this.name});
+}
+
 
 class ExpandedComplaintAssign extends StatefulWidget {
   final Complaint complaint;
@@ -638,29 +646,38 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
   List<String> assignedTo = [];
   final databaseReference = Firestore.instance;
   List<String> nameSuggestions = [
-    "Bhusnur Dattatray Prakash",
-    "Jagdale Rajan Yadav",
-    "Sargar Ramchandra Sopan",
-    "Kachare Bharat Sampati",
-    "Dixit Sharad Rajaram",
-    "Awale Vishwanth Bhairu",
-    "Gokule Suresh Devram",
-    "Kandelkar Narayan Tukaram",
-    "Kawade Chandrakant Ekanath",
-    "Shinde Ajit Dashrath",
-    "Jamdade Ravindra Anantrao",
-    "Shendkar Vijay Mhaskoo",
-    "Malusare Atmaram Krishna",
-    "Lanke Kiran S.",
-    "Kotasthane Kedar k.",
-    "Mathkar Mahesh M.",
-    "mainop"
+//    "jasdkkkksdofnnadasd""Bhusnur Dattatray Prakash",
   ];
+  List<String> newList = [];
 
   AutoCompleteTextField searchTextField;
   bool loading = true;
   List<String> assign = [];
   final myController = TextEditingController();
+
+  Future getNamesOfAllOperators(String typeOfIssue) async {
+    try{
+      QuerySnapshot querySnapshot = await Firestore.instance.collection("binder").getDocuments();
+      nameSuggestions.clear();
+      for(DocumentSnapshot documentSnapshot in querySnapshot.documents){
+        DocumentSnapshot docsnap = await Firestore.instance.collection("binder")
+            .document(documentSnapshot.documentID.toString()).collection("user_details").document(documentSnapshot.documentID.toString()).get();
+        if(docsnap.data['typeOfIssue'] == typeOfIssue){
+          nameSuggestions.add(docsnap.data['uid']+docsnap.data['name']);
+          print(docsnap.data['uid']+docsnap.data['name']);
+        }
+      }
+    }catch(e){}
+    setState(() {
+      loading = false;
+    });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    Future.delayed(Duration.zero, () => getNamesOfAllOperators(widget.complaint.typeofIssue));
+  }
 
   String dbt;
   @override
@@ -676,362 +693,358 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
         elevation: false,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                //tag: 'Complaint-' + widget.complaintNo,
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: <BoxShadow>[
-//                        BoxShadow(
-//                          //color: Colors.grey,
-//                          offset: Offset(0.0, 2.0),
-//                        )
-                      ]),
-                  child: SingleChildScrollView(
+              child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: <BoxShadow>[
+                        ]),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Text(
+                                    "Machine Number : " +
+                                        "${widget.complaint.machineNo} ",
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        color: primaryblue,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500)),
+                              ),
+                              Spacer(),
+                              Container(
+                                  margin: EdgeInsets.only(top: 5, right: 5),
+                                  child: Icon(
+                                    Icons.brightness_1,
+                                    color: widget.complaint.status == "solved"
+                                        ? complaintStatusSolved
+                                        : widget.complaint.status == "ongoing"
+                                            ? complaintStatusOngoing
+                                            : widget.complaint.status == "pending"
+                                                ? complaintStatusPending
+                                                : widget.complaint.status ==
+                                                        "notsolved"
+                                                    ? complaintStatusNotSolved
+                                                    : widget.complaint.status ==
+                                                            "transferAME"
+                                                        ? complaintStatusAME
+                                                        : Colors.black,
+                                  )),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(height: 8),
+                              Text(
+                                "Personal No. :",
+                                style: detailsTextStyle,
+                              ),
+                              SizedBox(height: 8),
+                              Text("Line No. :${widget.complaint.lineNo}",
+                                  style: detailsTextStyle),
+                              SizedBox(height: 8),
+                              Text("Status:${widget.complaint.status}",
+                                  style: detailsTextStyle),
+                              SizedBox(height: 8),
+                              Text("Raised by :${widget.complaint.raisedBy}",
+                                  style: detailsTextStyle),
+                              SizedBox(height: 8),
+                              Text("Time :${widget.complaint.startDate}",
+                                  style: detailsTextStyle),
+                              SizedBox(height: 8),
+                              Text("Assigned to :${widget.complaint.assignedTo}",
+                                  style: detailsTextStyle),
+                              SizedBox(height: 8),
+                              Text("Assigned by :${widget.complaint.assignedBy}",
+                                  style: detailsTextStyle),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Container(
+                                child: Text("Date :${widget.complaint.startDate}",
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        color: primaryblue,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500)),
+                              ),
+                              Spacer(),
+                              Container(
+                                child: Text(
+                                    "Department :${widget.complaint.department}",
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        color: primaryblue,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500)),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  loading == false ? Card(
+                    //margin: EdgeInsets.only(left: 20, right: 20, top: 10),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Text(
-                                  "Machine Number : " +
-                                      "${widget.complaint.machineNo} ",
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      color: primaryblue,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500)),
-                            ),
-                            Spacer(),
-                            Container(
-                                margin: EdgeInsets.only(top: 5, right: 5),
-                                child: Icon(
-                                  Icons.brightness_1,
-                                  color: widget.complaint.status == "solved"
-                                      ? complaintStatusSolved
-                                      : widget.complaint.status == "ongoing"
-                                          ? complaintStatusOngoing
-                                          : widget.complaint.status == "pending"
-                                              ? complaintStatusPending
-                                              : widget.complaint.status ==
-                                                      "notsolved"
-                                                  ? complaintStatusNotSolved
-                                                  : widget.complaint.status ==
-                                                          "transferAME"
-                                                      ? complaintStatusAME
-                                                      : Colors.black,
-                                )),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            SizedBox(height: 8),
-                            Text(
-                              "Personal No. :",
-                              style: detailsTextStyle,
-                            ),
-                            SizedBox(height: 8),
-                            Text("Line No. :${widget.complaint.lineNo}",
-                                style: detailsTextStyle),
-                            SizedBox(height: 8),
-                            Text("Status:${widget.complaint.status}",
-                                style: detailsTextStyle),
-                            SizedBox(height: 8),
-                            Text("Raised by :${widget.complaint.raisedBy}",
-                                style: detailsTextStyle),
-                            SizedBox(height: 8),
-                            Text("Time :${widget.complaint.startDate}",
-                                style: detailsTextStyle),
-                            SizedBox(height: 8),
-                            Text("Assigned to :${widget.complaint.assignedTo}",
-                                style: detailsTextStyle),
-                            SizedBox(height: 8),
-                            Text("Assigned by :${widget.complaint.assignedBy}",
-                                style: detailsTextStyle),
-                          ],
+                        Container(
+                          alignment: Alignment.topLeft,
+                          padding: EdgeInsets.only(top: 20, left: 20),
+                          child: Text("Assign Operator",
+                              style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  color: Color(0xFF1467B3),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500)),
                         ),
                         SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          children: <Widget>[
-                            Container(
-                              child: Text("Date :${widget.complaint.startDate}",
+                        Container(
+                          height: 50,
+                          padding: EdgeInsets.only(left: 20, right: 20),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 8,
+                                child: AutoCompleteTextField<String>(
+                                  key: key,
+                                  clearOnSubmit: false,
+                                  suggestions: nameSuggestions.map((e) => e.substring(28,e.length)).toList(),
                                   style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      color: primaryblue,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500)),
-                            ),
-                            Spacer(),
-                            Container(
-                              child: Text(
-                                  "Department :${widget.complaint.department}",
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      color: primaryblue,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500)),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Card(
-                  //margin: EdgeInsets.only(left: 20, right: 20, top: 10),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0)),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        alignment: Alignment.topLeft,
-                        padding: EdgeInsets.only(top: 20, left: 20),
-                        child: Text("Assign Operator",
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                color: Color(0xFF1467B3),
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500)),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: 50,
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              flex: 8,
-                              child: AutoCompleteTextField<String>(
-                                key: key,
-                                clearOnSubmit: false,
-                                suggestions: nameSuggestions,
-                                style: TextStyle(
-                                    color: Color(0xFF1467B3), fontSize: 14),
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                      color: Colors.white,
-                                    )),
-                                    contentPadding: EdgeInsets.all(10),
-                                    hintText: "Search here",
-                                    hintStyle: TextStyle(
-                                        color: Color(0xFF1467B3),
-                                        fontSize: 18)),
-                                itemFilter: (item, query) {
-                                  return item
-                                      .toLowerCase()
-                                      .startsWith(query.toLowerCase());
-                                },
-                                itemSorter: (a, b) {
-                                  return a.compareTo(b);
-                                },
-                                itemSubmitted: (item) {
-                                  setState(() {
-                                    searchTextField.textField.controller.text =
-                                        item;
-                                    print(item);
-                                    currentName = item;
-                                  });
-                                },
-                                itemBuilder: (context, item) {
-                                  return Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text(
-                                        item,
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.black,
-                                            fontFamily: "Roboto"),
-                                      ),
-                                    ],
-                                  );
-                                },
-                                controller: myController,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: InkWell(
-                                onTap: (){
-                                  setState(() {
-                                    assign.add(myController.text);
-                                  });
-                                  myController.clear();
-                                },
-                                child: Container(
-                                  child: Icon(Icons.add),
+                                      color: Color(0xFF1467B3), fontSize: 14),
+                                  decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                        color: Colors.white,
+                                      )),
+                                      contentPadding: EdgeInsets.all(10),
+                                      hintText: "Search here",
+                                      hintStyle: TextStyle(
+                                          color: Color(0xFF1467B3),
+                                          fontSize: 18)),
+                                  itemFilter: (item, query) {
+                                    return item
+                                        .toLowerCase()
+                                        .startsWith(query.toLowerCase());
+                                  },
+                                  itemSorter: (a, b) {
+                                    return a.compareTo(b);
+                                  },
+                                  itemSubmitted: (item) {
+                                    setState(() {
+                                      searchTextField.textField.controller.text =
+                                          item;
+                                      print(item);
+                                      currentName = item;
+                                    });
+                                  },
+                                  itemBuilder: (context, item) {
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(
+                                          item,
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.black,
+                                              fontFamily: "Roboto"),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                  controller: myController,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(left: 20),
-                        child: Wrap(
-                          spacing: 6.0,
-                          //runSpacing: 6.0,
-                          children:
-                              List<Widget>.generate(assign.length, (int index) {
-                            return InputChip(
-                              avatar: CircleAvatar(
-                                backgroundColor: Color(0xFF1467B3),
-                                child: Text(assign[index][0]),
+                              Expanded(
+                                flex: 1,
+                                child: InkWell(
+                                  onTap: (){
+                                    setState(() {
+                                      assign.add(myController.text);
+                                    });
+                                    myController.clear();
+                                  },
+                                  child: Container(
+                                    child: Icon(Icons.add),
+                                  ),
+                                ),
                               ),
-                              deleteIcon: Icon(Icons.cancel),
-                              onDeleted: () {
-                                setState(() {
-                                  assign.removeAt(index);
-                                });
-                              },
-                              deleteIconColor: Colors.grey,
-                              label: Text(assign[index]),
-                              onPressed: () {},
-                            );
-                          }),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 3.5,
-                      ),
-                      Container(
-                        child: new SizedBox(
-                          //width: double.infinity,
-                          child: new RaisedButton(
-                            child: new Text(
-                              "Assign Now",
-                              style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  color: Colors.white,
-                                  fontSize: 16),
-                              textAlign: TextAlign.center,
-                            ),
-                            color: Color(0xFF1467B3),
-                            onPressed: () async {
-                              try {
-                                dbt = DateTime.now().toString();
-                                for (var i = 0; i < assign.length; i++) {
-                                  print(i);
-                                  final QuerySnapshot result = await Firestore
-                                      .instance
-                                      .collection('binder')
-                                      .getDocuments();
-                                  final List<DocumentSnapshot> users =
-                                      result.documents;
-                                  for (DocumentSnapshot user in users) {
-                                    print(user.documentID + " = ");
-                                    final QuerySnapshot result2 =
-                                        await Firestore.instance
-                                            .collection('binder')
-                                            .document(user.documentID)
-                                            .collection('user_details')
-                                            .getDocuments();
-                                    final List<DocumentSnapshot> details =
-                                        result2.documents;
-                                    print(details[0].data["name"]);
-                                    if (details[0].data["name"] == assign[i]) {
-                                      await Firestore.instance
-                                          .collection("binder")
-                                          .document(user.documentID)
-                                          .collection("complaint_assigned")
-                                          .add({
-                                        'machineNo': widget.complaint.machineNo,
-                                        'department': "production",
-                                        'issue': widget.complaint.issue,
-                                        'lineNo': widget.complaint.lineNo,
-                                        'startDate': widget.complaint.startDate,
-                                        'startTime': widget.complaint.startTime,
-                                        'assignedBy': widget.userDetails.name,
-                                        'assignedDate': dbt.substring(0, 10),
-                                        'assignedTime': dbt.substring(11, 16),
-                                        'endDate': '',
-                                        'endTime': '',
-                                        'verifiedDate': '',
-                                        'verifiedTime': '',
-                                        'assignedTo': assign,
-                                        'raisedBy': widget.complaint.raisedBy,
-                                        'status': 'notsolved'
-                                      });
-                                      Alert(
-                                        context: context,
-                                        type: AlertType.success,
-                                        title: "Complaint Assigned!",
-                                        buttons: [
-                                          DialogButton(
-                                            child: Text(
-                                              "Okay",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                              Navigator.pop(context);
-                                            },
-                                            color: Color(0xFF1467B3),
-                                          ),
-                                        ],
-                                      ).show();
-                                    }
-//
-                                  }
-                                }
-
-                                databaseReference
-                                    .collection('binder')
-                                    .document(widget.userDetails.uid)
-                                    .collection('complaint')
-                                    .document(widget.complaint.complaintId)
-                                    .updateData({
-                                  'assignedDate': dbt.substring(0, 10),
-                                  'assignedTime': dbt.substring(11, 16),
-                                  'assignedTo': assign,
-                                  'assignedBy': widget.userDetails.name,
-                                });
-                              } catch (e) {
-                                print(e.toString());
-                              }
-                            },
+                            ],
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 12,
-                      )
-                    ],
-                  ),
-                )
-              ],
+                        SizedBox(height: 10),
+                        Container(
+                          alignment: Alignment.topLeft,
+                          margin: EdgeInsets.only(left: 20),
+                          child: Wrap(
+                            spacing: 6.0,
+                            //runSpacing: 6.0,
+                            children:
+                                List<Widget>.generate(assign.length, (int index) {
+                              return InputChip(
+                                avatar: CircleAvatar(
+                                  backgroundColor: Color(0xFF1467B3),
+                                  child: Text(assign[index][0]),
+                                ),
+                                deleteIcon: Icon(Icons.cancel),
+                                onDeleted: () {
+                                  setState(() {
+                                    assign.removeAt(index);
+                                  });
+                                },
+                                deleteIconColor: Colors.grey,
+                                label: Text(assign[index]),
+                                onPressed: () {},
+                              );
+                            }),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 3.5,
+                        ),
+                        Container(
+                          child: new SizedBox(
+                            //width: double.infinity,
+                            child: new RaisedButton(
+                              child: new Text(
+                                "Assign Now",
+                                style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    color: Colors.white,
+                                    fontSize: 16),
+                                textAlign: TextAlign.center,
+                              ),
+                              color: Color(0xFF1467B3),
+                              onPressed: () async {
+                                try {
+                                  dbt = DateTime.now().toString();
+                                  for (var i = 0; i < assign.length; i++) {
+                                    print(i);
+                                    final QuerySnapshot result = await Firestore
+                                        .instance
+                                        .collection('binder')
+                                        .getDocuments();
+                                    final List<DocumentSnapshot> users =
+                                        result.documents;
+                                    for (DocumentSnapshot user in users) {
+                                      print(user.documentID + " = ");
+                                      final QuerySnapshot result2 =
+                                          await Firestore.instance
+                                              .collection('binder')
+                                              .document(user.documentID)
+                                              .collection('user_details')
+                                              .getDocuments();
+                                      final List<DocumentSnapshot> details =
+                                          result2.documents;
+                                      print(details[0].data["name"]);
+                                      if (details[0].data["name"] == assign[i]) {
+                                        await Firestore.instance
+                                            .collection("binder")
+                                            .document(user.documentID)
+                                            .collection("complaint_assigned")
+                                            .add({
+                                          'machineNo': widget.complaint.machineNo,
+                                          'department': "production",
+                                          'issue': widget.complaint.issue,
+                                          'lineNo': widget.complaint.lineNo,
+                                          'startDate': widget.complaint.startDate,
+                                          'startTime': widget.complaint.startTime,
+                                          'assignedBy': widget.userDetails.name,
+                                          'assignedDate': dbt.substring(0, 10),
+                                          'assignedTime': dbt.substring(11, 16),
+                                          'endDate': '',
+                                          'endTime': '',
+                                          'verifiedDate': '',
+                                          'verifiedTime': '',
+                                          'assignedTo': assign,
+                                          'raisedBy': widget.complaint.raisedBy,
+                                          'status': 'notsolved'
+                                        });
+                                        Alert(
+                                          context: context,
+                                          type: AlertType.success,
+                                          title: "Complaint Assigned!",
+                                          buttons: [
+                                            DialogButton(
+                                              child: Text(
+                                                "Okay",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 20),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                                Navigator.pop(context);
+                                              },
+                                              color: Color(0xFF1467B3),
+                                            ),
+                                          ],
+                                        ).show();
+                                      }
+//
+                                    }
+                                  }
+
+                                  databaseReference
+                                      .collection('binder')
+                                      .document(widget.userDetails.uid)
+                                      .collection('complaint')
+                                      .document(widget.complaint.complaintId)
+                                      .updateData({
+                                    'assignedDate': dbt.substring(0, 10),
+                                    'assignedTime': dbt.substring(11, 16),
+                                    'assignedTo': assign,
+                                    'assignedBy': widget.userDetails.name,
+                                  });
+                                } catch (e) {
+                                  print(e.toString());
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 12,
+                        )
+                      ],
+                    ),
+                  ) : Container(),
+                ],
+              ),
             ),
           ),
-        ),
+        //),
       ),
     );
   }
