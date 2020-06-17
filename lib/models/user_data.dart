@@ -6,7 +6,7 @@ class UserDetails{
   mobileNo,
   personalId,
   email,
-  password,
+  //password,
   bayNo;
 
   UserDetails({
@@ -16,10 +16,11 @@ class UserDetails{
     this.bayNo,
     this.uid,
     this.department,
-    this.password,
+    //this.password,
     this.personalId,
     this.email
   });
+
 
   Map<String, dynamic> toJson() => {
     "name": name,
@@ -29,7 +30,7 @@ class UserDetails{
     "mobileNo" : mobileNo,
     "personalId" : personalId,
     "email": email,
-    "password" : password,
+    //"password" : password,
     "bayNo" : bayNo,
   };
 }

@@ -75,6 +75,7 @@ class _myComplaintsState extends State<myComplaints> {
                         .collection('binder')
                         .document(widget.userDetails.uid)
                         . collection( widget.userDetails.department == "production" ? "complaint" : "complaint_assigned")
+                        .orderBy('startDate', descending: false)
                         .snapshots(),
                     builder: (context, snapshot) {
                       return !snapshot.hasData
@@ -119,7 +120,7 @@ class _myComplaintsState extends State<myComplaints> {
                                     machineNo: snapshot.data.documents[index]['machineNo'],
                                     raisedBy: snapshot.data.documents[index]['raisedBy'],
                                     startDate: snapshot.data.documents[index]['startDate'],
-                                    startTime: snapshot.data.documents[index]['startDate'],
+                                    startTime: snapshot.data.documents[index]['startTime'],
                                     status: snapshot.data.documents[index]['status'],
                                     verifiedDate: snapshot.data.documents[index]['verifiedDate'],
                                     verifiedTime: snapshot.data.documents[index]['verifiedTime'],

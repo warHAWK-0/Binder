@@ -414,7 +414,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                         mobileNo: phoneNo,
                         personalId: personalId,
                         email: email,
-                        password: "123456",
+                        //password: "123456",
                         bayNo: bayNo,
                         );
                         print(email);

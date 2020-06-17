@@ -157,7 +157,7 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
                   Container(
                     margin: EdgeInsets.only(left: 12),
                     child: Text(
-                        widget.complaint.assignedDate,
+                        widget.complaint.startDate,
                         style: TextStyle(
                             fontFamily: 'Roboto',
                             color: primaryblue,
