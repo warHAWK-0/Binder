@@ -28,9 +28,7 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Builder(builder: (context){
-        return SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Container(
+          return Container(
               padding: EdgeInsets.all(20),
               height: MediaQuery
                   .of(context)
@@ -193,8 +191,7 @@ class _SignInState extends State<SignIn> {
                   ],
                 ),
               )
-          ),
-        );
+          );
       },)
     );
   }
