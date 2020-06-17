@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_binder/models/user.dart';
 import 'package:final_binder/models/user_Info.dart';
+import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/shared/loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import '../../../../shared/CustomAppBar.dart';
 import '../../../../shared/themes.dart';
 import 'invalidPersonalNo.dart';
@@ -16,7 +19,7 @@ class DeleteEmployee extends StatefulWidget {
 class _DeleteEmployeeState extends State<DeleteEmployee> {
   bool loading = false;
   String userID="";
-  List<user_Info> allData = [];
+  List<UserDetails> allData = [];
   final db= Firestore.instance;
   void fetchDepartmentComplaints() async {
     setState(() {
@@ -43,15 +46,16 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
         if (PID == docComplaint.data['personalId']) {
           print(PID); print(docComplaint.data['personalId']);
           userID= uidUser;
-          user_Info d = new user_Info(
-              docComplaint.data['name'],
-              docComplaint.data['department'],
-              docComplaint.data['designation'],
-              docComplaint.data['mobileNo'],
-              docComplaint.data['email'],
-              docComplaint.data['personalId'],
-              docComplaint.data['bayNo'],
-              docComplaint.documentID);
+          UserDetails d = new UserDetails(
+              name:docComplaint.data['name'],
+              authLevel: docComplaint.data['authLevel'],
+              uid: docComplaint.data['uid'],
+              department: docComplaint.data['department'],
+              mobileNo: docComplaint.data['mobileNo'],
+              personalId: docComplaint.data['personalId'],
+              email: docComplaint.data['email'],
+              bayNo: docComplaint.data['bayNo'],
+          );
           allData.add(d);
         }
       }
@@ -203,7 +207,7 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Personal No:      "+allData[0].personal_no,
+                                child: Text("Personal No:      "+allData[0].personalId,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -230,9 +234,9 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Designation:       "+(allData[0].designation.toString()=="0"? "Operator Level":
-                                allData[0].designation.toString()=="1"? "Supervisor Level":
-                                allData[0].designation.toString()=="2"? " Admin": "Null"),
+                                child: Text("Designation:       "+(allData[0].authLevel.toString()=="0"? "Operator Level":
+                                allData[0].authLevel.toString()=="1"? "Supervisor Level":
+                                allData[0].authLevel.toString()=="2"? " Admin": "Null"),
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -241,7 +245,7 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Phone Number: "+allData[0].phone_no,
+                                child: Text("Phone Number: "+allData[0].mobileNo,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -269,24 +273,23 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
                                   splashColor: Colors.blueAccent,
                                   onPressed: () async{
 
-                                    await db.collection('binder').document(userID).collection('user_details').document(allData[0].id).delete();
+                                    await db.collection('binder').document(userID).collection('user_details').document(allData[0].uid).delete();
 
-                                    return showDialog(
-                                        context: context,
-                                        builder: (context) =>
-                                            AlertDialog(
-                                              title: new Text('Employee Deleted'),
-                                              actions: <Widget>[
-                                                RaisedButton(
-                                                  color: Color(0xFF1467B3),
-                                                  textColor: Colors.white,
-                                                  child: Text('Okay'),
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                ),
-                                              ],
-                                            ));
+                                    return Alert(
+                                      context: context,
+                                      type: AlertType.success,
+                                      title: "Employee Deleted!",
+                                      buttons: [
+                                        DialogButton(
+                                            child: Text(
+                                              "Okay",
+                                              style: TextStyle(color: Colors.white, fontSize: 20),
+                                            ),
+                                            onPressed: (){ Navigator.pop(context);},
+                                          color: Color(0xFF1467B3),
+                                        ),
+                                      ],
+                                    ).show();
 
                                   },
                                   child: Text(

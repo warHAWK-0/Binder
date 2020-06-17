@@ -89,7 +89,7 @@ class AuthService{
         mobileNo: userDetails.mobileNo,
         personalId: userDetails.personalId,
         email: userDetails.email,
-        password: "123456",
+        //password: "123456",
         bayNo: userDetails.bayNo,
       ));
       print("Step4");
