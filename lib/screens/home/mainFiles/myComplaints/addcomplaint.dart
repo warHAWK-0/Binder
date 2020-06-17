@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_binder/models/complaint.dart';
-import 'package:final_binder/models/user.dart';
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/shared/CustomAppBar.dart';
 import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
-import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:intl/intl.dart';
+import 'dart:math';
 
 class addComplaint extends StatefulWidget {
   final UserDetails userDetails;
@@ -665,8 +664,7 @@ class _SearchPageState extends State<addComplaint> {
                         String date = formatter1.format(now);
                         if(lineNo.isNotEmpty && machineNo.isNotEmpty && issue.isNotEmpty && type.isNotEmpty) {
                           await Firestore.instance.collection("binder")
-                              .document(widget.userDetails.uid).collection(
-                              "complaint")
+                              .document(widget.userDetails.uid).collection("complaint")
                               .add(Complaint(
                               machineNo : machineNo,
                               department: "production",
@@ -681,6 +679,7 @@ class _SearchPageState extends State<addComplaint> {
                               endTime: '',
                               verifiedDate: '',
                               verifiedTime: '',
+                              raisedByUid: widget.userDetails.uid,
                               assignedTo: null,
                               raisedBy: widget.userDetails.name,
                               mobileNo : widget.userDetails.mobileNo,

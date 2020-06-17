@@ -40,6 +40,8 @@ dependencies:
   rflutter_alert: ^1.0.3
   flutter_responsive_screen: ^1.0.0
   intl: ^0.16.1
+  random_string: ^2.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

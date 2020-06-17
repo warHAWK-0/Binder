@@ -1,10 +1,10 @@
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:final_binder/models/complaint.dart';
 import 'package:final_binder/models/user_data.dart';
+import 'package:final_binder/shared/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../../../shared/CustomAppBar.dart';
@@ -617,13 +617,12 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
 /*
 * =========================================================================================================
 * */
-class object{
-  final String uid;
+class Objects{
   final String name;
+  final String uid;
 
-  object({this.uid, this.name});
+  Objects({this.name, this.uid});
 }
-
 
 class ExpandedComplaintAssign extends StatefulWidget {
   final Complaint complaint;
@@ -645,10 +644,9 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
   String currentName = "";
   List<String> assignedTo = [];
   final databaseReference = Firestore.instance;
-  List<String> nameSuggestions = [
-//    "jasdkkkksdofnnadasd""Bhusnur Dattatray Prakash",
-  ];
-  List<String> newList = [];
+  List<String> uids = [];
+  List<Map<String,String>> selectedUid = [];
+  List<String> names = [];
 
   AutoCompleteTextField searchTextField;
   bool loading = true;
@@ -658,13 +656,13 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
   Future getNamesOfAllOperators(String typeOfIssue) async {
     try{
       QuerySnapshot querySnapshot = await Firestore.instance.collection("binder").getDocuments();
-      nameSuggestions.clear();
+      names.clear();
       for(DocumentSnapshot documentSnapshot in querySnapshot.documents){
         DocumentSnapshot docsnap = await Firestore.instance.collection("binder")
             .document(documentSnapshot.documentID.toString()).collection("user_details").document(documentSnapshot.documentID.toString()).get();
         if(docsnap.data['typeOfIssue'] == typeOfIssue){
-          nameSuggestions.add(docsnap.data['uid']+docsnap.data['name']);
-          print(docsnap.data['uid']+docsnap.data['name']);
+          names.add(docsnap.data['name']);
+          uids.add(docsnap.data['uid']);
         }
       }
     }catch(e){}
@@ -839,7 +837,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                                 child: AutoCompleteTextField<String>(
                                   key: key,
                                   clearOnSubmit: false,
-                                  suggestions: nameSuggestions.map((e) => e.substring(28,e.length)).toList(),
+                                  suggestions: names,
                                   style: TextStyle(
                                       color: Color(0xFF1467B3), fontSize: 14),
                                   decoration: InputDecoration(
@@ -862,25 +860,21 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                                   },
                                   itemSubmitted: (item) {
                                     setState(() {
-                                      searchTextField.textField.controller.text =
-                                          item;
-                                      print(item);
+                                      print("Current Selected Item : "+item);
                                       currentName = item;
+                                      searchTextField.controller.text = item;
                                     });
                                   },
                                   itemBuilder: (context, item) {
-                                    return Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text(
-                                          item,
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black,
-                                              fontFamily: "Roboto"),
-                                        ),
-                                      ],
+                                    return Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        item,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.black,
+                                            fontFamily: "Roboto"),
+                                      ),
                                     );
                                   },
                                   controller: myController,
@@ -947,99 +941,155 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                               ),
                               color: Color(0xFF1467B3),
                               onPressed: () async {
-                                try {
-                                  dbt = DateTime.now().toString();
-                                  for (var i = 0; i < assign.length; i++) {
-                                    print(i);
-                                    final QuerySnapshot result = await Firestore
-                                        .instance
-                                        .collection('binder')
-                                        .getDocuments();
-                                    final List<DocumentSnapshot> users =
-                                        result.documents;
-                                    for (DocumentSnapshot user in users) {
-                                      print(user.documentID + " = ");
-                                      final QuerySnapshot result2 =
-                                          await Firestore.instance
-                                              .collection('binder')
-                                              .document(user.documentID)
-                                              .collection('user_details')
-                                              .getDocuments();
-                                      final List<DocumentSnapshot> details =
-                                          result2.documents;
-                                      print(details[0].data["name"]);
-                                      if (details[0].data["name"] == assign[i]) {
-                                        await Firestore.instance
-                                            .collection("binder")
-                                            .document(user.documentID)
-                                            .collection("complaint_assigned")
-                                            .add({
+                                print('here');
+                                for( var i in assign){
+//                                  print("current name is " + i + ":" + names.indexWhere((element) => element.contains(i)).toString());
+//                                  print(uids[names.indexWhere((element) => element.contains(i))]);
+                                  String currentUid = uids[names.indexWhere((element) => element.contains(i))].toString();
+                                  await Firestore.instance.collection("binder")
+                                      .document(currentUid)
+                                      .collection("complaint_assigned").document(widget.complaint.complaintId).setData({
                                           'machineNo': widget.complaint.machineNo,
-                                          'department': "production",
+                                          'department': widget.complaint.department,
                                           'issue': widget.complaint.issue,
                                           'lineNo': widget.complaint.lineNo,
                                           'startDate': widget.complaint.startDate,
                                           'startTime': widget.complaint.startTime,
                                           'assignedBy': widget.userDetails.name,
-                                          'assignedDate': dbt.substring(0, 10),
-                                          'assignedTime': dbt.substring(11, 16),
+                                          'assignedDate': DateTime.now().toString().substring(0, 10),
+                                          'assignedTime': DateTime.now().toString().substring(11, 16),
                                           'endDate': '',
                                           'endTime': '',
                                           'verifiedDate': '',
                                           'verifiedTime': '',
                                           'assignedTo': assign,
                                           'raisedBy': widget.complaint.raisedBy,
-                                          'status': 'notsolved'
-                                        });
-                                        Alert(
-                                          context: context,
-                                          type: AlertType.success,
-                                          title: "Complaint Assigned!",
-                                          buttons: [
-                                            DialogButton(
-                                              child: Text(
-                                                "Okay",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                                Navigator.pop(context);
-                                              },
-                                              color: Color(0xFF1467B3),
-                                            ),
-                                          ],
-                                        ).show();
-                                      }
-//
-                                    }
-                                  }
-
-                                  databaseReference
-                                      .collection('binder')
-                                      .document(widget.userDetails.uid)
-                                      .collection('complaint')
-                                      .document(widget.complaint.complaintId)
-                                      .updateData({
-                                    'assignedDate': dbt.substring(0, 10),
-                                    'assignedTime': dbt.substring(11, 16),
-                                    'assignedTo': assign,
-                                    'assignedBy': widget.userDetails.name,
+                                          'status': 'ongoing'
                                   });
-                                } catch (e) {
-                                  print(e.toString());
                                 }
+                                Firestore.instance
+                                    .collection('binder')
+                                    .document(widget.complaint.raisedByUid)
+                                    .collection('complaint')
+                                    .document(widget.complaint.complaintId)
+                                    .updateData({
+                                  'assignedDate': DateTime.now().toString().substring(0, 10),
+                                  'assignedTime': DateTime.now().toString().substring(11, 16),
+                                  'assignedTo': assign,
+                                  'assignedBy': widget.userDetails.name,
+                                });
+                                //                                try {
+//                                  dbt = DateTime.now().toString();
+//                                  for (var i = 0; i < assign.length; i++) {
+//                                    print(i);
+//                                    final QuerySnapshot result = await Firestore
+//                                        .instance
+//                                        .collection('binder')
+//                                        .getDocuments();
+//                                    final List<DocumentSnapshot> users =
+//                                        result.documents;
+//                                    for (DocumentSnapshot user in users) {
+//                                      print(user.documentID + " = ");
+//                                      final QuerySnapshot result2 =
+//                                          await Firestore.instance
+//                                              .collection('binder')
+//                                              .document(user.documentID)
+//                                              .collection('user_details')
+//                                              .getDocuments();
+//                                      final List<DocumentSnapshot> details =
+//                                          result2.documents;
+//                                      print(details[0].data["name"]);
+//                                      if (details[0].data["name"] == assign[i]) {
+//                                        await Firestore.instance
+//                                            .collection("binder")
+//                                            .document(user.documentID)
+//                                            .collection("complaint_assigned")
+//                                            .add({
+//                                          'machineNo': widget.complaint.machineNo,
+//                                          'department': "production",
+//                                          'issue': widget.complaint.issue,
+//                                          'lineNo': widget.complaint.lineNo,
+//                                          'startDate': widget.complaint.startDate,
+//                                          'startTime': widget.complaint.startTime,
+//                                          'assignedBy': widget.userDetails.name,
+//                                          'assignedDate': dbt.substring(0, 10),
+//                                          'assignedTime': dbt.substring(11, 16),
+//                                          'endDate': '',
+//                                          'endTime': '',
+//                                          'verifiedDate': '',
+//                                          'verifiedTime': '',
+//                                          'assignedTo': assign,
+//                                          'raisedBy': widget.complaint.raisedBy,
+//                                          'status': 'notsolved'
+//                                        });
+//                                        Alert(
+//                                          context: context,
+//                                          type: AlertType.success,
+//                                          title: "Complaint Assigned!",
+//                                          buttons: [
+//                                            DialogButton(
+//                                              child: Text(
+//                                                "Okay",
+//                                                style: TextStyle(
+//                                                    color: Colors.white,
+//                                                    fontSize: 20),
+//                                              ),
+//                                              onPressed: () {
+//                                                Navigator.pop(context);
+//                                                Navigator.pop(context);
+//                                              },
+//                                              color: Color(0xFF1467B3),
+//                                            ),
+//                                          ],
+//                                        ).show();
+//                                      }
+////
+//                                    }
+//                                  }
+
+//                                  databaseReference
+//                                      .collection('binder')
+//                                      .document(widget.userDetails.uid)
+//                                      .collection('complaint')
+//                                      .document(widget.complaint.complaintId)
+//                                      .updateData({
+//                                    'assignedDate': dbt.substring(0, 10),
+//                                    'assignedTime': dbt.substring(11, 16),
+//                                    'assignedTo': assign,
+//                                    'assignedBy': widget.userDetails.name,
+//                                  });
+//                                } catch (e) {
+//                                  print(e.toString());
+//                                }
                               },
                             ),
                           ),
                         ),
                         SizedBox(
                           height: 12,
+                        ),
+                        Container(
+                          child: RaisedButton(child: Text('get'),
+                          onPressed: (){
+                            print(widget.complaint.complaintId);
+                          },
+                          ),
                         )
                       ],
                     ),
-                  ) : Container(),
+                  ) : Container(
+                    child: Column(
+                      children: <Widget>[
+                        Loading(),
+                        Text(
+                          'Getting Complaint Status',
+                          style: TextStyle(
+                            color: Colors.white
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
