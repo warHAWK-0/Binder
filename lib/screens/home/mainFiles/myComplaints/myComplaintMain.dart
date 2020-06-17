@@ -122,6 +122,8 @@ class _myComplaintsState extends State<myComplaints> {
                                     startDate: snapshot.data.documents[index]['startDate'],
                                     startTime: snapshot.data.documents[index]['startTime'],
                                     status: snapshot.data.documents[index]['status'],
+                                    raisedByUid: snapshot.data.documents[index]['raisedByUid'],
+                                    typeofIssue: snapshot.data.documents[index]['typeofIssue'],
                                     verifiedDate: snapshot.data.documents[index]['verifiedDate'],
                                     verifiedTime: snapshot.data.documents[index]['verifiedTime'],
                                   ),

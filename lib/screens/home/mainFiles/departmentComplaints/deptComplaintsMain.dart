@@ -80,9 +80,11 @@ class _deptComplaintsState extends State<deptComplaints> {
                                     lineNo: snapshot.data.documents[index]['lineNo'],
                                     machineNo: snapshot.data.documents[index]['machineNo'],
                                     raisedBy: snapshot.data.documents[index]['raisedBy'],
+                                    raisedByUid: snapshot.data.documents[index]['raisedByUid'],
                                     startDate: snapshot.data.documents[index]['startDate'],
                                     startTime: snapshot.data.documents[index]['startTime'],
                                     status: snapshot.data.documents[index]['status'],
+                                    typeofIssue: snapshot.data.documents[index]['typeofIssue'],
                                     verifiedDate: snapshot.data.documents[index]['verifiedDate'],
                                     verifiedTime: snapshot.data.documents[index]['verifiedTime'],
                                   )

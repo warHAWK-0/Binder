@@ -81,19 +81,12 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                                 margin: EdgeInsets.only(top: 5, right: 5),
                                 child: Icon(
                                   Icons.brightness_1,
-                                  color: widget.complaint.status == "solved"
-                                      ? complaintStatusSolved
-                                      : widget.complaint.status == "ongoing"
-                                          ? complaintStatusOngoing
-                                          : widget.complaint.status == "pending"
-                                              ? complaintStatusPending
-                                              : widget.complaint.status ==
-                                                      "notsolved"
-                                                  ? complaintStatusNotSolved
-                                                  : widget.complaint.status ==
-                                                          "transferAME"
-                                                      ? complaintStatusAME
-                                                      : Colors.black,
+                                  color: widget.complaint.status == "solved" ? complaintStatusSolved
+                                      : widget.complaint.status == "ongoing" ? complaintStatusOngoing
+                                      : widget.complaint.status == "pending" ? complaintStatusPending
+                                      : widget.complaint.status == "notsolved" ? complaintStatusNotSolved
+                                      : widget.complaint.status == "transferAME" ? complaintStatusAME
+                                      : widget.complaint.status == "raised" ? Colors.red : Colors.black,
                                 )),
                           ],
                         ),
@@ -391,19 +384,12 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                 margin: EdgeInsets.only(top: 5, right: 5),
                                 child: Icon(
                                   Icons.brightness_1,
-                                  color: widget.complaint.status == "solved"
-                                      ? complaintStatusSolved
-                                      : widget.complaint.status == "ongoing"
-                                          ? complaintStatusOngoing
-                                          : widget.complaint.status == "pending"
-                                              ? complaintStatusPending
-                                              : widget.complaint.status ==
-                                                      "notsolved"
-                                                  ? complaintStatusNotSolved
-                                                  : widget.complaint.status ==
-                                                          "transferAME"
-                                                      ? complaintStatusAME
-                                                      : Colors.black,
+                                  color: widget.complaint.status == "solved" ? complaintStatusSolved
+                                      : widget.complaint.status == "ongoing" ? complaintStatusOngoing
+                                      : widget.complaint.status == "pending" ? complaintStatusPending
+                                      : widget.complaint.status == "notsolved" ? complaintStatusNotSolved
+                                      : widget.complaint.status == "transferAME" ? complaintStatusAME
+                                      : widget.complaint.status == "raised" ? Colors.red : Colors.black,
                                 )),
                           ],
                         ),
@@ -592,6 +578,17 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                   'verifiedTime': dbt.substring(11, 16),
                                   'status': _radioStatusValue
                                 });
+
+                                databaseReference
+                                    .collection('binder')
+                                    .document(widget.complaint.raisedByUid)
+                                    .collection('complaint')
+                                    .document(widget.complaint.complaintId)
+                                    .updateData({
+                                  'verifiedDate': dbt.substring(0, 10),
+                                  'verifiedTime': dbt.substring(11, 16),
+                                  'status': _radioStatusValue
+                                });
                               } catch (e) {
                                 print(e.toString());
                               }
@@ -656,11 +653,16 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
   Future getNamesOfAllOperators(String typeOfIssue) async {
     try{
       QuerySnapshot querySnapshot = await Firestore.instance.collection("binder").getDocuments();
+      typeOfIssue == "Mechanical Issue" ? typeOfIssue = "Mechanical"
+          // ignore: unnecessary_statements
+          : typeOfIssue == "Electrical Issue" ? typeOfIssue = "Electrical" : "";
       names.clear();
+      uids.clear();
       for(DocumentSnapshot documentSnapshot in querySnapshot.documents){
         DocumentSnapshot docsnap = await Firestore.instance.collection("binder")
             .document(documentSnapshot.documentID.toString()).collection("user_details").document(documentSnapshot.documentID.toString()).get();
-        if(docsnap.data['typeOfIssue'] == typeOfIssue){
+        print("type of issue : "+docsnap.data['typeOfOperator']);
+        if(docsnap.data['typeOfOperator'] == typeOfIssue){
           names.add(docsnap.data['name']);
           uids.add(docsnap.data['uid']);
         }
@@ -726,19 +728,12 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                                   margin: EdgeInsets.only(top: 5, right: 5),
                                   child: Icon(
                                     Icons.brightness_1,
-                                    color: widget.complaint.status == "solved"
-                                        ? complaintStatusSolved
-                                        : widget.complaint.status == "ongoing"
-                                            ? complaintStatusOngoing
-                                            : widget.complaint.status == "pending"
-                                                ? complaintStatusPending
-                                                : widget.complaint.status ==
-                                                        "notsolved"
-                                                    ? complaintStatusNotSolved
-                                                    : widget.complaint.status ==
-                                                            "transferAME"
-                                                        ? complaintStatusAME
-                                                        : Colors.black,
+                                    color: widget.complaint.status == "solved" ? complaintStatusSolved
+                                        : widget.complaint.status == "ongoing" ? complaintStatusOngoing
+                                        : widget.complaint.status == "pending" ? complaintStatusPending
+                                        : widget.complaint.status == "notsolved" ? complaintStatusNotSolved
+                                        : widget.complaint.status == "transferAME" ? complaintStatusAME
+                                        : widget.complaint.status == "raised" ? Colors.red : Colors.black,
                                   )),
                             ],
                           ),
@@ -962,6 +957,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                                           'endTime': '',
                                           'verifiedDate': '',
                                           'verifiedTime': '',
+                                          'raisedByUid' : widget.complaint.raisedByUid,
                                           'assignedTo': assign,
                                           'raisedBy': widget.complaint.raisedBy,
                                           'status': 'ongoing'
@@ -1071,7 +1067,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                         Container(
                           child: RaisedButton(child: Text('get'),
                           onPressed: (){
-                            print(widget.complaint.complaintId);
+                            print(names);
                           },
                           ),
                         )
