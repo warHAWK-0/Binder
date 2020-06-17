@@ -3,9 +3,9 @@ import 'package:final_binder/shared/CustomAppBar.dart';
 import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../../../services/auth.dart';
+
 class AddEmployee extends StatefulWidget {
   @override
   _AddEmployeeState createState() => _AddEmployeeState();
@@ -44,24 +44,6 @@ class _AddEmployeeState extends State<AddEmployee> {
         FlatButton(
           onPressed: () {
             Navigator.pop(context);
-            Navigator.pop(context);
-          },
-          textColor: primaryblue,
-          child: const Text('Ok!'),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildUserNotCreatedDialog(BuildContext context) {
-    return new AlertDialog(
-      title: const Text('Could not add Employee!'),
-      content: Container(
-        child: Text('Please Check your inputs.'),
-      ),
-      actions: <Widget>[
-        FlatButton(
-          onPressed: () {
             Navigator.pop(context);
           },
           textColor: primaryblue,
@@ -436,8 +418,8 @@ class _AddEmployeeState extends State<AddEmployee> {
                         bayNo: bayNo,
                         );
                         print(email);
-                        //if (_formkey.currentState.validate()) {
-                          dynamic result = await _auth.createUserWithEmailAndPassword(email,'123456',userDetails,context);
+                        if (_formkey.currentState.validate()) {
+                          dynamic result = await _auth.createUserWithEmailAndPassword(email, '123456',userDetails,context);
                           if(result == null){
                             setState(() {
                               userCreated = false;
@@ -466,7 +448,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                             });
                             Navigator.pop(context);
                           }
-                       // }
+                        }
 
                         return userCreated == true ? showDialog(
                             context: context,

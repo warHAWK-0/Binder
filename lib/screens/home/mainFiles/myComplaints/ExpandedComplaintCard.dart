@@ -15,12 +15,11 @@ class ExpandedComplainVerify extends StatefulWidget {
   final Complaint complaint;
   final UserDetails userDetails;
 
-  const ExpandedComplainVerify(
-      {Key key,
-      @required this.userDetails,
-      @required this.complaint,
-      })
-      : super(key: key);
+  const ExpandedComplainVerify({
+    Key key,
+    @required this.userDetails,
+    @required this.complaint,
+  }) : super(key: key);
 
   @override
   _ExpandedComplainVerifyState createState() => _ExpandedComplainVerifyState();
@@ -58,8 +57,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: <BoxShadow>[
-                      ]),
+                      boxShadow: <BoxShadow>[]),
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +66,9 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
-                              child: Text("Machine Number : " + "${widget.complaint.machineNo} ",
+                              child: Text(
+                                  "Machine Number : " +
+                                      "${widget.complaint.machineNo} ",
                                   style: TextStyle(
                                       fontFamily: 'Roboto',
                                       color: primaryblue,
@@ -80,11 +80,19 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                                 margin: EdgeInsets.only(top: 5, right: 5),
                                 child: Icon(
                                   Icons.brightness_1,
-                                  color: widget.complaint.status == "solved" ? complaintStatusSolved
-                                      : widget.complaint.status == "ongoing" ? complaintStatusOngoing
-                                      : widget.complaint.status == "pending" ? complaintStatusPending
-                                      : widget.complaint.status == "notsolved" ? complaintStatusNotSolved
-                                      : widget.complaint.status == "transferAME" ? complaintStatusAME : Colors.black,
+                                  color: widget.complaint.status == "solved"
+                                      ? complaintStatusSolved
+                                      : widget.complaint.status == "ongoing"
+                                          ? complaintStatusOngoing
+                                          : widget.complaint.status == "pending"
+                                              ? complaintStatusPending
+                                              : widget.complaint.status ==
+                                                      "notsolved"
+                                                  ? complaintStatusNotSolved
+                                                  : widget.complaint.status ==
+                                                          "transferAME"
+                                                      ? complaintStatusAME
+                                                      : Colors.black,
                                 )),
                           ],
                         ),
@@ -134,7 +142,8 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                             ),
                             Spacer(),
                             Container(
-                              child: Text("Department: ${widget.complaint.department.inCaps}",
+                              child: Text(
+                                  "Department: ${widget.complaint.department.inCaps}",
                                   style: TextStyle(
                                       fontFamily: 'Roboto',
                                       color: primaryblue,
@@ -153,123 +162,148 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                 SizedBox(
                   height: 15,
                 ),
-                widget.complaint.status == "solved" ? Container(
-                  padding: EdgeInsets.only(top: 20),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(0.0, 2.0),
-                        )
-                      ]),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(left: 15),
-                        alignment: Alignment.topLeft,
-                        child: Text("Verify",
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                color: primaryblue,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500)),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          new Radio(
-                            value: ComplaintVerificationValue.finish,
-                            groupValue: _radioVerifyValue,
-                            onChanged: (ComplaintVerificationValue value) {
-                              setState(() {
-                                _radioVerifyValue = value;
-                              });
-                            },
-                          ),
-                          new Text(
-                            'Finished',
-                            style: new TextStyle(
-                                fontFamily: 'Roboto', fontSize: 16.0),
-                          ),
-                          new Radio(
-                            value: ComplaintVerificationValue.notfinished,
-                            groupValue: _radioVerifyValue,
-                            onChanged: (ComplaintVerificationValue value) {
-                              setState(() {
-                                _radioVerifyValue = value;
-                              });
-                            },
-                          ),
-                          new Text(
-                            'Not Finished',
-                            style: new TextStyle(
-                              fontFamily: 'Roboto',
-                              fontSize: 16.0,
+                widget.complaint.status == "solved"
+                    ? Container(
+                        padding: EdgeInsets.only(top: 20),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8.0),
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: Colors.grey,
+                                offset: Offset(0.0, 2.0),
+                              )
+                            ]),
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.only(left: 15),
+                              alignment: Alignment.topLeft,
+                              child: Text("Verify",
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      color: primaryblue,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500)),
                             ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        //padding:EdgeInsets.only(top: 400,left:20,right: 20) ,
-                        child: new SizedBox(
-                          //width: double.infinity,
-                          child: new RaisedButton(
-                            child: new Text(
-                              "Verify",
-                              style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  color: Colors.white,
-                                  fontSize: 16),
-                              textAlign: TextAlign.center,
-                            ),
-                            color: Color(0xFF1467B3),
-                            onPressed: () {
-                              print('');
-                              if (_radioVerifyValue ==
-                                  ComplaintVerificationValue.notfinished) {
-                                try {
-                                  dbt = DateTime.now().toString();
-                                  databaseReference
-                                    .collection('binder')
-                                    .document(widget.userDetails.uid)
-                                    .collection('complaint')
-                                    .document(widget.complaint.complaintId)
-                                    .updateData({
-                                    'endDate': dbt.substring(0, 10),
-                                    'endTime': dbt.substring(11, 16),
-                                    'status': _radioVerifyValue,
-                                  });
-                                } catch (e) {
-                                  print(e.toString());
-                                }
-                              }
-                              return Alert(
-                                context: context,
-                                type: AlertType.success,
-                                title: "Complaint verified!",
-                                buttons: [
-                                  DialogButton(
-                                    child: Text(
-                                      "Okay",
-                                      style: TextStyle(color: Colors.white, fontSize: 20),
-                                    ),
-                                    onPressed: (){ Navigator.pop(context);},
-                                    color: Color(0xFF1467B3),
+                            Row(
+                              children: <Widget>[
+                                new Radio(
+                                  value: ComplaintVerificationValue.finish,
+                                  groupValue: _radioVerifyValue,
+                                  onChanged:
+                                      (ComplaintVerificationValue value) {
+                                    setState(() {
+                                      _radioVerifyValue = value;
+                                    });
+                                  },
+                                ),
+                                new Text(
+                                  'Finished',
+                                  style: new TextStyle(
+                                      fontFamily: 'Roboto', fontSize: 16.0),
+                                ),
+                                new Radio(
+                                  value: ComplaintVerificationValue.notfinished,
+                                  groupValue: _radioVerifyValue,
+                                  onChanged:
+                                      (ComplaintVerificationValue value) {
+                                    setState(() {
+                                      _radioVerifyValue = value;
+                                    });
+                                  },
+                                ),
+                                new Text(
+                                  'Not Finished',
+                                  style: new TextStyle(
+                                    fontFamily: 'Roboto',
+                                    fontSize: 16.0,
                                   ),
-                                ],
-                              ).show();
-                            },
-                          ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              //padding:EdgeInsets.only(top: 400,left:20,right: 20) ,
+                              child: new SizedBox(
+                                //width: double.infinity,
+                                child: new RaisedButton(
+                                  child: new Text(
+                                    "Verify",
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        color: Colors.white,
+                                        fontSize: 16),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  color: Color(0xFF1467B3),
+                                  onPressed: () {
+                                    if (_radioVerifyValue ==
+                                        ComplaintVerificationValue
+                                            .notfinished) {
+                                      try {
+                                        dbt = DateTime.now().toString();
+                                        databaseReference
+                                            .collection('binder')
+                                            .document(widget.userDetails.uid)
+                                            .collection('complaint')
+                                            .document(
+                                                widget.complaint.complaintId)
+                                            .updateData({
+                                          'status': "raised",
+                                        });
+                                      } catch (e) {
+                                        print(e.toString());
+                                      }
+                                    } else if (_radioVerifyValue ==
+                                        ComplaintVerificationValue.finish) {
+                                      try {
+                                        dbt = DateTime.now().toString();
+                                        databaseReference
+                                            .collection('binder')
+                                            .document(widget.userDetails.uid)
+                                            .collection('complaint')
+                                            .document(
+                                                widget.complaint.complaintId)
+                                            .updateData({
+                                          'endDate': dbt.substring(0, 10),
+                                          'endTime': dbt.substring(11, 16),
+                                          'status': _radioVerifyValue,
+                                        });
+                                      } catch (e) {
+                                        print(e.toString());
+                                      }
+                                    }
+                                    return Alert(
+                                      context: context,
+                                      type: AlertType.success,
+                                      title: "Complaint verified!",
+                                      buttons: [
+                                        DialogButton(
+                                          child: Text(
+                                            "Okay",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          color: Color(0xFF1467B3),
+                                        ),
+                                      ],
+                                    ).show();
+                                  },
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            )
+                          ],
                         ),
-                      ),
-                      SizedBox(
-                        height: 10,
                       )
-                    ],
-                  ),
-                ) : Container(),
+                    : Container(),
               ],
             ),
           ),
@@ -290,9 +324,7 @@ class ExpandedComplainStatus extends StatefulWidget {
   final UserDetails userDetails;
 
   const ExpandedComplainStatus(
-      {Key key,
-      @required this.userDetails,
-      @required this.complaint})
+      {Key key, @required this.userDetails, @required this.complaint})
       : super(key: key);
 
   @override
@@ -335,8 +367,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
 //                          color: Colors.grey,
 //                          offset: Offset(0.0, 2.0),
 //                        )
-                      ]
-                  ),
+                      ]),
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -345,7 +376,9 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
-                              child: Text("Machine Number : " + "${widget.complaint.machineNo} ",
+                              child: Text(
+                                  "Machine Number : " +
+                                      "${widget.complaint.machineNo} ",
                                   style: TextStyle(
                                       fontFamily: 'Roboto',
                                       color: primaryblue,
@@ -357,11 +390,19 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                 margin: EdgeInsets.only(top: 5, right: 5),
                                 child: Icon(
                                   Icons.brightness_1,
-                                  color: widget.complaint.status == "solved" ? complaintStatusSolved
-                                      : widget.complaint.status == "ongoing" ? complaintStatusOngoing
-                                      : widget.complaint.status == "pending" ? complaintStatusPending
-                                      : widget.complaint.status == "notsolved" ? complaintStatusNotSolved
-                                      : widget.complaint.status == "transferAME" ? complaintStatusAME : Colors.black,
+                                  color: widget.complaint.status == "solved"
+                                      ? complaintStatusSolved
+                                      : widget.complaint.status == "ongoing"
+                                          ? complaintStatusOngoing
+                                          : widget.complaint.status == "pending"
+                                              ? complaintStatusPending
+                                              : widget.complaint.status ==
+                                                      "notsolved"
+                                                  ? complaintStatusNotSolved
+                                                  : widget.complaint.status ==
+                                                          "transferAME"
+                                                      ? complaintStatusAME
+                                                      : Colors.black,
                                 )),
                           ],
                         ),
@@ -411,7 +452,8 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                             ),
                             Spacer(),
                             Container(
-                              child: Text("Department :${widget.complaint.department}",
+                              child: Text(
+                                  "Department :${widget.complaint.department}",
                                   style: TextStyle(
                                       fontFamily: 'Roboto',
                                       color: primaryblue,
@@ -528,7 +570,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                           //width: double.infinity,
                           child: new RaisedButton(
                             child: new Text(
-                              "Verify",
+                              "Update",
                               style: TextStyle(
                                   fontFamily: 'Roboto',
                                   color: Colors.white,
@@ -537,76 +579,20 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                             ),
                             color: Color(0xFF1467B3),
                             onPressed: () {
-                              print('');
-                              // ignore: unrelated_type_equality_checks
-                              if (_radioStatusValue ==
-                                  ComplaintStatusValue.solved) {
-                                try {
-                                  dbt = DateTime.now().toString();
-                                  databaseReference
-                                      .collection('binder')
-                                      .document(widget.userDetails.uid)
-                                      .collection('complaint')
-                                      .document(widget.complaint.complaintId)
-                                      .updateData({
-                                    'verifiedDate': dbt.substring(0, 10),
-                                    'verifiedTime': dbt.substring(11, 16),
-                                    'status': "solved"
-                                  });
-                                } catch (e) {
-                                  print(e.toString());
-                                }
-                              } else if (_radioStatusValue ==
-                                  ComplaintStatusValue.pending) {
-                                try {
-                                  dbt = DateTime.now().toString();
-                                  databaseReference
-                                      .collection('binder')
-                                      .document(widget.userDetails.uid)
-                                      .collection('complaint')
-                                      .document(widget.complaint.complaintId)
-                                      .updateData({
-                                    'verifiedDate': dbt.substring(0, 10),
-                                    'verifiedTime': dbt.substring(11, 16),
-                                    'status': "pending"
-                                  });
-                                } catch (e) {
-                                  print(e.toString());
-                                }
-                              } else if (_radioStatusValue ==
-                                  ComplaintStatusValue.transferAME) {
-                                try {
-                                  dbt = DateTime.now().toString();
-                                  databaseReference
-                                      .collection('binder')
-                                      .document(widget.userDetails.uid)
-                                      .collection('complaint')
-                                      .document(widget.complaint.complaintId)
-                                      .updateData({
-                                    'verifiedDate': dbt.substring(0, 10),
-                                    'verifiedTime': dbt.substring(11, 16),
-                                    'status': "transferAME"
-                                  });
-                                } catch (e) {
-                                  print(e.toString());
-                                }
-                              } else if (_radioStatusValue ==
-                                  ComplaintStatusValue.ongoing) {
-                                try {
-                                  dbt = DateTime.now().toString();
-                                  databaseReference
-                                      .collection('binder')
-                                      .document(widget.userDetails.uid)
-                                      .collection('complaint')
-                                      .document(widget.complaint.complaintId)
-                                      .updateData({
-                                    'verifiedDate': dbt.substring(0, 10),
-                                    'verifiedTime': dbt.substring(11, 16),
-                                    'status': "ongoing"
-                                  });
-                                } catch (e) {
-                                  print(e.toString());
-                                }
+                              try {
+                                dbt = DateTime.now().toString();
+                                databaseReference
+                                    .collection('binder')
+                                    .document(widget.userDetails.uid)
+                                    .collection('complaint')
+                                    .document(widget.complaint.complaintId)
+                                    .updateData({
+                                  'verifiedDate': dbt.substring(0, 10),
+                                  'verifiedTime': dbt.substring(11, 16),
+                                  'status': _radioStatusValue
+                                });
+                              } catch (e) {
+                                print(e.toString());
                               }
                             },
                           ),
@@ -636,10 +622,7 @@ class ExpandedComplaintAssign extends StatefulWidget {
   final UserDetails userDetails;
 
   const ExpandedComplaintAssign(
-      {Key key,
-      @required this.userDetails,
-      @required this.complaint
-      })
+      {Key key, @required this.userDetails, @required this.complaint})
       : super(key: key);
 
   @override
@@ -654,7 +637,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
   String currentName = "";
   List<String> assignedTo = [];
   final databaseReference = Firestore.instance;
-  List<String> suggestions = [
+  List<String> nameSuggestions = [
     "Bhusnur Dattatray Prakash",
     "Jagdale Rajan Yadav",
     "Sargar Ramchandra Sopan",
@@ -673,7 +656,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
     "Mathkar Mahesh M.",
     "mainop"
   ];
-  //Color cstatus;
+
   AutoCompleteTextField searchTextField;
   bool loading = true;
   List<String> assign = [];
@@ -710,8 +693,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
 //                          //color: Colors.grey,
 //                          offset: Offset(0.0, 2.0),
 //                        )
-                      ]
-                  ),
+                      ]),
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -720,7 +702,9 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
-                              child: Text("Machine Number : " + "${widget.complaint.machineNo} ",
+                              child: Text(
+                                  "Machine Number : " +
+                                      "${widget.complaint.machineNo} ",
                                   style: TextStyle(
                                       fontFamily: 'Roboto',
                                       color: primaryblue,
@@ -732,11 +716,19 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                                 margin: EdgeInsets.only(top: 5, right: 5),
                                 child: Icon(
                                   Icons.brightness_1,
-                                  color: widget.complaint.status == "solved" ? complaintStatusSolved
-                                      : widget.complaint.status == "ongoing" ? complaintStatusOngoing
-                                      : widget.complaint.status == "pending" ? complaintStatusPending
-                                      : widget.complaint.status == "notsolved" ? complaintStatusNotSolved
-                                      : widget.complaint.status == "transferAME" ? complaintStatusAME : Colors.black,
+                                  color: widget.complaint.status == "solved"
+                                      ? complaintStatusSolved
+                                      : widget.complaint.status == "ongoing"
+                                          ? complaintStatusOngoing
+                                          : widget.complaint.status == "pending"
+                                              ? complaintStatusPending
+                                              : widget.complaint.status ==
+                                                      "notsolved"
+                                                  ? complaintStatusNotSolved
+                                                  : widget.complaint.status ==
+                                                          "transferAME"
+                                                      ? complaintStatusAME
+                                                      : Colors.black,
                                 )),
                           ],
                         ),
@@ -786,7 +778,8 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                             ),
                             Spacer(),
                             Container(
-                              child: Text("Department :${widget.complaint.department}",
+                              child: Text(
+                                  "Department :${widget.complaint.department}",
                                   style: TextStyle(
                                       fontFamily: 'Roboto',
                                       color: primaryblue,
@@ -827,51 +820,75 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                       Container(
                         height: 50,
                         padding: EdgeInsets.only(left: 20, right: 20),
-                        child: AutoCompleteTextField<String>(
-                          key: key,
-                          clearOnSubmit: false,
-                          suggestions: suggestions,
-                          style:
-                              TextStyle(color: Color(0xFF1467B3), fontSize: 14),
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color(0xFF1467B3))),
-                              contentPadding:
-                                  EdgeInsets.fromLTRB(10, 10, 10, 20),
-                              hintText: "Search",
-                              hintStyle: TextStyle(
-                                  color: Color(0xFF1467B3), fontSize: 18)),
-                          itemFilter: (item, query) {
-                            return item
-                                .toLowerCase()
-                                .startsWith(query.toLowerCase());
-                          },
-                          itemSorter: (a, b) {
-                            return a.compareTo(b);
-                          },
-                          itemSubmitted: (item) {
-                            setState(() {
-                              searchTextField.textField.controller.text = item;
-                              print(item);
-                              currentName = item;
-                            });
-                          },
-                          itemBuilder: (context, item) {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  item,
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                      fontFamily: "Roboto"),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 8,
+                              child: AutoCompleteTextField<String>(
+                                key: key,
+                                clearOnSubmit: false,
+                                suggestions: nameSuggestions,
+                                style: TextStyle(
+                                    color: Color(0xFF1467B3), fontSize: 14),
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                      color: Colors.white,
+                                    )),
+                                    contentPadding: EdgeInsets.all(10),
+                                    hintText: "Search here",
+                                    hintStyle: TextStyle(
+                                        color: Color(0xFF1467B3),
+                                        fontSize: 18)),
+                                itemFilter: (item, query) {
+                                  return item
+                                      .toLowerCase()
+                                      .startsWith(query.toLowerCase());
+                                },
+                                itemSorter: (a, b) {
+                                  return a.compareTo(b);
+                                },
+                                itemSubmitted: (item) {
+                                  setState(() {
+                                    searchTextField.textField.controller.text =
+                                        item;
+                                    print(item);
+                                    currentName = item;
+                                  });
+                                },
+                                itemBuilder: (context, item) {
+                                  return Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        item,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.black,
+                                            fontFamily: "Roboto"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                                controller: myController,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    assign.add(myController.text);
+                                  });
+                                  myController.clear();
+                                },
+                                child: Container(
+                                  child: Icon(Icons.add),
                                 ),
-                              ],
-                            );
-                          },
-                          controller: myController,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(height: 10),
@@ -909,7 +926,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                           //width: double.infinity,
                           child: new RaisedButton(
                             child: new Text(
-                              "Assign",
+                              "Assign Now",
                               style: TextStyle(
                                   fontFamily: 'Roboto',
                                   color: Colors.white,
@@ -918,14 +935,8 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                             ),
                             color: Color(0xFF1467B3),
                             onPressed: () async {
-                              assign.add(myController.text);
-                              print(assign);
-                              myController.clear();
-                              setState(() {});
                               try {
-                                print("*********************");
                                 dbt = DateTime.now().toString();
-                                //assigning to all mainops
                                 for (var i = 0; i < assign.length; i++) {
                                   print(i);
                                   final QuerySnapshot result = await Firestore
@@ -968,6 +979,26 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                                         'raisedBy': widget.complaint.raisedBy,
                                         'status': 'notsolved'
                                       });
+                                      Alert(
+                                        context: context,
+                                        type: AlertType.success,
+                                        title: "Complaint Assigned!",
+                                        buttons: [
+                                          DialogButton(
+                                            child: Text(
+                                              "Okay",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              Navigator.pop(context);
+                                            },
+                                            color: Color(0xFF1467B3),
+                                          ),
+                                        ],
+                                      ).show();
                                     }
 //
                                   }
@@ -982,7 +1013,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                                   'assignedDate': dbt.substring(0, 10),
                                   'assignedTime': dbt.substring(11, 16),
                                   'assignedTo': assign,
-                                  'assignedBy' : widget.userDetails.name,
+                                  'assignedBy': widget.userDetails.name,
                                 });
                               } catch (e) {
                                 print(e.toString());
@@ -991,7 +1022,9 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 12,)
+                      SizedBox(
+                        height: 12,
+                      )
                     ],
                   ),
                 )
