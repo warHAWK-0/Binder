@@ -383,7 +383,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                     width: double.infinity,
                     child: TextFormField(
                       validator: (value) {
-                        Pattern p = '[0-9]{10}^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)';
+                        Pattern p = '^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})';
                         RegExp regex = new RegExp(p);
                         if (!regex.hasMatch(value)) {
                           return 'Not a valid email';
