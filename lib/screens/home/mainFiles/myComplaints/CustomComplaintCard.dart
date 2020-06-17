@@ -146,7 +146,8 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
                             : widget.complaint.status == "ongoing" ? complaintStatusOngoing
                             : widget.complaint.status == "pending" ? complaintStatusPending
                             : widget.complaint.status == "notsolved" ? complaintStatusNotSolved
-                            : widget.complaint.status == "transferAME" ? complaintStatusAME : Colors.black,
+                            : widget.complaint.status == "transferAME" ? complaintStatusAME
+                            : widget.complaint.status == "raised" ? Colors.red : Colors.black,
                       )
                   ),
                 ],

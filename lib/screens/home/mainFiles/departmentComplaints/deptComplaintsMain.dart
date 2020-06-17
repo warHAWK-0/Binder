@@ -38,55 +38,7 @@ class _deptComplaintsState extends State<deptComplaints> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(backIcon: false, child: Text('Department Complaints',style: titleText,)),
-//
-//      body: Container(
-//        child: Column(
-//          children: documentNames.map(
-//            (userDoc){
-//              print(userDoc);
-//              StreamBuilder(
-//                stream: Firestore.instance.collection("binder").document(userDoc).collection("complaint").snapshots(),
-//                builder: (context,snapshot){
-//                  if(!snapshot.hasData){
-//                    return Loading();
-//                  }
-//                  else{
-//                    return ListView.builder(
-//                      itemCount: snapshot.data.documents.length,
-//                      itemBuilder: (_, index) {
-//                        DocumentSnapshot data =
-//                        snapshot.data.documents[index];
-//                        Color cstatus;
-//                        print(data['issue']);
-//                        if (data['status'] == 'solved') {
-//                          cstatus = complaintStatusSolved;
-//                        } else if (data['status'] == 'ongoing') {
-//                          cstatus = complaintStatusOngoing;
-//                        } else if (data['status'] == 'notsolved') {
-//                          cstatus = complaintStatusNotSolved;
-//                        } else if (data['status'] == 'pending') {
-//                          cstatus = complaintStatusPending;
-//                        } else if (data['status'] == 'transferAME') {
-//                          cstatus = complaintStatusAME;
-//                        }
-//                        return CustomComplaintCard(
-//                          userDetails: widget.userDetails,
-//                          complaintNo: data.documentID,
-//                          title: data["issue"],
-//                          machineno: data["machineno"],
-//                          date: data["startDate"],
-//                          department: data["department"],
-//                          cstatus: cstatus,
-//                        );
-//                      },
-//                    );
-//                  }
-//                },
-//              );
-//            }
-//          ).toList(),
-//        ),
-//      ),
+
       body: SingleChildScrollView(
         child: FutureBuilder(
           future: getAllDocuments(),
