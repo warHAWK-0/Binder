@@ -634,7 +634,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
   String currentName = "";
   List<String> assignedTo = [];
   final databaseReference = Firestore.instance;
-  List<String> suggestions = [
+  List<String> nameSuggestions = [
     "Bhusnur Dattatray Prakash",
     "Jagdale Rajan Yadav",
     "Sargar Ramchandra Sopan",
@@ -653,7 +653,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
     "Mathkar Mahesh M.",
     "mainop"
   ];
-  //Color cstatus;
+
   AutoCompleteTextField searchTextField;
   bool loading = true;
   List<String> assign = [];
@@ -824,7 +824,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                               child: AutoCompleteTextField<String>(
                                 key: key,
                                 clearOnSubmit: false,
-                                suggestions: suggestions,
+                                suggestions: nameSuggestions,
                                 style: TextStyle(
                                     color: Color(0xFF1467B3), fontSize: 14),
                                 decoration: InputDecoration(
