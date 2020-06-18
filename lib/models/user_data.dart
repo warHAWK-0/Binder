@@ -2,11 +2,12 @@ class UserDetails{
   String name,
   uid,
   authLevel,
+  typeofOperator,
   department,
   mobileNo,
   personalId,
   email,
-  //password,
+  firstLogin,
   bayNo;
 
   UserDetails({
@@ -14,9 +15,10 @@ class UserDetails{
     this.authLevel,
     this.mobileNo,
     this.bayNo,
+    this.typeofOperator,
     this.uid,
     this.department,
-    //this.password,
+    this.firstLogin,
     this.personalId,
     this.email
   });
@@ -28,6 +30,7 @@ class UserDetails{
     "authLevel": authLevel,
     "department" : department,
     "mobileNo" : mobileNo,
+    'typeOfOperator': typeofOperator,
     "personalId" : personalId,
     "email": email,
     //"password" : password,

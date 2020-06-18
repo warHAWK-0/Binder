@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/shared/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
 
   bool loading = false;
   String userID="";
-  List<user_Info> allData = [];
+  List<UserDetails> allData = [];
   void fetchDepartmentComplaints() async {
     setState(() {
       loading = true;
@@ -43,15 +44,16 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
         if (PID == docComplaint.data['personalId']) {
           print(PID);
           userID= uidUser;
-          user_Info d = new user_Info(
-              docComplaint.data['name'],
-              docComplaint.data['department'],
-              docComplaint.data['designation'],
-              docComplaint.data['mobileNo'],
-              docComplaint.data['email'],
-              docComplaint.data['personalId'],
-              docComplaint.data['bayNo'],
-              docComplaint.documentID);
+          UserDetails d = new UserDetails(
+            name:docComplaint.data['name'],
+            authLevel: docComplaint.data['authLevel'],
+            uid: docComplaint.data['uid'],
+            department: docComplaint.data['department'],
+            mobileNo: docComplaint.data['mobileNo'],
+            personalId: docComplaint.data['personalId'],
+            email: docComplaint.data['email'],
+            bayNo: docComplaint.data['bayNo'],
+          );
           allData.add(d);
         }
       }
@@ -228,7 +230,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Personal No:      "+allData[0].personal_no,
+                                child: Text("Personal No:      "+allData[0].personalId,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -255,9 +257,9 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Designation:       "+(allData[0].designation.toString()=="0"? "Operator":
-                                allData[0].designation.toString()=="0"? "Production":
-                                allData[0].designation.toString()=="0"? " Admin": "Null"),
+                                child: Text("Designation:       "+(allData[0].authLevel.toString()=="0"? "Operator":
+                                allData[0].authLevel.toString()=="0"? "Production":
+                                allData[0].authLevel.toString()=="0"? " Admin": "Null"),
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -266,7 +268,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Phone Number: "+allData[0].phone_no,
+                                child: Text("Phone Number: "+allData[0].mobileNo,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
                                         color: Color(0xFF1467B3),
@@ -297,7 +299,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => EditEmpProfile(userID:userID,allData: allData,)),
+                                          builder: (context) => EditEmpProfile(userID:userID, allData: allData,)),
                                     );
                                   },
                                   child: Text(

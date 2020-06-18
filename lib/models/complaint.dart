@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class Complaint{
 
   String complaintId,
@@ -10,6 +12,7 @@ class Complaint{
   assignedBy,
   mobileNo,
   lineNo,
+  raisedByUid,
   startDate,startTime,
   assignedDate,assignedTime,
   endDate,endTime,
@@ -27,6 +30,7 @@ class Complaint{
     this.assignedTo,
     this.lineNo,
     this.mobileNo,
+    this.raisedByUid,
     this.assignedBy,
     this.startDate,this.startTime,
     this.assignedDate,this.assignedTime,
@@ -50,6 +54,7 @@ class Complaint{
   'endDate': endDate,
   'endTime': endTime,
   'assignedBy' : assignedBy,
+  'raisedByUid' : raisedByUid,
   'mobileNo' : mobileNo,
   'verifiedDate': verifiedDate,
   'verifiedTime': verifiedTime,
