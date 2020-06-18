@@ -963,7 +963,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                                           'status': 'ongoing'
                                   });
                                 }
-                                Firestore.instance
+                                await Firestore.instance
                                     .collection('binder')
                                     .document(widget.complaint.raisedByUid)
                                     .collection('complaint')

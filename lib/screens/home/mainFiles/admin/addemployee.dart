@@ -24,7 +24,7 @@ class _AddEmployeeState extends State<AddEmployee> {
   String bayNo = "";
   String dept = "";
   String designation = "";
-  bool userCreated = true;
+  bool userCreated = false;
 
   @override
   void initState() {
@@ -365,7 +365,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                     width: double.infinity,
                     child: TextFormField(
                       validator: (value) {
-                        Pattern p = '^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})';
+                        Pattern p = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
                         RegExp regex = new RegExp(p);
                         if (!regex.hasMatch(value)) {
                           return 'Not a valid email';
