@@ -549,61 +549,6 @@ class _SearchPageState extends State<addComplaint> {
                       },
                     ),
                   ),
-//                  SizedBox(
-//                    height: 20,
-//                  ),
-//                  //type of issue
-//                  Container(
-//                    height: 50,
-//                    child: AutoCompleteTextField<String>(
-//                      key: key1,
-//                      clearOnSubmit: false,
-//                      suggestions: type,
-//                      //style: TextStyle(color: Colors.blue,fontSize: 14),
-//                      decoration: InputDecoration(
-//                        hintText: "Type of Issue",
-//                        hintStyle: TextStyle(
-//                            color: Color(0xFF1467B3), fontSize: 16),
-//                        filled: true,
-//                        fillColor: Color.fromRGBO(20, 103, 179, 0.05),
-//                        contentPadding:
-//                        const EdgeInsets.only(
-//                            left: 14.0, bottom: 15.0, top: 15.0),
-//                        focusedBorder: OutlineInputBorder(
-//                          borderSide: BorderSide(
-//                              color: Color.fromRGBO(93, 153, 252, 100)),
-//                        ),
-//                        enabledBorder: OutlineInputBorder(
-//                            borderSide: BorderSide(color: Color.fromRGBO(
-//                                223, 232, 247, 100)) //dfe8f7
-//                        ),
-//                      ),
-//                      itemFilter: (item, query) {
-//                        return item.toLowerCase().startsWith(
-//                            query.toLowerCase());
-//                      },
-//                      itemSorter: (a, b) {
-//                        return a.compareTo(b);
-//                      },
-//                      itemSubmitted: (item) {
-//                        setState(() {
-//                          issueType = item.toString();
-//                          searchTextField.textField.controller.text = item;
-//                        });
-//                      },
-//                      itemBuilder: (context, item) {
-//                        return Row(
-//                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                          children: <Widget>[
-//                            Text(
-//                              item, style: TextStyle(
-//                                fontSize: 18, color: Colors.black),
-//                            ),
-//                          ],
-//                        );
-//                      },
-//                    ),
-//                  ),
                   SizedBox(height: 20,),
                   DropdownButtonFormField(
                     // style: TextStyle(color: Color(0xFF1467B3)),
@@ -684,7 +629,8 @@ class _SearchPageState extends State<addComplaint> {
                               raisedBy: widget.userDetails.name,
                               mobileNo : widget.userDetails.mobileNo,
                               assignedBy: "",
-                              status: 'raised'
+                              status: 'raised',
+                              assignedToUid: null
                                 ).toJson());
                         }
                         return Alert(

@@ -92,7 +92,8 @@ class _deptComplaintsState extends State<deptComplaints> {
                               return CustomComplaintCard(
                                   userDetails: widget.userDetails,
                                   complaint: Complaint(
-                                    complaintId: uid,
+                                    complaintId: snapshot.data.documents[index].documentID,
+                                    assignedBy: snapshot.data.documents[index]['assignedBy'],
                                     assignedDate: snapshot.data.documents[index]['assignedDate'],
                                     assignedTime: snapshot.data.documents[index]['assignedTime'],
                                     assignedTo:[ snapshot.data.documents[index]['assignedTo']],

@@ -18,6 +18,8 @@ class Complaint{
   endDate,endTime,
   verifiedDate,verifiedTime;
   List <dynamic> assignedTo;
+  List <dynamic> assignedToUid;
+
 
   Complaint({
     this.complaintId,
@@ -36,6 +38,7 @@ class Complaint{
     this.assignedDate,this.assignedTime,
     this.endDate,this.endTime,
     this.verifiedDate,this.verifiedTime,
+    this.assignedToUid
   });
 
   Map<String, dynamic> toJson() => {
@@ -58,6 +61,7 @@ class Complaint{
   'mobileNo' : mobileNo,
   'verifiedDate': verifiedDate,
   'verifiedTime': verifiedTime,
+  'assignedToUid':assignedToUid
   };
 
 }
