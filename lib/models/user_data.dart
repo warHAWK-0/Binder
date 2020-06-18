@@ -7,7 +7,7 @@ class UserDetails{
   mobileNo,
   personalId,
   email,
-  //password,
+  firstLogin,
   bayNo;
 
   UserDetails({
@@ -18,7 +18,7 @@ class UserDetails{
     this.typeofOperator,
     this.uid,
     this.department,
-    //this.password,
+    this.firstLogin,
     this.personalId,
     this.email
   });

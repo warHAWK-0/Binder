@@ -90,7 +90,7 @@ class AuthService{
         personalId: userDetails.personalId,
         email: userDetails.email,
         typeofOperator: userDetails.typeofOperator,
-        //password: "123456",
+        firstLogin: "true",
         bayNo: userDetails.bayNo,
       ));
       print("Step4");

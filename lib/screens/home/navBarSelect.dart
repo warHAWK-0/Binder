@@ -54,6 +54,8 @@ class _NavBarSelectState extends State<NavBarSelect> {
 
   @override
   Widget build(BuildContext context) {
+    print("Nav bar slect screen : " + widget.userDetails.firstLogin);
+
     final List<Widget> productionOperatorScreenList = _productionOperatorScreenList();
     final List<Widget> maintenanceOperatorScreenList = _maintenanceOperatorScreenList();
     final List<Widget> productionSupervisorScreenList = _productionSupervisorScreenList();

@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/services/auth.dart';
+import 'package:final_binder/shared/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_responsive_screen/flutter_responsive_screen.dart';
@@ -48,11 +50,12 @@ class _ProfileMainState extends State<ProfileMain> {
     ).show();
   }
 
+  bool loading = false;
   AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
+    return loading == false ? WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
         appBar: CustomAppBar(
@@ -97,27 +100,6 @@ class _ProfileMainState extends State<ProfileMain> {
                         )
                       ],
                     ),
-//                      Container(
-//                        decoration: BoxDecoration(
-//                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-//                        ),
-//                        child:Row(
-//                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                          children: <Widget>[
-//                            Text("Name:              ",style: TextStyle(fontSize: 16),),
-//                            Flexible(
-//                              child: TextField(
-//                                  enabled: false,
-//                                  decoration: InputDecoration(
-//                                      hintText: (widget.userDetails.name.toString()),
-//                                    hintStyle: TextStyle(fontWeight: FontWeight.w700),
-//                                  )
-//
-//                              ),
-//                            )
-//                          ],
-//                        )
-//                      ),
                     SizedBox(
                       height: 15,
                     ),
@@ -283,7 +265,40 @@ class _ProfileMainState extends State<ProfileMain> {
                     SizedBox(
                       height: 35,
                     ),
-                    SizedBox(
+                    widget.userDetails.firstLogin == "true" ? Container(
+                      width: double.infinity,
+                      height: 45,
+                      child: FlatButton(
+                        color: Color(0xFF1467B3),
+                        textColor: Colors.white,
+                        disabledColor: Colors.grey,
+                        disabledTextColor: Colors.black,
+                        padding: EdgeInsets.all(8.0),
+                        splashColor: Colors.blueAccent,
+                        onPressed: () async {
+                          try {
+                            setState(() {
+                              loading = true;
+                            });
+                            await Firestore.instance.collection("binder").document(widget.userDetails.uid).collection("user_details")
+                                .document(widget.userDetails.uid).updateData({
+                              'firstLogin' : 'false',
+                            });
+                            //await _auth.signOut();
+                            dynamic result = await _auth.singnInUsingEmail("binderproject9@gmail.com", "123456");
+                            if(result != null){
+                              print('\n notnull \n');
+                            }
+                          } catch (e) {
+                            print(e);
+                          }
+                        },
+                        child: Text(
+                          "Sign out & Return to Admin Console",
+                          style: TextStyle(fontSize: 15.0),
+                        ),
+                      ),
+                    ) : SizedBox(
                       width: 400,
                       height: 45,
                       child: FlatButton(
@@ -308,17 +323,17 @@ class _ProfileMainState extends State<ProfileMain> {
                       ),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Divider(
                       color: Color(0xFF1467B3),
                       thickness: 1.3,
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
-                    SizedBox(
-                      width: 400,
+                     SizedBox(
+                      width: double.infinity,
                       height: 45,
                       child: OutlineButton(
                         textColor: Color(0xFF1666f0),
@@ -347,7 +362,7 @@ class _ProfileMainState extends State<ProfileMain> {
           ),
         ),
       ),
-    );
+    ) : Loading();
   }
 }
 
