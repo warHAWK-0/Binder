@@ -1,15 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_binder/models/user.dart';
-import 'package:final_binder/models/user_Info.dart';
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/shared/loading.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import '../../../../shared/CustomAppBar.dart';
 import '../../../../shared/themes.dart';
-import 'invalidPersonalNo.dart';
 
 class DeleteEmployee extends StatefulWidget {
   @override
@@ -23,9 +19,7 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
   final db= Firestore.instance;
   void fetchDepartmentComplaints() async {
     setState(() {
-      print(loading);
       loading = true;
-      print("again"+loading.toString());
     });
 
     final QuerySnapshot usersList =

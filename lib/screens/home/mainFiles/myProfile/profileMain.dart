@@ -284,7 +284,7 @@ class _ProfileMainState extends State<ProfileMain> {
                                 .document(widget.userDetails.uid).updateData({
                               'firstLogin' : 'false',
                             });
-                            //await _auth.signOut();
+                            await _auth.signOut();
                             dynamic result = await _auth.singnInUsingEmail("binderproject9@gmail.com", "123456");
                             if(result != null){
                               print('\n notnull \n');

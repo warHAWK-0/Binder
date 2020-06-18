@@ -415,6 +415,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                         final UserDetails userDetails = UserDetails(
                         name: name,
                         uid: '',
+                        firstLogin: "true",
                         typeofOperator: type,
                         authLevel: (designation == "Operator/Engineer" || designation == "Temporary Operator") ? "0"
                             : (designation == "Section Incharge" || designation == "Line Manager" || designation == "Supervisor") ? "1"
@@ -423,7 +424,6 @@ class _AddEmployeeState extends State<AddEmployee> {
                         mobileNo: phoneNo,
                         personalId: personalId,
                         email: email,
-                        //password: "123456",
                         bayNo: bayNo,
                         );
                         print(email);

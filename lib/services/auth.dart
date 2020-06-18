@@ -1,6 +1,5 @@
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/services/database.dart';
-import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/material.dart';
 
 import '../models/user.dart';
@@ -46,41 +45,18 @@ class AuthService{
   Future sendPasswordResetEmail(String email) async {
     return _auth.sendPasswordResetEmail(email: email);
   }
-  //.sendPasswordResetEmail(email: email)
-
-  Widget buildUserCreatedDialog(BuildContext context) {
-    return new AlertDialog(
-      title: const Text('Employee Successfully Created!'),
-      content: Container(
-        child: Image.asset("assets/images/blue_tick.png"),
-      ),
-      actions: <Widget>[
-        FlatButton(
-          onPressed: () {
-            Navigator.pop(context);
-            Navigator.pop(context);
-          },
-          textColor: primaryblue,
-          child: const Text('Ok!'),
-        ),
-      ],
-    );
-  }
 
   // Email & Password Sign Up
   Future createUserWithEmailAndPassword(String email, String password, UserDetails userDetails,BuildContext context) async {
     try{
-      print("Step1");
       print(getCurrentUID().asStream());
       AuthResult authResult = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      print("Step2");
       FirebaseUser user = authResult.user;
       //add User Details
       await DatabaseServices(uid: user.uid).initiateDocument();
-      print("Step3");
       await DatabaseServices(uid: user.uid).updateUserData(UserDetails(
         name: userDetails.name,
         uid: user.uid,
@@ -90,11 +66,9 @@ class AuthService{
         personalId: userDetails.personalId,
         email: userDetails.email,
         typeofOperator: userDetails.typeofOperator,
-        firstLogin: "true",
+        firstLogin: userDetails.firstLogin,
         bayNo: userDetails.bayNo,
       ));
-      print("Step4");
-      //buildUserCreatedDialog(context);
       return _userFromFirebaseUser(user);
     }catch(e){
       print(e);
