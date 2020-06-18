@@ -58,6 +58,7 @@ class _ProfileMainState extends State<ProfileMain> {
     return loading == false ? WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: CustomAppBar(
             backIcon: false,
             child: Text(

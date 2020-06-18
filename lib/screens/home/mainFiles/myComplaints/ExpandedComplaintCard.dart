@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
 import '../../../../shared/CustomAppBar.dart';
 import '../../../../shared/themes.dart';
 
@@ -571,7 +570,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                 databaseReference
                                     .collection('binder')
                                     .document(widget.userDetails.uid)
-                                    .collection('complaint')
+                                    .collection('complaint_assigned')
                                     .document(widget.complaint.complaintId)
                                     .updateData({
                                   'verifiedDate': dbt.substring(0, 10),

@@ -2,11 +2,11 @@ import 'package:final_binder/models/complaint.dart';
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/screens/home/mainFiles/myComplaints/CustomComplaintCard.dart';
 import 'package:final_binder/shared/CustomAppBar.dart';
-import 'package:final_binder/shared/loading.dart';
 import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class deptComplaints extends StatefulWidget {
   final UserDetails userDetails;
@@ -32,6 +32,8 @@ class _deptComplaintsState extends State<deptComplaints> {
     return querySnapshot.documents;
   }
 
+  bool hasComplaint = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,29 @@ class _deptComplaintsState extends State<deptComplaints> {
           future: getAllDocuments(),
           builder: (_,snapshot){
             if(snapshot.connectionState == ConnectionState.waiting){
-              return Loading();
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height/3.3,
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(20),
+                    child: SpinKitFadingCircle(
+                      size: 60,
+                      color: primaryblue,
+                    ),
+                  ),
+                  Text(
+                    'Looking for Department complaints...',
+                    style: TextStyle(
+                      color: primaryblue,
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
+              );
             }
             else{
               return Container(
@@ -97,6 +121,7 @@ class _deptComplaintsState extends State<deptComplaints> {
                   }).toList(),
                 ),
               );
+
             }
           },
         ),
