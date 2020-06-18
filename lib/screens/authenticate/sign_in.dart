@@ -93,10 +93,10 @@ class _SignInState extends State<SignIn> {
                               Icons.alternate_email,
                               color: primaryblue,
                             ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.0),
-                              borderSide: BorderSide(color: Colors.grey[300]),
-                            ),
+//                            enabledBorder: OutlineInputBorder(
+//                              borderRadius: BorderRadius.circular(4.0),
+//                              borderSide: BorderSide(color: Colors.grey[300]),
+//                            ),
                             hintText: 'Email Id',
                             hintStyle: TextStyle(color: Colors.grey)),
                       ),
@@ -135,10 +135,10 @@ class _SignInState extends State<SignIn> {
                                     : Icons.visibility_off,
                               ),
                             ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.0),
-                              borderSide: BorderSide(color: Colors.grey[300]),
-                            ),
+//                            enabledBorder: OutlineInputBorder(
+//                              borderRadius: BorderRadius.circular(4.0),
+//                              borderSide: BorderSide(color: Colors.grey[300]),
+//                            ),
                             hintText: 'Password',
                             hintStyle: TextStyle(color: Colors.grey)),
                       ),

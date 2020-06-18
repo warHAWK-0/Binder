@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/services/auth.dart';
 import 'package:final_binder/shared/loading.dart';
+import 'package:final_binder/widgets/SizeConfig.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_responsive_screen/flutter_responsive_screen.dart';
@@ -55,6 +56,8 @@ class _ProfileMainState extends State<ProfileMain> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+
     return loading == false ? WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
@@ -67,6 +70,8 @@ class _ProfileMainState extends State<ProfileMain> {
             )),
         body: SingleChildScrollView(
           child: Container(
+            height: SizeConfig.safeBlockVertical *80,
+            width: SizeConfig.safeBlockHorizontal *100,
             child: Padding(
               padding: EdgeInsets.all(30.0),
               child: Form(

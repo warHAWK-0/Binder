@@ -59,7 +59,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white,
       appBar: CustomAppBar(
         child: Text(
           'Edit an employee',
@@ -79,6 +79,15 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                 children: <Widget>[
                   TextFormField(
                     decoration: InputDecoration(
+                      suffixIcon:  Padding(
+                        padding: EdgeInsets.only(right: 5),
+                       child: IconButton(
+                         icon: Icon(Icons.edit),
+                         onPressed: (){
+
+                         },
+                       ),
+                      ),
                       hintText: widget.allData[0].name,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
@@ -117,6 +126,15 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                   ),
                   TextFormField(
                     decoration: InputDecoration(
+                      suffixIcon:  Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: (){
+
+                          },
+                        ),
+                      ),
                       hintText: widget.allData[0].personalId,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
@@ -146,6 +164,15 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                   ),
                   DropdownButtonFormField(
                     decoration: InputDecoration(
+                      suffixIcon:  Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: (){
+
+                          },
+                        ),
+                      ),
                       hintText: widget.allData[0].bayNo,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
@@ -186,6 +213,15 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                   DropdownButtonFormField(
                     //   style: TextStyle(color: Color(0xFF1467B3)),
                     decoration: InputDecoration(
+                      suffixIcon:  Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: (){
+
+                          },
+                        ),
+                      ),
                       hintText: widget.allData[0].department,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
@@ -226,6 +262,15 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                   DropdownButtonFormField(
                     // style: TextStyle(color: Color(0xFF1467B3)),
                     decoration: InputDecoration(
+                      suffixIcon:  Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: (){
+
+                          },
+                        ),
+                      ),
                       hintText: (widget.allData[0].authLevel.toString()=="0"? "Operator":
                       widget.allData[0].authLevel.toString()=="0"? "Production":
                       widget.allData[0].authLevel.toString()=="0"? " Admin": "Null"),//widget.allData[0].designation,
@@ -309,6 +354,15 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                   ),
                   TextFormField(
                     decoration: InputDecoration(
+                      suffixIcon:  Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: (){
+
+                          },
+                        ),
+                      ),
                       hintText: widget.allData[0].mobileNo,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
@@ -325,6 +379,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                               Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
                       ),
                     ),
+                    keyboardType: TextInputType.number,
                     validator: (value) {
                       Pattern p = '[0-9]{10}';
                       RegExp regex = new RegExp(p);
@@ -344,6 +399,15 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                   ),
                   TextFormField(
                     decoration: InputDecoration(
+                      suffixIcon:  Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: (){
+
+                          },
+                        ),
+                      ),
                       hintText: widget.allData[0].email,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
@@ -360,6 +424,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                               Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
                       ),
                     ),
+                    keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (!value.contains('@'))
                         return 'Not a valid email';
