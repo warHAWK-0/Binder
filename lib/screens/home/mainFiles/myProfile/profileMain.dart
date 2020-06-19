@@ -61,6 +61,7 @@ class _ProfileMainState extends State<ProfileMain> {
     return loading == false ? WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: CustomAppBar(
             backIcon: false,
             child: Text(
@@ -289,7 +290,7 @@ class _ProfileMainState extends State<ProfileMain> {
                                 .document(widget.userDetails.uid).updateData({
                               'firstLogin' : 'false',
                             });
-                            //await _auth.signOut();
+                            await _auth.signOut();
                             dynamic result = await _auth.singnInUsingEmail("binderproject9@gmail.com", "123456");
                             if(result != null){
                               print('\n notnull \n');

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_binder/models/complaint.dart';
@@ -22,10 +23,7 @@ class myComplaints extends StatefulWidget {
 // ignore: camel_case_types
 class _myComplaintsState extends State<myComplaints> {
 
-  @override
-  void initState() {
-    //fetchComplaints();
-  }
+  bool hasComplaint = false;
 
   Future<bool> _onbackpressed() {
     return Alert(
@@ -78,31 +76,51 @@ class _myComplaintsState extends State<myComplaints> {
                         .orderBy('startDate', descending: false)
                         .snapshots(),
                     builder: (context, snapshot) {
-                      return !snapshot.hasData
-                          ? new Center(
-                              child: Container(
-                                margin: EdgeInsets.only(top: 140),
-                                child: Column(
-                                  children: <Widget>[
-                                    new Image.asset(
-                                      'assets/images/sitting-4.png',
-                                      scale: 1.5,
-                                    ),
-                                    new Text(
-                                      "Looks like you have no complaints",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: Color(0xFF5e5e5e)),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                          : new ListView.builder(
+                      return !snapshot.hasData ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height/25,
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(20),
+                            child: SpinKitFadingCircle(
+                              size: 60,
+                              color: primaryblue,
+                            ),
+                          ),
+                          Text(
+                            'Looking for complaints...',
+                            style: TextStyle(
+                              color: primaryblue,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      )
+//                      Center(
+//                              child: Container(
+//                                margin: EdgeInsets.only(top: 140),
+//                                child: Column(
+//                                  children: <Widget>[
+//                                    Image.asset(
+//                                      'assets/images/sitting-4.png',
+//                                      scale: 1.5,
+//                                    ),
+//                                    Text(
+//                                      "Looks like you have no complaints",
+//                                      style: TextStyle(
+//                                          fontSize: 18,
+//                                          color: Color(0xFF5e5e5e)),
+//                                    )
+//                                  ],
+//                                ),
+//                              ),
+//                            )
+                          : ListView.builder(
                               itemCount: snapshot.data.documents.length,
                               itemBuilder: (_, index) {
-                                DocumentSnapshot data =
-                                    snapshot.data.documents[index];
                                 return snapshot.data.documents[index]['status'] != "finsished" ? CustomComplaintCard(
                                   userDetails: widget.userDetails,
                                   complaint: Complaint(
@@ -110,6 +128,7 @@ class _myComplaintsState extends State<myComplaints> {
                                     assignedDate: snapshot.data.documents[index]['assignedDate'],
                                     assignedTime: snapshot.data.documents[index]['assignedTime'],
                                     assignedTo: snapshot.data.documents[index]['assignedTo'],
+                                    assignedToUid: snapshot.data.documents[index]['assignedToUid'],
                                     assignedBy: snapshot.data.documents[index]['assignedBy'],
                                     mobileNo: snapshot.data.documents[index]['mobileNo'],
                                     department: snapshot.data.documents[index]['department'],

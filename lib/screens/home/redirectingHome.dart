@@ -1,6 +1,5 @@
 import 'package:final_binder/models/user.dart';
 import 'package:final_binder/models/user_data.dart';
-import 'package:final_binder/screens/home/home.dart';
 import 'package:final_binder/screens/home/navBarSelect.dart';
 import 'package:final_binder/services/database.dart';
 import 'package:final_binder/shared/loading.dart';
@@ -17,7 +16,6 @@ class RedirectingScreen extends StatelessWidget {
       stream: DatabaseServices(uid: user.uid).collectionReference
           .document((user.uid).toString())
           .collection("user_details").snapshots(),
-      // ignore: missing_return
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Loading();
@@ -36,6 +34,6 @@ class RedirectingScreen extends StatelessWidget {
           ));
         }
       },
-    );;
+    );
   }
 }

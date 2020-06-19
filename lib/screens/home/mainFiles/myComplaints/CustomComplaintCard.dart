@@ -1,8 +1,8 @@
 import 'package:final_binder/models/complaint.dart';
 import 'package:final_binder/models/user_data.dart';
+import 'package:final_binder/screens/home/mainFiles/myComplaints/ExpandedComplaintCard.dart';
 import 'package:final_binder/shared/themes.dart';
 import 'package:flutter/material.dart';
-import 'ExpandedComplaintCard.dart';
 
 class CustomComplaintCard extends StatefulWidget {
 
@@ -75,7 +75,7 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
           else if(widget.userDetails.authLevel=="1" && widget.userDetails.department=="maintenance"){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) =>ExpandedComplaintAssign(
+              MaterialPageRoute(builder: (context) => ExpandedComplaintAssign(
                 userDetails:widget.userDetails,
                 complaint: widget.complaint,
               )),
@@ -146,7 +146,7 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
                             : widget.complaint.status == "ongoing" ? complaintStatusOngoing
                             : widget.complaint.status == "pending" ? complaintStatusPending
                             : widget.complaint.status == "notsolved" ? complaintStatusNotSolved
-                            : widget.complaint.status == "transferAME" ? complaintStatusAME
+                            : widget.complaint.status == "cannotBeResolved" ? complaintStatusCannotBeResolved
                             : widget.complaint.status == "raised" ? Colors.red : Colors.black,
                       )
                   ),

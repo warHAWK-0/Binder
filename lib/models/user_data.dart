@@ -33,7 +33,7 @@ class UserDetails{
     'typeOfOperator': typeofOperator,
     "personalId" : personalId,
     "email": email,
-    //"password" : password,
+    "firstLogin" : firstLogin,
     "bayNo" : bayNo,
   };
 }

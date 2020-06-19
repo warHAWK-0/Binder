@@ -7,7 +7,7 @@ Color complaintStatusNotSolved = Color(0xFFFF5656);
 Color complaintStatusOngoing = Colors.yellow;
 Color complaintStatusPending = Colors.orange;
 Color complaintStatusSolved = Colors.green;
-Color complaintStatusAME = Colors.purpleAccent;
+Color complaintStatusCannotBeResolved = Colors.purpleAccent;
 Color status;
 
 

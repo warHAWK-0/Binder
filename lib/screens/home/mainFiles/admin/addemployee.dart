@@ -47,14 +47,14 @@ class _AddEmployeeState extends State<AddEmployee> {
             Navigator.pop(context);
           },
           textColor: primaryblue,
-          child: const Text('Ok!'),
+          child: const Text('OK'),
         ),
       ],
     );
   }
 
   List<String> bayNoList = ["Bay1","Bay2","Bay3"];
-  List<String> departments = ["Production", "Maintenance","Admin"];
+  List<String> departments = ["Production", "Maintenance"];
   List<String> designations = [
     "Section Incharge",
     "Line Manager",
@@ -368,7 +368,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                         Pattern p = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
                         RegExp regex = new RegExp(p);
                         if (!regex.hasMatch(value)) {
-                          return 'Not a valid email';
+                          return 'Enter a valid email';
                         } else
                           return null;
                       },
@@ -415,6 +415,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                         final UserDetails userDetails = UserDetails(
                         name: name,
                         uid: '',
+                        firstLogin: "true",
                         typeofOperator: type,
                         authLevel: (designation == "Operator/Engineer" || designation == "Temporary Operator") ? "0"
                             : (designation == "Section Incharge" || designation == "Line Manager" || designation == "Supervisor") ? "1"
@@ -423,7 +424,6 @@ class _AddEmployeeState extends State<AddEmployee> {
                         mobileNo: phoneNo,
                         personalId: personalId,
                         email: email,
-                        //password: "123456",
                         bayNo: bayNo,
                         );
                         print(email);
@@ -436,9 +436,17 @@ class _AddEmployeeState extends State<AddEmployee> {
                             showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
-                                title: const Text('Cannot Create User!'),
+                                title: const Text('Cannot Create User!',style: TextStyle(fontFamily: 'Roboto',fontSize: 20,color: Colors.black)),
                                 content: Container(
-                                  child: Text('Please Check your inputs.'),
+                                  child: RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(text: email,style: TextStyle(fontFamily: 'Roboto',fontSize: 16,color: Colors.red)),
+                                        TextSpan(text: " is already been taken or not a valid email address.",style: TextStyle(fontFamily: 'Roboto',fontSize: 16,color: Colors.black)),
+                                      ]
+                                    ),
+                                  )
+                                  //Text(email + " is already been taken or not a valid email address.",),
                                 ),
                                 actions: <Widget>[
                                   FlatButton(
@@ -446,7 +454,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                                       Navigator.pop(context);
                                     },
                                     textColor: primaryblue,
-                                    child: const Text('Ok!'),
+                                    child: const Text('OK'),
                                   ),
                                 ],
                               )
