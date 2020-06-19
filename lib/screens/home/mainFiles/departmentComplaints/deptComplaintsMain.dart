@@ -97,6 +97,7 @@ class _deptComplaintsState extends State<deptComplaints> {
                                     assignedDate: snapshot.data.documents[index]['assignedDate'],
                                     assignedTime: snapshot.data.documents[index]['assignedTime'],
                                     assignedTo:[ snapshot.data.documents[index]['assignedTo']],
+                                    assignedToUid: [snapshot.data.documents[index]['assignedToUid']],
                                     department: snapshot.data.documents[index]['department'],
                                     endDate: snapshot.data.documents[index]['endDate'],
                                     endTime: snapshot.data.documents[index]['endDate'],
