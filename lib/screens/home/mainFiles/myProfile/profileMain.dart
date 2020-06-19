@@ -328,17 +328,17 @@ class _ProfileMainState extends State<ProfileMain> {
                         ),
                       ),
                     ),
-                    widget.userDetails.firstLogin == "true" ? SizedBox(
+                    widget.userDetails.firstLogin == "false" ? SizedBox(
                       height: 10,
                     ) : Container(),
-                    widget.userDetails.firstLogin == "true" ? Divider(
+                    widget.userDetails.firstLogin == "false" ? Divider(
                       color: Color(0xFF1467B3),
                       thickness: 1.3,
                     ) : Container(),
-                    widget.userDetails.firstLogin == "true" ? SizedBox(
+                    widget.userDetails.firstLogin == "false" ? SizedBox(
                       height: 10,
                     ) : Container(),
-                    widget.userDetails.firstLogin == "true" ? SizedBox(
+                    widget.userDetails.firstLogin == "false" ? SizedBox(
                       width: double.infinity,
                       height: 45,
                       child: OutlineButton(
