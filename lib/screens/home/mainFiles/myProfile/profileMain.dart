@@ -328,17 +328,17 @@ class _ProfileMainState extends State<ProfileMain> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    widget.userDetails.firstLogin == "true" ? SizedBox(
                       height: 10,
-                    ),
-                    Divider(
+                    ) : Container(),
+                    widget.userDetails.firstLogin == "true" ? Divider(
                       color: Color(0xFF1467B3),
                       thickness: 1.3,
-                    ),
-                    SizedBox(
+                    ) : Container(),
+                    widget.userDetails.firstLogin == "true" ? SizedBox(
                       height: 10,
-                    ),
-                     SizedBox(
+                    ) : Container(),
+                    widget.userDetails.firstLogin == "true" ? SizedBox(
                       width: double.infinity,
                       height: 45,
                       child: OutlineButton(
@@ -360,7 +360,7 @@ class _ProfileMainState extends State<ProfileMain> {
                               fontSize: 15.0, color: Color(0xFF1467B3)),
                         ),
                       ),
-                    )
+                    ) : Container()
                   ],
                 ),
               ),
