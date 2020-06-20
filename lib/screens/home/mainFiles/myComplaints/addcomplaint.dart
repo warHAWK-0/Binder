@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 import 'package:final_binder/models/complaint.dart';
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/shared/CustomAppBar.dart';
@@ -11,7 +13,7 @@ import 'dart:math';
 
 class addComplaint extends StatefulWidget {
   final UserDetails userDetails;
-  const addComplaint({Key key, this.userDetails}):super(key :key);
+  const addComplaint({Key key, this.userDetails}) : super(key: key);
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -109,7 +111,8 @@ class _SearchPageState extends State<addComplaint> {
     "Coolant leakage",
     "Job fallen"
   ];
-  List<String> machines = ['HD16',
+  List<String> machines = [
+    'HD16',
     'HD07 ',
     'HD07 Pokayoke',
     'HD07 Q.Gate',
@@ -359,25 +362,62 @@ class _SearchPageState extends State<addComplaint> {
     'F519',
     'F520',
   ];
-  List<String> linetype = ["4SP Krauseco Cylinder Headline","4SP Makino Cylinder Headline","2.2L Cylinder Headline","5L Cylinder Headline","3l/3.3L Cylinder Headline","Hoists and Cranes","Mancooling Fan"];
+  List<String> linetype = [
+    "4SP Krauseco Cylinder Headline",
+    "4SP Makino Cylinder Headline",
+    "2.2L Cylinder Headline",
+    "5L Cylinder Headline",
+    "3l/3.3L Cylinder Headline",
+    "Hoists and Cranes",
+    "Mancooling Fan"
+  ];
   List<String> issuetype = ["Mechanical Issue", "Electrical Issue"];
-  String lineNo="";
+  String lineNo = "";
   String machineNo = "";
   String issue = "";
   AutoCompleteTextField searchTextField;
   bool loading = true;
+  List<String> emails = []; 
 
   @override
   void initState() {
     super.initState();
     type = '';
-    lineNo='';
+    lineNo = '';
   }
+
+  sendRaiseEmail() async {
+    QuerySnapshot querySnapshot = await Firestore.instance.collection("binder").getDocuments();
+    emails.clear();
+    for (DocumentSnapshot documentSnapshot in querySnapshot.documents) {
+      DocumentSnapshot docsnap = await Firestore.instance
+          .collection("binder")
+          .document(documentSnapshot.documentID.toString())
+          .collection("user_details")
+          .document(documentSnapshot.documentID.toString())
+          .get();
+      if (docsnap.data['authLevel'] == "1") {
+        emails.add(docsnap.data['email']);
+      }
+    }
+    String username = 'binderproject9@gmail.com';
+    String password = 'Binder@123';
+    final smtpServer = gmail(username, password);
+    final message = Message()
+      ..from = Address(username, 'Binder App')
+      ..recipients.addAll(emails)
+      ..subject = 'New complaint added at ${DateTime.now()}'
+      ..text = 'Hello,\nA new complaint has been added by an operator\n\nThank you,\nBinder App';
+    final sendReport = await send(message, smtpServer);
+    print('Message sent: ' + sendReport.toString());
+    }
+
   @override
   Widget build(BuildContext context) {
     print('addComplaint');
 
     print(widget.userDetails);
+
     return Scaffold(
       //backgroundColor: Color(0xFFE5E5E5),
       appBar: CustomAppBar(
@@ -404,21 +444,21 @@ class _SearchPageState extends State<addComplaint> {
                     // style: TextStyle(color: Color(0xFF1467B3)),
                     decoration: InputDecoration(
                       hintText: "Line No.",
-                      hintStyle: TextStyle(
-                          color: Color(0xFF1467B3), fontSize: 16),
+                      hintStyle:
+                          TextStyle(color: Color(0xFF1467B3), fontSize: 16),
                       filled: true,
                       fillColor: Color.fromRGBO(20, 103, 179, 0.05),
-                      contentPadding:
-                      const EdgeInsets.only(
+                      contentPadding: const EdgeInsets.only(
                           left: 14.0, bottom: 15.0, top: 15.0),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Color.fromRGBO(93, 153, 252, 100)),
                       ),
                       enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color.fromRGBO(
-                              223, 232, 247, 100)) //dfe8f7
-                      ),
+                          borderSide: BorderSide(
+                              color:
+                                  Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
+                          ),
                     ),
                     value: lineNo.isNotEmpty ? lineNo : null,
                     onSaved: (value) {
@@ -435,8 +475,7 @@ class _SearchPageState extends State<addComplaint> {
                       return DropdownMenuItem<String>(
                           child: new Text(item), value: item);
                     }).toList(),
-                    validator: (value) =>
-                    value == null ? '' : null,
+                    validator: (value) => value == null ? '' : null,
                   ),
                   SizedBox(
                     height: 20,
@@ -451,25 +490,26 @@ class _SearchPageState extends State<addComplaint> {
                       //style: TextStyle(color: Colors.blue,fontSize: 14),
                       decoration: InputDecoration(
                         hintText: "Machine No.",
-                        hintStyle: TextStyle(
-                            color: Color(0xFF1467B3), fontSize: 16),
+                        hintStyle:
+                            TextStyle(color: Color(0xFF1467B3), fontSize: 16),
                         filled: true,
                         fillColor: Color.fromRGBO(20, 103, 179, 0.05),
-                        contentPadding:
-                        const EdgeInsets.only(
+                        contentPadding: const EdgeInsets.only(
                             left: 14.0, bottom: 15.0, top: 15.0),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Color.fromRGBO(93, 153, 252, 100)),
                         ),
                         enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color.fromRGBO(
-                                223, 232, 247, 100)) //dfe8f7
-                        ),
+                            borderSide: BorderSide(
+                                color:
+                                    Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
+                            ),
                       ),
                       itemFilter: (item, query) {
-                        return item.toLowerCase().startsWith(
-                            query.toLowerCase());
+                        return item
+                            .toLowerCase()
+                            .startsWith(query.toLowerCase());
                       },
                       itemSorter: (a, b) {
                         return a.compareTo(b);
@@ -486,8 +526,9 @@ class _SearchPageState extends State<addComplaint> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              item, style: TextStyle(
-                                fontSize: 18, color: Colors.black),
+                              item,
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.black),
                             ),
                           ],
                         );
@@ -507,25 +548,26 @@ class _SearchPageState extends State<addComplaint> {
                       //style: TextStyle(color: Colors.blue,fontSize: 14),
                       decoration: InputDecoration(
                         hintText: "Issue",
-                        hintStyle: TextStyle(
-                            color: Color(0xFF1467B3), fontSize: 16),
+                        hintStyle:
+                            TextStyle(color: Color(0xFF1467B3), fontSize: 16),
                         filled: true,
                         fillColor: Color.fromRGBO(20, 103, 179, 0.05),
-                        contentPadding:
-                        const EdgeInsets.only(
+                        contentPadding: const EdgeInsets.only(
                             left: 14.0, bottom: 15.0, top: 15.0),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Color.fromRGBO(93, 153, 252, 100)),
                         ),
                         enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color.fromRGBO(
-                                223, 232, 247, 100)) //dfe8f7
-                        ),
+                            borderSide: BorderSide(
+                                color:
+                                    Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
+                            ),
                       ),
                       itemFilter: (item, query) {
-                        return item.toLowerCase().startsWith(
-                            query.toLowerCase());
+                        return item
+                            .toLowerCase()
+                            .startsWith(query.toLowerCase());
                       },
                       itemSorter: (a, b) {
                         return a.compareTo(b);
@@ -541,35 +583,38 @@ class _SearchPageState extends State<addComplaint> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              item, style: TextStyle(
-                                fontSize: 18, color: Colors.black),
+                              item,
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.black),
                             ),
                           ],
                         );
                       },
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   DropdownButtonFormField(
                     // style: TextStyle(color: Color(0xFF1467B3)),
                     decoration: InputDecoration(
-                        hintText: "Type of Issue",
-                        hintStyle: TextStyle(
-                            color: Color(0xFF1467B3), fontSize: 16),
-                        filled: true,
-                        fillColor: Color.fromRGBO(20, 103, 179, 0.05),
-                        contentPadding:
-                        const EdgeInsets.only(
-                            left: 14.0, bottom: 15.0, top: 15.0),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Color.fromRGBO(93, 153, 252, 100)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color.fromRGBO(
-                                223, 232, 247, 100)) //dfe8f7
-                        ),
+                      hintText: "Type of Issue",
+                      hintStyle:
+                          TextStyle(color: Color(0xFF1467B3), fontSize: 16),
+                      filled: true,
+                      fillColor: Color.fromRGBO(20, 103, 179, 0.05),
+                      contentPadding: const EdgeInsets.only(
+                          left: 14.0, bottom: 15.0, top: 15.0),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(93, 153, 252, 100)),
                       ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color:
+                                  Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
+                          ),
+                    ),
                     value: type.isNotEmpty ? type : null,
                     onSaved: (value) {
                       setState(() {
@@ -585,8 +630,7 @@ class _SearchPageState extends State<addComplaint> {
                       return DropdownMenuItem<String>(
                           child: new Text(item), value: item);
                     }).toList(),
-                    validator: (value) =>
-                    value == null ? '' : null,
+                    validator: (value) => value == null ? '' : null,
                   ),
                   SizedBox(
                     height: 30,
@@ -603,47 +647,61 @@ class _SearchPageState extends State<addComplaint> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () async {
-
                         var now = new DateTime.now();
                         var formatter1 = new DateFormat('dd/MM/yyyy');
                         String date = formatter1.format(now);
-                        if(lineNo.isNotEmpty && machineNo.isNotEmpty && issue.isNotEmpty && type.isNotEmpty) {
-                          await Firestore.instance.collection("binder")
-                              .document(widget.userDetails.uid).collection("complaint")
+                        if (lineNo.isNotEmpty &&
+                            machineNo.isNotEmpty &&
+                            issue.isNotEmpty &&
+                            type.isNotEmpty) {
+                          await Firestore.instance
+                              .collection("binder")
+                              .document(widget.userDetails.uid)
+                              .collection("complaint")
                               .add(Complaint(
-                              machineNo : machineNo,
-                              department: "production",
-                              issue: issue,
-                              typeofIssue: type,
-                              lineNo: lineNo,
-                              startDate: date,
-                              startTime: DateFormat.yMEd().add_jms().format(DateTime.now()).substring(15,25),
-                              assignedDate: '',
-                              assignedTime: '',
-                              endDate: '',
-                              endTime: '',
-                              verifiedDate: '',
-                              verifiedTime: '',
-                              raisedByUid: widget.userDetails.uid,
-                              assignedTo: null,
-                              raisedBy: widget.userDetails.name,
-                              mobileNo : widget.userDetails.mobileNo,
-                              assignedBy: "",
-                              status: 'raised',
-                              assignedToUid: null
-                                ).toJson());
+                                      machineNo: machineNo,
+                                      department: "production",
+                                      issue: issue,
+                                      typeofIssue: type,
+                                      lineNo: lineNo,
+                                      startDate: date,
+                                      startTime: DateFormat.yMEd()
+                                          .add_jms()
+                                          .format(DateTime.now())
+                                          .substring(15, 25),
+                                      assignedDate: '',
+                                      assignedTime: '',
+                                      endDate: '',
+                                      endTime: '',
+                                      verifiedDate: '',
+                                      verifiedTime: '',
+                                      raisedByUid: widget.userDetails.uid,
+                                      assignedTo: null,
+                                      raisedBy: widget.userDetails.name,
+                                      mobileNo: widget.userDetails.mobileNo,
+                                      assignedBy: "",
+                                      status: 'raised',
+                                      assignedToUid: null)
+                                  .toJson());
                         }
+                        
+                        sendRaiseEmail();
+
                         return Alert(
                           context: context,
                           type: AlertType.success,
                           title: "Complaint Raised!",
                           buttons: [
                             DialogButton(
-                                child: Text(
-                                  "Okay",
-                                  style: TextStyle(color: Colors.white, fontSize: 20),
-                                ),
-                                onPressed: (){ Navigator.pop(context);Navigator.pop(context);},
+                              child: Text(
+                                "Okay",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              },
                               color: Color(0xFF1467B3),
                             ),
                           ],
