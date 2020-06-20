@@ -1,4 +1,6 @@
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 import 'package:final_binder/models/complaint.dart';
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/shared/loading.dart';
@@ -10,6 +12,7 @@ import '../../../../shared/CustomAppBar.dart';
 import '../../../../shared/themes.dart';
 
 enum ComplaintVerificationValue { finish, notfinished , nothing }
+List<String> verificationEmails = []; 
 
 class ExpandedComplainVerify extends StatefulWidget {
   final Complaint complaint;
@@ -32,6 +35,32 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
       ComplaintVerificationValue.nothing;
   TextStyle detailsTextStyle =
       TextStyle(fontFamily: 'Roboto', color: Colors.black, fontSize: 14);
+
+  sendVerificationEmail() async {
+    QuerySnapshot querySnapshot = await Firestore.instance.collection("binder").getDocuments();
+    verificationEmails.clear();
+    for (DocumentSnapshot documentSnapshot in querySnapshot.documents) {
+      DocumentSnapshot docsnap = await Firestore.instance
+          .collection("binder")
+          .document(documentSnapshot.documentID.toString())
+          .collection("user_details")
+          .document(documentSnapshot.documentID.toString())
+          .get();
+      if (docsnap.data['department'] == "production" || (docsnap.data['department'] == "maintenance" && docsnap.data['authLevel'] == "1")) {
+        verificationEmails.add(docsnap.data['email']);
+      }
+    }
+    String username = 'binderproject9@gmail.com';
+    String password = 'Binder@123';
+    final smtpServer = gmail(username, password);
+    final message = Message()
+      ..from = Address(username, 'Binder App')
+      ..recipients.addAll(verificationEmails)
+      ..subject = 'A complaint completion has been verified at ${DateTime.now()}'
+      ..text = 'Hello,\nA complaint completion has been verified by a supervisor.\n\nThank you,\nBinder App';
+    final sendReport = await send(message, smtpServer);
+    print('Message sent: ' + sendReport.toString());
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -236,7 +265,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                                     textAlign: TextAlign.center,
                                   ),
                                   color: Color(0xFF1467B3),
-                                  onPressed: () {
+                                  onPressed: () async{
                                     try{
                                       if (_radioVerifyValue ==
                                           ComplaintVerificationValue
@@ -290,6 +319,8 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                                               'status': _radioVerifyValue,
                                             });
                                       }
+
+                                      sendVerificationEmail();
 
                                       return Alert(
                                         context: context,
@@ -387,6 +418,8 @@ enum ComplaintStatusValue {
   nothing
 }
 
+List<String> stausChangeEmails = []; 
+
 class ExpandedComplainStatus extends StatefulWidget {
   final Complaint complaint;
   final UserDetails userDetails;
@@ -417,6 +450,32 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                     ? ComplaintStatusValue.cannotBeResolved
                     : ComplaintStatusValue.ongoing;
   }
+
+  sendStatusChangeEmail() async {
+    QuerySnapshot querySnapshot = await Firestore.instance.collection("binder").getDocuments();
+    stausChangeEmails.clear();
+    for (DocumentSnapshot documentSnapshot in querySnapshot.documents) {
+      DocumentSnapshot docsnap = await Firestore.instance
+          .collection("binder")
+          .document(documentSnapshot.documentID.toString())
+          .collection("user_details")
+          .document(documentSnapshot.documentID.toString())
+          .get();
+      if (docsnap.data['authLevel'] == "1") {
+        stausChangeEmails.add(docsnap.data['email']);
+      }
+    }
+    String username = 'binderproject9@gmail.com';
+    String password = 'Binder@123';
+    final smtpServer = gmail(username, password);
+    final message = Message()
+      ..from = Address(username, 'Binder App')
+      ..recipients.addAll(stausChangeEmails)
+      ..subject = 'A complaint status has been updated at ${DateTime.now()}'
+      ..text = 'Hello,\nA complaint status has been updated by an operator.\n\nThank you,\nBinder App';
+    final sendReport = await send(message, smtpServer);
+    print('Message sent: ' + sendReport.toString());
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -680,7 +739,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                         textAlign: TextAlign.center,
                                       ),
                                       color: Color(0xFF1467B3),
-                                      onPressed: () {
+                                      onPressed: () async{
                                         try {
                                           for (dynamic i in widget
                                               .complaint.assignedToUid) {
@@ -748,6 +807,9 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                                             ? "cannotBeResolved"
                                                             : "ongoing"
                                           });
+
+                                           sendStatusChangeEmail();
+
                                           return Alert(
                                             context: context,
                                             type: AlertType.success,
@@ -841,6 +903,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
   bool loading = true;
   List<String> assign = [];
   final myController = TextEditingController();
+  List<String> assignEmails = [];
 
   Future getNamesOfAllOperators(String typeOfIssue) async {
     try {
@@ -876,6 +939,33 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
     Future.delayed(Duration.zero,
         () => getNamesOfAllOperators(widget.complaint.typeofIssue));
   }
+
+  sendAssignEmail() async {
+    QuerySnapshot querySnapshot = await Firestore.instance.collection("binder").getDocuments();
+    assignEmails.clear();
+    for (DocumentSnapshot documentSnapshot in querySnapshot.documents) {
+      DocumentSnapshot docsnap = await Firestore.instance
+          .collection("binder")
+          .document(documentSnapshot.documentID.toString())
+          .collection("user_details")
+          .document(documentSnapshot.documentID.toString())
+          .get();
+      if ((docsnap.data['department'] == "production" && docsnap.data['authLevel'] == "1") ||
+      (docsnap.data['department'] == "maintenance" && docsnap.data['authLevel'] == "0")) {
+        assignEmails.add(docsnap.data['email']);
+      }
+    }
+    String username = 'binderproject9@gmail.com';
+    String password = 'Binder@123';
+    final smtpServer = gmail(username, password);
+    final message = Message()
+      ..from = Address(username, 'Binder App')
+      ..recipients.addAll(assignEmails)
+      ..subject = 'New complaint assigned to operators at ${DateTime.now()}'
+      ..text = 'Hello,\nA new complaint has been assigned to operators by a maintenance supervisor.\n\nThank you,\nBinder App';
+    final sendReport = await send(message, smtpServer);
+    print('Message sent: ' + sendReport.toString());
+    }
 
   String dbt;
   @override
@@ -1216,6 +1306,9 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                                             'assignedBy':
                                                 widget.userDetails.name,
                                           });
+
+                                          sendAssignEmail();
+
                                           return Alert(
                                             context: context,
                                             type: AlertType.success,
