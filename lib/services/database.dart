@@ -17,7 +17,7 @@ class DatabaseServices{
   }
 
   Future updateUserData(UserDetails userDetails) async{
-    return await collectionReference.document(uid).collection("user_details").document(uid).setData(userDetails.toJson());
+    return await Firestore.instance.collection("user_details").document(uid).setData(userDetails.toJson());
   }
 
   UserDetails userDetailsFromSnapshot(DocumentSnapshot snapshot){

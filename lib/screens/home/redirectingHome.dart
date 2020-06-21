@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_binder/models/user.dart';
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/screens/home/navBarSelect.dart';
@@ -13,8 +14,7 @@ class RedirectingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: DatabaseServices(uid: user.uid).collectionReference
-          .document((user.uid).toString())
+      stream: Firestore.instance
           .collection("user_details").snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
