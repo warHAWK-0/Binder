@@ -31,8 +31,10 @@ class DatabaseServices{
   }
 
   Stream<UserDetails> get userDetails{
-    return collectionReference.document(uid).collection("user_details").document(uid)
-        .snapshots().map(userDetailsFromSnapshot);
+    //return collectionReference.document(uid).collection("user_details").document(uid)
+    //    .snapshots().map(userDetailsFromSnapshot);
+    return Firestore.instance.collection("user_details").document(uid)
+       .snapshots().map(userDetailsFromSnapshot);
   }
 
 }
