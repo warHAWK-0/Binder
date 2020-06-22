@@ -36,31 +36,32 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
   TextStyle detailsTextStyle =
       TextStyle(fontFamily: 'Roboto', color: Colors.black, fontSize: 14);
 
-  sendVerificationEmail() async {
-    QuerySnapshot querySnapshot = await Firestore.instance.collection("binder").getDocuments();
-    verificationEmails.clear();
-    for (DocumentSnapshot documentSnapshot in querySnapshot.documents) {
-      DocumentSnapshot docsnap = await Firestore.instance
-          .collection("binder")
-          .document(documentSnapshot.documentID.toString())
-          .collection("user_details")
-          .document(documentSnapshot.documentID.toString())
-          .get();
-      if (docsnap.data['department'] == "production" || (docsnap.data['department'] == "maintenance" && docsnap.data['authLevel'] == "1")) {
-        verificationEmails.add(docsnap.data['email']);
-      }
-    }
-    String username = 'binderproject9@gmail.com';
-    String password = 'Binder@123';
-    final smtpServer = gmail(username, password);
-    final message = Message()
-      ..from = Address(username, 'Binder App')
-      ..recipients.addAll(verificationEmails)
-      ..subject = 'A complaint completion has been verified at ${DateTime.now()}'
-      ..text = 'Hello,\nA complaint completion has been verified by a supervisor.\n\nThank you,\nBinder App';
-    final sendReport = await send(message, smtpServer);
-    print('Message sent: ' + sendReport.toString());
-    }
+  // EMAIL NOTIFICATION
+  // sendVerificationEmail() async {
+  //   QuerySnapshot querySnapshot = await Firestore.instance.collection("binder").getDocuments();
+  //   verificationEmails.clear();
+  //   for (DocumentSnapshot documentSnapshot in querySnapshot.documents) {
+  //     DocumentSnapshot docsnap = await Firestore.instance
+  //         .collection("binder")
+  //         .document(documentSnapshot.documentID.toString())
+  //         .collection("user_details")
+  //         .document(documentSnapshot.documentID.toString())
+  //         .get();
+  //     if (docsnap.data['department'] == "production" || (docsnap.data['department'] == "maintenance" && docsnap.data['authLevel'] == "1")) {
+  //       verificationEmails.add(docsnap.data['email']);
+  //     }
+  //   }
+  //   String username = 'binderproject9@gmail.com';
+  //   String password = 'Binder@123';
+  //   final smtpServer = gmail(username, password);
+  //   final message = Message()
+  //     ..from = Address(username, 'Binder App')
+  //     ..recipients.addAll(verificationEmails)
+  //     ..subject = 'A complaint completion has been verified at ${DateTime.now()}'
+  //     ..text = 'Hello,\nA complaint completion has been verified by a supervisor.\n\nThank you,\nBinder App';
+  //   final sendReport = await send(message, smtpServer);
+  //   print('Message sent: ' + sendReport.toString());
+  //   }
 
   @override
   Widget build(BuildContext context) {
@@ -320,7 +321,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                                             });
                                       }
 
-                                      sendVerificationEmail();
+                                      //sendVerificationEmail();
 
                                       return Alert(
                                         context: context,
@@ -451,31 +452,32 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                     : ComplaintStatusValue.ongoing;
   }
 
-  sendStatusChangeEmail() async {
-    QuerySnapshot querySnapshot = await Firestore.instance.collection("binder").getDocuments();
-    stausChangeEmails.clear();
-    for (DocumentSnapshot documentSnapshot in querySnapshot.documents) {
-      DocumentSnapshot docsnap = await Firestore.instance
-          .collection("binder")
-          .document(documentSnapshot.documentID.toString())
-          .collection("user_details")
-          .document(documentSnapshot.documentID.toString())
-          .get();
-      if (docsnap.data['authLevel'] == "1") {
-        stausChangeEmails.add(docsnap.data['email']);
-      }
-    }
-    String username = 'binderproject9@gmail.com';
-    String password = 'Binder@123';
-    final smtpServer = gmail(username, password);
-    final message = Message()
-      ..from = Address(username, 'Binder App')
-      ..recipients.addAll(stausChangeEmails)
-      ..subject = 'A complaint status has been updated at ${DateTime.now()}'
-      ..text = 'Hello,\nA complaint status has been updated by an operator.\n\nThank you,\nBinder App';
-    final sendReport = await send(message, smtpServer);
-    print('Message sent: ' + sendReport.toString());
-    }
+  // EMAIL NOTIFICATION
+  // sendStatusChangeEmail() async {
+  //   QuerySnapshot querySnapshot = await Firestore.instance.collection("binder").getDocuments();
+  //   stausChangeEmails.clear();
+  //   for (DocumentSnapshot documentSnapshot in querySnapshot.documents) {
+  //     DocumentSnapshot docsnap = await Firestore.instance
+  //         .collection("binder")
+  //         .document(documentSnapshot.documentID.toString())
+  //         .collection("user_details")
+  //         .document(documentSnapshot.documentID.toString())
+  //         .get();
+  //     if (docsnap.data['authLevel'] == "1") {
+  //       stausChangeEmails.add(docsnap.data['email']);
+  //     }
+  //   }
+  //   String username = 'binderproject9@gmail.com';
+  //   String password = 'Binder@123';
+  //   final smtpServer = gmail(username, password);
+  //   final message = Message()
+  //     ..from = Address(username, 'Binder App')
+  //     ..recipients.addAll(stausChangeEmails)
+  //     ..subject = 'A complaint status has been updated at ${DateTime.now()}'
+  //     ..text = 'Hello,\nA complaint status has been updated by an operator.\n\nThank you,\nBinder App';
+  //   final sendReport = await send(message, smtpServer);
+  //   print('Message sent: ' + sendReport.toString());
+  //   }
 
   @override
   Widget build(BuildContext context) {
@@ -808,7 +810,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                                             : "ongoing"
                                           });
 
-                                           sendStatusChangeEmail();
+                                          //sendStatusChangeEmail();
 
                                           return Alert(
                                             context: context,
@@ -940,32 +942,33 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
         () => getNamesOfAllOperators(widget.complaint.typeofIssue));
   }
 
-  sendAssignEmail() async {
-    QuerySnapshot querySnapshot = await Firestore.instance.collection("binder").getDocuments();
-    assignEmails.clear();
-    for (DocumentSnapshot documentSnapshot in querySnapshot.documents) {
-      DocumentSnapshot docsnap = await Firestore.instance
-          .collection("binder")
-          .document(documentSnapshot.documentID.toString())
-          .collection("user_details")
-          .document(documentSnapshot.documentID.toString())
-          .get();
-      if ((docsnap.data['department'] == "production" && docsnap.data['authLevel'] == "1") ||
-      (docsnap.data['department'] == "maintenance" && docsnap.data['authLevel'] == "0")) {
-        assignEmails.add(docsnap.data['email']);
-      }
-    }
-    String username = 'binderproject9@gmail.com';
-    String password = 'Binder@123';
-    final smtpServer = gmail(username, password);
-    final message = Message()
-      ..from = Address(username, 'Binder App')
-      ..recipients.addAll(assignEmails)
-      ..subject = 'New complaint assigned to operators at ${DateTime.now()}'
-      ..text = 'Hello,\nA new complaint has been assigned to operators by a maintenance supervisor.\n\nThank you,\nBinder App';
-    final sendReport = await send(message, smtpServer);
-    print('Message sent: ' + sendReport.toString());
-    }
+  // EMAIL NOTIFICATION
+  // sendAssignEmail() async {
+  //   QuerySnapshot querySnapshot = await Firestore.instance.collection("binder").getDocuments();
+  //   assignEmails.clear();
+  //   for (DocumentSnapshot documentSnapshot in querySnapshot.documents) {
+  //     DocumentSnapshot docsnap = await Firestore.instance
+  //         .collection("binder")
+  //         .document(documentSnapshot.documentID.toString())
+  //         .collection("user_details")
+  //         .document(documentSnapshot.documentID.toString())
+  //         .get();
+  //     if ((docsnap.data['department'] == "production" && docsnap.data['authLevel'] == "1") ||
+  //     (docsnap.data['department'] == "maintenance" && docsnap.data['authLevel'] == "0")) {
+  //       assignEmails.add(docsnap.data['email']);
+  //     }
+  //   }
+  //   String username = 'binderproject9@gmail.com';
+  //   String password = 'Binder@123';
+  //   final smtpServer = gmail(username, password);
+  //   final message = Message()
+  //     ..from = Address(username, 'Binder App')
+  //     ..recipients.addAll(assignEmails)
+  //     ..subject = 'New complaint assigned to operators at ${DateTime.now()}'
+  //     ..text = 'Hello,\nA new complaint has been assigned to operators by a maintenance supervisor.\n\nThank you,\nBinder App';
+  //   final sendReport = await send(message, smtpServer);
+  //   print('Message sent: ' + sendReport.toString());
+  //   }
 
   String dbt;
   @override
@@ -1307,7 +1310,7 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                                                 widget.userDetails.name,
                                           });
 
-                                          sendAssignEmail();
+                                          //sendAssignEmail();
 
                                           return Alert(
                                             context: context,
