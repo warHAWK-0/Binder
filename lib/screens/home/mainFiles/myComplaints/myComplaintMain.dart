@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -70,10 +71,10 @@ class _myComplaintsState extends State<myComplaints> {
                 padding: EdgeInsets.only(top: 25),
                 child: StreamBuilder<QuerySnapshot>(
                     stream: Firestore.instance
-                        .collection('binder')
-                        .document(widget.userDetails.uid)
-                        . collection( widget.userDetails.department == "production" ? "complaint" : "complaint_assigned")
-                        .orderBy('startDate', descending: false)
+                        .collection("complaint")
+                        .document(widget.userDetails.department == "production" ? "complaintRaised" : "complaintAssigned")
+                        .collection(widget.userDetails.uid)
+                        .orderBy("startDate", descending: false)
                         .snapshots(),
                     builder: (context, snapshot) {
                       return !snapshot.hasData ? Column(
@@ -99,25 +100,7 @@ class _myComplaintsState extends State<myComplaints> {
                           ),
                         ],
                       )
-//                      Center(
-//                              child: Container(
-//                                margin: EdgeInsets.only(top: 140),
-//                                child: Column(
-//                                  children: <Widget>[
-//                                    Image.asset(
-//                                      'assets/images/sitting-4.png',
-//                                      scale: 1.5,
-//                                    ),
-//                                    Text(
-//                                      "Looks like you have no complaints",
-//                                      style: TextStyle(
-//                                          fontSize: 18,
-//                                          color: Color(0xFF5e5e5e)),
-//                                    )
-//                                  ],
-//                                ),
-//                              ),
-//                            )
+
                           : ListView.builder(
                               itemCount: snapshot.data.documents.length,
                               itemBuilder: (_, index) {
