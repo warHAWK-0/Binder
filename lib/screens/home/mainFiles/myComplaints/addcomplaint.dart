@@ -10,6 +10,7 @@ import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';
+import 'package:random_string/random_string.dart';
 
 class addComplaint extends StatefulWidget {
   final UserDetails userDetails;
@@ -376,8 +377,8 @@ class _SearchPageState extends State<addComplaint> {
   String machineNo = "";
   String issue = "";
   AutoCompleteTextField searchTextField;
-  bool loading = true;
   List<String> emails = []; 
+  bool loading = true;
 
   @override
   void initState() {
@@ -386,38 +387,38 @@ class _SearchPageState extends State<addComplaint> {
     lineNo = '';
   }
 
-  sendRaiseEmail() async {
-    QuerySnapshot querySnapshot = await Firestore.instance.collection("binder").getDocuments();
-    emails.clear();
-    for (DocumentSnapshot documentSnapshot in querySnapshot.documents) {
-      DocumentSnapshot docsnap = await Firestore.instance
-          .collection("binder")
-          .document(documentSnapshot.documentID.toString())
-          .collection("user_details")
-          .document(documentSnapshot.documentID.toString())
-          .get();
-      if (docsnap.data['authLevel'] == "1") {
-        emails.add(docsnap.data['email']);
-      }
-    }
-    String username = 'binderproject9@gmail.com';
-    String password = 'Binder@123';
-    final smtpServer = gmail(username, password);
-    final message = Message()
-      ..from = Address(username, 'Binder App')
-      ..recipients.addAll(emails)
-      ..subject = 'New complaint added at ${DateTime.now()}'
-      ..text = 'Hello,\nA new complaint has been added by an operator\n\nThank you,\nBinder App';
-    final sendReport = await send(message, smtpServer);
-    print('Message sent: ' + sendReport.toString());
-    }
+  // EMAIL NOTIFICATION
+  // sendRaiseEmail() async {
+  //   QuerySnapshot querySnapshot = await Firestore.instance.collection("binder").getDocuments();
+  //   emails.clear();
+  //   for (DocumentSnapshot documentSnapshot in querySnapshot.documents) {
+  //     DocumentSnapshot docsnap = await Firestore.instance
+  //         .collection("binder")
+  //         .document(documentSnapshot.documentID.toString())
+  //         .collection("user_details")
+  //         .document(documentSnapshot.documentID.toString())
+  //         .get();
+  //     if (docsnap.data['authLevel'] == "1") {
+  //       emails.add(docsnap.data['email']);
+  //     }
+  //   }
+  //   String username = 'binderproject9@gmail.com';
+  //   String password = 'Binder@123';
+  //   final smtpServer = gmail(username, password);
+  //   final message = Message()
+  //     ..from = Address(username, 'Binder App')
+  //     ..recipients.addAll(emails)
+  //     ..subject = 'New complaint added at ${DateTime.now()}'
+  //     ..text = 'Hello,\nA new complaint has been added by an operator\n\nThank you,\nBinder App';
+  //   final sendReport = await send(message, smtpServer);
+  //   print('Message sent: ' + sendReport.toString());
+  //   }
 
   @override
   Widget build(BuildContext context) {
     print('addComplaint');
 
-    print(widget.userDetails);
-
+    // print(widget.userDetails);
     return Scaffold(
       //backgroundColor: Color(0xFFE5E5E5),
       appBar: CustomAppBar(
@@ -647,45 +648,53 @@ class _SearchPageState extends State<addComplaint> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () async {
+                        var complaintId = randomAlphaNumeric(20);
                         var now = new DateTime.now();
                         var formatter1 = new DateFormat('dd/MM/yyyy');
-                        String date = formatter1.format(now);
+                        String date = formatter1.format(now); //
                         if (lineNo.isNotEmpty &&
                             machineNo.isNotEmpty &&
                             issue.isNotEmpty &&
                             type.isNotEmpty) {
+                          Complaint complaint = new Complaint(
+                              machineNo: machineNo,
+                              department: "Production",
+                              issue: issue,
+                              typeofIssue: type,
+                              lineNo: lineNo,
+                              startDate: date,
+                              startTime: DateFormat.yMEd()
+                                  .add_jms()
+                                  .format(DateTime.now())
+                                  .substring(15, 25),
+                              assignedDate: '',
+                              assignedTime: '',
+                              endDate: '',
+                              endTime: '',
+                              verifiedDate: '',
+                              verifiedTime: '',
+                              raisedByUid: widget.userDetails.uid,
+                              assignedTo: null,
+                              raisedBy: widget.userDetails.name,
+                              mobileNo: widget.userDetails.mobileNo,
+                              assignedBy: "",
+                              status: 'raised',
+                              assignedToUid: null,
+                              complaintId: complaintId);
+                          //widget.userDetails.uid
                           await Firestore.instance
-                              .collection("binder")
-                              .document(widget.userDetails.uid)
                               .collection("complaint")
-                              .add(Complaint(
-                                      machineNo: machineNo,
-                                      department: "production",
-                                      issue: issue,
-                                      typeofIssue: type,
-                                      lineNo: lineNo,
-                                      startDate: date,
-                                      startTime: DateFormat.yMEd()
-                                          .add_jms()
-                                          .format(DateTime.now())
-                                          .substring(15, 25),
-                                      assignedDate: '',
-                                      assignedTime: '',
-                                      endDate: '',
-                                      endTime: '',
-                                      verifiedDate: '',
-                                      verifiedTime: '',
-                                      raisedByUid: widget.userDetails.uid,
-                                      assignedTo: null,
-                                      raisedBy: widget.userDetails.name,
-                                      mobileNo: widget.userDetails.mobileNo,
-                                      assignedBy: "",
-                                      status: 'raised',
-                                      assignedToUid: null)
-                                  .toJson());
+                              .document("complaintRaised")
+                              .collection(widget.userDetails.uid)
+                              .document(complaintId)
+                              .setData(complaint.toJson());
+                          await Firestore.instance
+                              .collection("departmentComplaints")
+                              .document(complaintId)
+                              .setData(complaint.toJson());
                         }
-                        
-                        sendRaiseEmail();
+
+                        //sendRaiseEmail();
 
                         return Alert(
                           context: context,
