@@ -14,12 +14,12 @@ class RedirectingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: Firestore.instance
-          .collection("user_details").snapshots(),
+      stream: DatabaseServices(uid: user.uid.toString()).collectionReference.document(user.uid.toString()).collection(user.uid.toString()).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Loading();
         } else {
+          print(snapshot.data.documents[0]['department']);
           return NavBarSelect(userDetails: UserDetails(
             uid: user.uid.toString(),
             name: snapshot.data.documents[0]['name'],

@@ -169,8 +169,7 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
                   Container(
                     padding: EdgeInsets.only(right: 8),
                     child: Text(
-                        widget.complaint.department.substring(0,1).toUpperCase()+
-                        widget.complaint.department.substring(1,widget.complaint.department.length),
+                        widget.complaint.typeofIssue,
                         style: TextStyle(
                             fontFamily: 'Roboto',
                             color: primaryblue,

@@ -267,7 +267,7 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
                                   splashColor: Colors.blueAccent,
                                   onPressed: () async{
 
-                                    await db.collection('binder').document(userID).collection('user_details').document(allData[0].uid).delete();
+                                    await Firestore.instance.collection('user_details').document(allData[0].uid).delete();
 
                                     return Alert(
                                       context: context,

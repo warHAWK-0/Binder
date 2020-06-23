@@ -452,8 +452,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                       splashColor: Colors.blueAccent,
                       onPressed: () {
 
-                        var db= Firestore.instance.collection('binder').document(widget.userID)
-                            .collection('user_details').document(widget.userID);
+                        var db= Firestore.instance.collection('user_details').document(widget.userID);
                         db.updateData({
                           'blockNo': block.isEmpty? widget.allData[0].bayNo : block,
                           'department': dept.isEmpty? widget.allData[0].department : (dept.toLowerCase()),
