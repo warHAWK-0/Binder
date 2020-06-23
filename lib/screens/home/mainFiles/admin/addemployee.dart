@@ -53,7 +53,7 @@ class _AddEmployeeState extends State<AddEmployee> {
     );
   }
 
-  List<String> bayNoList = ["Bay1","Bay2","Bay3"];
+  List<String> bayNoList = ["Bay2","Bay3","Bay4","Bay5","Bay6","Bay7","Bay8"];
   List<String> departments = ["Production", "Maintenance"];
   List<String> designations = [
     "Section Incharge",

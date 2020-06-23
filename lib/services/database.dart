@@ -1,23 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_binder/models/user_data.dart';
 import 'package:final_binder/services/auth.dart';
-import 'package:provider/provider.dart';
 
 class DatabaseServices{
   final String uid;
 
   //creating db instance for binder collection
-  final CollectionReference collectionReference = Firestore.instance.collection("binder");
   final AuthService auth = AuthService();
 
   DatabaseServices({this.uid});
+  CollectionReference collectionReference = Firestore.instance.collection("user_details");
 
   Future initiateDocument() async{
-    return await collectionReference.document(uid).setData({});
+    return await Firestore.instance.collection("user_details").document(uid).setData({});
   }
 
   Future updateUserData(UserDetails userDetails) async{
-    return await Firestore.instance.collection("user_details").document(uid).setData(userDetails.toJson());
+    return await Firestore.instance.collection("user_details").document(uid).collection(uid).document(uid).setData(userDetails.toJson());
   }
 
   UserDetails userDetailsFromSnapshot(DocumentSnapshot snapshot){
@@ -31,8 +30,7 @@ class DatabaseServices{
   }
 
   Stream<UserDetails> get userDetails{
-    return collectionReference.document(uid).collection("user_details").document(uid)
+    return Firestore.instance.collection("user_details").document(uid)
         .snapshots().map(userDetailsFromSnapshot);
   }
-
 }

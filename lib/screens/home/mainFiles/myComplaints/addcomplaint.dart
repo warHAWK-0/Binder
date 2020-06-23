@@ -8,10 +8,11 @@ import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';
+import 'package:random_string/random_string.dart';
 
 class addComplaint extends StatefulWidget {
   final UserDetails userDetails;
-  const addComplaint({Key key, this.userDetails}):super(key :key);
+  const addComplaint({Key key, this.userDetails}) : super(key: key);
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -109,7 +110,8 @@ class _SearchPageState extends State<addComplaint> {
     "Coolant leakage",
     "Job fallen"
   ];
-  List<String> machines = ['HD16',
+  List<String> machines = [
+    'HD16',
     'HD07 ',
     'HD07 Pokayoke',
     'HD07 Q.Gate',
@@ -359,9 +361,17 @@ class _SearchPageState extends State<addComplaint> {
     'F519',
     'F520',
   ];
-  List<String> linetype = ["4SP Krauseco Cylinder Headline","4SP Makino Cylinder Headline","2.2L Cylinder Headline","5L Cylinder Headline","3l/3.3L Cylinder Headline","Hoists and Cranes","Mancooling Fan"];
+  List<String> linetype = [
+    "4SP Krauseco Cylinder Headline",
+    "4SP Makino Cylinder Headline",
+    "2.2L Cylinder Headline",
+    "5L Cylinder Headline",
+    "3l/3.3L Cylinder Headline",
+    "Hoists and Cranes",
+    "Mancooling Fan"
+  ];
   List<String> issuetype = ["Mechanical Issue", "Electrical Issue"];
-  String lineNo="";
+  String lineNo = "";
   String machineNo = "";
   String issue = "";
   AutoCompleteTextField searchTextField;
@@ -371,13 +381,14 @@ class _SearchPageState extends State<addComplaint> {
   void initState() {
     super.initState();
     type = '';
-    lineNo='';
+    lineNo = '';
   }
+
   @override
   Widget build(BuildContext context) {
     print('addComplaint');
 
-    print(widget.userDetails);
+    // print(widget.userDetails);
     return Scaffold(
       //backgroundColor: Color(0xFFE5E5E5),
       appBar: CustomAppBar(
@@ -404,20 +415,20 @@ class _SearchPageState extends State<addComplaint> {
                     // style: TextStyle(color: Color(0xFF1467B3)),
                     decoration: InputDecoration(
                       hintText: "Line No.",
-                      hintStyle: TextStyle(
-                          color: Color(0xFF1467B3), fontSize: 16),
+                      hintStyle:
+                      TextStyle(color: Color(0xFF1467B3), fontSize: 16),
                       filled: true,
                       fillColor: Color.fromRGBO(20, 103, 179, 0.05),
-                      contentPadding:
-                      const EdgeInsets.only(
+                      contentPadding: const EdgeInsets.only(
                           left: 14.0, bottom: 15.0, top: 15.0),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                             color: Color.fromRGBO(93, 153, 252, 100)),
                       ),
                       enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color.fromRGBO(
-                              223, 232, 247, 100)) //dfe8f7
+                          borderSide: BorderSide(
+                              color:
+                              Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
                       ),
                     ),
                     value: lineNo.isNotEmpty ? lineNo : null,
@@ -435,8 +446,7 @@ class _SearchPageState extends State<addComplaint> {
                       return DropdownMenuItem<String>(
                           child: new Text(item), value: item);
                     }).toList(),
-                    validator: (value) =>
-                    value == null ? '' : null,
+                    validator: (value) => value == null ? '' : null,
                   ),
                   SizedBox(
                     height: 20,
@@ -451,25 +461,26 @@ class _SearchPageState extends State<addComplaint> {
                       //style: TextStyle(color: Colors.blue,fontSize: 14),
                       decoration: InputDecoration(
                         hintText: "Machine No.",
-                        hintStyle: TextStyle(
-                            color: Color(0xFF1467B3), fontSize: 16),
+                        hintStyle:
+                        TextStyle(color: Color(0xFF1467B3), fontSize: 16),
                         filled: true,
                         fillColor: Color.fromRGBO(20, 103, 179, 0.05),
-                        contentPadding:
-                        const EdgeInsets.only(
+                        contentPadding: const EdgeInsets.only(
                             left: 14.0, bottom: 15.0, top: 15.0),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Color.fromRGBO(93, 153, 252, 100)),
                         ),
                         enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color.fromRGBO(
-                                223, 232, 247, 100)) //dfe8f7
+                            borderSide: BorderSide(
+                                color:
+                                Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
                         ),
                       ),
                       itemFilter: (item, query) {
-                        return item.toLowerCase().startsWith(
-                            query.toLowerCase());
+                        return item
+                            .toLowerCase()
+                            .startsWith(query.toLowerCase());
                       },
                       itemSorter: (a, b) {
                         return a.compareTo(b);
@@ -486,8 +497,9 @@ class _SearchPageState extends State<addComplaint> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              item, style: TextStyle(
-                                fontSize: 18, color: Colors.black),
+                              item,
+                              style:
+                              TextStyle(fontSize: 18, color: Colors.black),
                             ),
                           ],
                         );
@@ -507,25 +519,26 @@ class _SearchPageState extends State<addComplaint> {
                       //style: TextStyle(color: Colors.blue,fontSize: 14),
                       decoration: InputDecoration(
                         hintText: "Issue",
-                        hintStyle: TextStyle(
-                            color: Color(0xFF1467B3), fontSize: 16),
+                        hintStyle:
+                        TextStyle(color: Color(0xFF1467B3), fontSize: 16),
                         filled: true,
                         fillColor: Color.fromRGBO(20, 103, 179, 0.05),
-                        contentPadding:
-                        const EdgeInsets.only(
+                        contentPadding: const EdgeInsets.only(
                             left: 14.0, bottom: 15.0, top: 15.0),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Color.fromRGBO(93, 153, 252, 100)),
                         ),
                         enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color.fromRGBO(
-                                223, 232, 247, 100)) //dfe8f7
+                            borderSide: BorderSide(
+                                color:
+                                Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
                         ),
                       ),
                       itemFilter: (item, query) {
-                        return item.toLowerCase().startsWith(
-                            query.toLowerCase());
+                        return item
+                            .toLowerCase()
+                            .startsWith(query.toLowerCase());
                       },
                       itemSorter: (a, b) {
                         return a.compareTo(b);
@@ -541,35 +554,38 @@ class _SearchPageState extends State<addComplaint> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              item, style: TextStyle(
-                                fontSize: 18, color: Colors.black),
+                              item,
+                              style:
+                              TextStyle(fontSize: 18, color: Colors.black),
                             ),
                           ],
                         );
                       },
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   DropdownButtonFormField(
                     // style: TextStyle(color: Color(0xFF1467B3)),
                     decoration: InputDecoration(
-                        hintText: "Type of Issue",
-                        hintStyle: TextStyle(
-                            color: Color(0xFF1467B3), fontSize: 16),
-                        filled: true,
-                        fillColor: Color.fromRGBO(20, 103, 179, 0.05),
-                        contentPadding:
-                        const EdgeInsets.only(
-                            left: 14.0, bottom: 15.0, top: 15.0),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Color.fromRGBO(93, 153, 252, 100)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color.fromRGBO(
-                                223, 232, 247, 100)) //dfe8f7
-                        ),
+                      hintText: "Type of Issue",
+                      hintStyle:
+                      TextStyle(color: Color(0xFF1467B3), fontSize: 16),
+                      filled: true,
+                      fillColor: Color.fromRGBO(20, 103, 179, 0.05),
+                      contentPadding: const EdgeInsets.only(
+                          left: 14.0, bottom: 15.0, top: 15.0),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(93, 153, 252, 100)),
                       ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color:
+                              Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
+                      ),
+                    ),
                     value: type.isNotEmpty ? type : null,
                     onSaved: (value) {
                       setState(() {
@@ -585,8 +601,7 @@ class _SearchPageState extends State<addComplaint> {
                       return DropdownMenuItem<String>(
                           child: new Text(item), value: item);
                     }).toList(),
-                    validator: (value) =>
-                    value == null ? '' : null,
+                    validator: (value) => value == null ? '' : null,
                   ),
                   SizedBox(
                     height: 30,
@@ -603,21 +618,25 @@ class _SearchPageState extends State<addComplaint> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () async {
-
+                        var complaintId = randomAlphaNumeric(20);
                         var now = new DateTime.now();
                         var formatter1 = new DateFormat('dd/MM/yyyy');
-                        String date = formatter1.format(now);
-                        if(lineNo.isNotEmpty && machineNo.isNotEmpty && issue.isNotEmpty && type.isNotEmpty) {
-                          await Firestore.instance.collection("binder")
-                              .document(widget.userDetails.uid).collection("complaint")
-                              .add(Complaint(
-                              machineNo : machineNo,
-                              department: "production",
+                        String date = formatter1.format(now); //
+                        if (lineNo.isNotEmpty &&
+                            machineNo.isNotEmpty &&
+                            issue.isNotEmpty &&
+                            type.isNotEmpty) {
+                          Complaint complaint = new Complaint(
+                              machineNo: machineNo,
+                              department: "Production",
                               issue: issue,
                               typeofIssue: type,
                               lineNo: lineNo,
                               startDate: date,
-                              startTime: DateFormat.yMEd().add_jms().format(DateTime.now()).substring(15,25),
+                              startTime: DateFormat.yMEd()
+                                  .add_jms()
+                                  .format(DateTime.now())
+                                  .substring(15, 25),
                               assignedDate: '',
                               assignedTime: '',
                               endDate: '',
@@ -627,11 +646,22 @@ class _SearchPageState extends State<addComplaint> {
                               raisedByUid: widget.userDetails.uid,
                               assignedTo: null,
                               raisedBy: widget.userDetails.name,
-                              mobileNo : widget.userDetails.mobileNo,
+                              mobileNo: widget.userDetails.mobileNo,
                               assignedBy: "",
                               status: 'raised',
-                              assignedToUid: null
-                                ).toJson());
+                              assignedToUid: null,
+                              complaintId: complaintId);
+                          //widget.userDetails.uid
+                          await Firestore.instance
+                              .collection("complaint")
+                              .document("complaintRaised")
+                              .collection(widget.userDetails.uid)
+                              .document(complaintId)
+                              .setData(complaint.toJson());
+                          await Firestore.instance
+                              .collection("departmentComplaints")
+                              .document(complaintId)
+                              .setData(complaint.toJson());
                         }
                         return Alert(
                           context: context,
@@ -639,11 +669,15 @@ class _SearchPageState extends State<addComplaint> {
                           title: "Complaint Raised!",
                           buttons: [
                             DialogButton(
-                                child: Text(
-                                  "Okay",
-                                  style: TextStyle(color: Colors.white, fontSize: 20),
-                                ),
-                                onPressed: (){ Navigator.pop(context);Navigator.pop(context);},
+                              child: Text(
+                                "Okay",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              },
                               color: Color(0xFF1467B3),
                             ),
                           ],
