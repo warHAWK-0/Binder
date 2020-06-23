@@ -388,31 +388,31 @@ class _SearchPageState extends State<addComplaint> {
   }
 
   // EMAIL NOTIFICATION
-  // sendRaiseEmail() async {
-  //   QuerySnapshot querySnapshot = await Firestore.instance.collection("binder").getDocuments();
-  //   emails.clear();
-  //   for (DocumentSnapshot documentSnapshot in querySnapshot.documents) {
-  //     DocumentSnapshot docsnap = await Firestore.instance
-  //         .collection("binder")
-  //         .document(documentSnapshot.documentID.toString())
-  //         .collection("user_details")
-  //         .document(documentSnapshot.documentID.toString())
-  //         .get();
-  //     if (docsnap.data['authLevel'] == "1") {
-  //       emails.add(docsnap.data['email']);
-  //     }
-  //   }
-  //   String username = 'binderproject9@gmail.com';
-  //   String password = 'Binder@123';
-  //   final smtpServer = gmail(username, password);
-  //   final message = Message()
-  //     ..from = Address(username, 'Binder App')
-  //     ..recipients.addAll(emails)
-  //     ..subject = 'New complaint added at ${DateTime.now()}'
-  //     ..text = 'Hello,\nA new complaint has been added by an operator\n\nThank you,\nBinder App';
-  //   final sendReport = await send(message, smtpServer);
-  //   print('Message sent: ' + sendReport.toString());
-  //   }
+  sendRaiseEmail(String complaintId, String machineNo, String lineNo, String type, String raisedBy, String time) async {
+    QuerySnapshot querySnapshot = await Firestore.instance.collection("user_details").getDocuments();
+    emails.clear();
+    for (DocumentSnapshot documentSnapshot in querySnapshot.documents) {
+      DocumentSnapshot docsnap = await Firestore.instance
+          .collection("user_details")
+          .document(documentSnapshot.documentID.toString())
+          .collection(documentSnapshot.documentID.toString())
+          .document(documentSnapshot.documentID.toString())
+          .get();
+      if (docsnap.data['authLevel'] == "1") {
+        emails.add(docsnap.data['email']);
+      }
+    }
+    String username = 'binderproject9@gmail.com';
+    String password = 'Binder@123';
+    final smtpServer = gmail(username, password);
+    final message = Message()
+      ..from = Address(username, 'Binder App')
+      ..recipients.addAll(emails)
+      ..subject = 'New complaint added at $time'
+      ..text = 'COMPLAINT RAISED\n\nA new complaint has been added:\n\nComplaint No : $complaintId\nMachine No : $machineNo\nLine No : $lineNo\nType of issue : $type\nStatus : Raised\nRaised by : $raisedBy\nTime : $time\nAssigned to :\nAssigned by :\n\n\nRegards\nTeam Binder';
+  final sendReport = await send(message, smtpServer);
+  print('Message sent: ' + sendReport.toString());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -694,7 +694,7 @@ class _SearchPageState extends State<addComplaint> {
                               .setData(complaint.toJson());
                         }
 
-                        //sendRaiseEmail();
+                        sendRaiseEmail(complaintId,machineNo,lineNo,type,widget.userDetails.name,DateFormat.yMEd().add_jms().format(DateTime.now()).substring(15, 25));
 
                         return Alert(
                           context: context,
