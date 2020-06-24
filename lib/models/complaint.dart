@@ -67,5 +67,6 @@ class Complaint {
     'verifiedTime': verifiedTime,
     'assignedToUid': assignedToUid,
     'complaintId': complaintId,
+    'remark' : remark,
   };
 }

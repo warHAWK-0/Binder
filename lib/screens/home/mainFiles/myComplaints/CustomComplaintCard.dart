@@ -25,44 +25,7 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
     print(widget.complaint.issue);
     return Material(
       child: InkWell(
-        onTap: () async {
-//          final QuerySnapshot result =
-//          await Firestore.instance.collection('binder').document(widget.userDetails.uid).collection('complaint').getDocuments();
-//          final List<DocumentSnapshot> documents = result.documents;
-//          for (DocumentSnapshot document in documents) {
-//            print(document.documentID + " => " + document.data['issue']);
-//            if (document.documentID==widget.complaintNo){
-//              d = new myData2(
-//                  document.data['issue'],
-//                  document.data['machineNo'],
-//                  document.data['lineNo'],
-//                  document.data['status'],
-//                  document.data['raisedby'],
-//                  document.data['startTime'],
-//                  document.data['assignedTo'],
-//                  document.data['assignedBy'],
-//                  document.data['description'],
-//                  document.data['startDate'],
-//                  document.data['department']
-//              );
-////                if(document.data['status']=='solved'){
-////                  wcstatus=complaintStatusSolved;
-////                }
-////                else if (document.data['status']=='ongoing'){
-////                  cstatus=complaintStatusOngoing;
-////                }
-////                else if(document.data['status']=='notsolved'){
-////                  cstatus=complaintStatusNotSolved;
-////                }
-////                else if(document.data['status']=='pending'){
-////                  cstatus=complaintStatusPending;
-////                }
-////                else if(document.data['status']=='transferAME'){
-////                  cstatus=complaintStatusAME;
-////                }
-//            }
-//
-//          }
+        onTap: (){
           if(widget.userDetails.authLevel=="0" && widget.userDetails.department=="maintenance"){
             Navigator.push(
               context,
@@ -81,14 +44,10 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
               )),
             );
           }
-          else{
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ExpandedComplainVerify(
-                userDetails:widget.userDetails,
-                complaint: widget.complaint,
-              )),
-            );
+          else if((widget.userDetails.authLevel=="1" && widget.userDetails.department=="production" ) || (widget.userDetails.authLevel=="0" && widget.userDetails.department=="production")){
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) => ExpandedComplainVerify(userDetails: widget.userDetails, complaint: widget.complaint)
+            ));
           }
         },
         child: Container(
