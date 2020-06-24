@@ -59,6 +59,7 @@ class AuthService{
       await DatabaseServices(uid: user.uid).initiateDocument();
       await DatabaseServices(uid: user.uid).updateUserData(UserDetails(
         name: userDetails.name,
+        lineNo: userDetails.lineNo,
         uid: user.uid,
         authLevel: userDetails.authLevel,
         department: userDetails.department,

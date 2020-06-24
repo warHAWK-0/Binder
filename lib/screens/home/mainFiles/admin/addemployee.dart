@@ -63,6 +63,16 @@ class _AddEmployeeState extends State<AddEmployee> {
     "Temporary Operator",
   ];
 
+  List<String> linetype = [
+    "4SP Krauseco Cylinder Headline",
+    "4SP Makino Cylinder Headline",
+    "2.2L Cylinder Headline",
+    "5L Cylinder Headline",
+    "3l/3.3L Cylinder Headline",
+    "Hoists and Cranes",
+    "Mancooling Fan"
+  ];
+  String lineNo = "";
 
 
   @override
@@ -160,6 +170,44 @@ class _AddEmployeeState extends State<AddEmployee> {
                   SizedBox(
                     height: 20,
                   ),
+                  DropdownButtonFormField(
+                    // style: TextStyle(color: Color(0xFF1467B3)),
+                    decoration: InputDecoration(
+                      hintText: "Line No.",
+                      hintStyle:
+                      TextStyle(color: Color(0xFF1467B3), fontSize: 16),
+                      filled: true,
+                      fillColor: Color.fromRGBO(20, 103, 179, 0.05),
+                      contentPadding: const EdgeInsets.only(
+                          left: 14.0, bottom: 15.0, top: 15.0),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(93, 153, 252, 100)),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color:
+                              Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
+                      ),
+                    ),
+                    value: lineNo.isNotEmpty ? lineNo : null,
+                    onSaved: (value) {
+                      setState(() {
+                        lineNo = value;
+                      });
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        lineNo = value;
+                      });
+                    },
+                    items: linetype.map((item) {
+                      return DropdownMenuItem<String>(
+                          child: new Text(item), value: item);
+                    }).toList(),
+                    validator: (value) => value == null ? '' : null,
+                  ), //Department
+                  SizedBox(height: 20,),
                   DropdownButtonFormField(
                     decoration: InputDecoration(
                       hintText: "Bay Number",
@@ -417,6 +465,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                         uid: '',
                         firstLogin: "true",
                         typeofOperator: type,
+                        lineNo: lineNo,
                         authLevel: (designation == "Operator/Engineer" || designation == "Temporary Operator") ? "0"
                             : (designation == "Section Incharge" || designation == "Line Manager" || designation == "Supervisor") ? "1"
                             : (designation == "Admin") ? "2" : "0",
