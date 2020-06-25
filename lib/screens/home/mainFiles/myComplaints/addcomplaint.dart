@@ -381,8 +381,6 @@ class _SearchPageState extends State<addComplaint> {
   @override
   void initState() {
     super.initState();
-    type = '';
-    lineNo = '';
   }
 
   @override
