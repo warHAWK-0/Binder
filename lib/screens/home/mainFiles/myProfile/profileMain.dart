@@ -292,10 +292,8 @@ class _ProfileMainState extends State<ProfileMain> {
                             await _auth.signOut();
                             dynamic result = await _auth.singnInUsingEmail("binderproject9@gmail.com", "123456");
                             if(result != null){
-                              print('\n notnull \n');
                             }
                           } catch (e) {
-                            print(e);
                           }
                         },
                         child: Text(
@@ -318,7 +316,6 @@ class _ProfileMainState extends State<ProfileMain> {
                             await _auth.sendPasswordResetEmail(
                                 (widget.userDetails.email).toString());
                           } catch (e) {
-                            print(e);
                           }
                         },
                         child: Text(
@@ -349,7 +346,6 @@ class _ProfileMainState extends State<ProfileMain> {
                           try {
                             await _auth.signOut();
                           } catch (e) {
-                            print(e);
                           }
                         },
                         borderSide: BorderSide(color: Color(0xFF1467B3)),

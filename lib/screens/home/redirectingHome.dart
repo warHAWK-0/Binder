@@ -18,7 +18,6 @@ class RedirectingScreen extends StatelessWidget {
         if (!snapshot.hasData) {
           return Loading();
         } else {
-          print(snapshot.data.documents[0]['department']);
           return NavBarSelect(userDetails: UserDetails(
             uid: user.uid.toString(),
             name: snapshot.data.documents[0]['name'],

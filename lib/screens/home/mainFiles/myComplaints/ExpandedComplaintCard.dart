@@ -945,7 +945,6 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
           : typeOfIssue == "Electrical Issue" ? typeOfIssue = "Electrical" : "";
       names.clear();
       uids.clear();
-      print('reached');
       for (DocumentSnapshot documentSnapshot in querySnapshot.documents) {
         DocumentSnapshot docsnap = await Firestore.instance.collection("user_details")
             .document(documentSnapshot.documentID.toString()).collection(documentSnapshot.documentID.toString())

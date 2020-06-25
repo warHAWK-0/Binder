@@ -22,7 +22,6 @@ class CustomComplaintCard extends StatefulWidget {
 class _CustomComplaintCardState extends State<CustomComplaintCard> {
   @override
   Widget build(BuildContext context) {
-    print(widget.complaint.issue);
     return Material(
       child: InkWell(
         onTap: (){

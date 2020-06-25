@@ -99,36 +99,68 @@ class _myComplaintsState extends State<myComplaints> {
                           ),
                         ],
                       )
+                          : snapshot.data.documents.length == 0 ? Container(
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.height,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    SizedBox(width: MediaQuery.of(context).size.width/6,),
+                                    Container(
+                                      height: MediaQuery.of(context).size.height/2.4,
+                                      width: MediaQuery.of(context).size.width/1.3,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: AssetImage('assets/images/sitting-4.png'),fit: BoxFit.fill
+                                          )
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Text('Looks like you do not have any complaints here.',style: TextStyle(
+                                  color: primaryblue,
+                                  fontSize: 15,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 60,
+                                )
+                          ],
+                        ),
+                      )
                           : ListView.builder(
-                        itemCount: snapshot.data.documents.length,
-                        itemBuilder: (_, index) {
-                          return snapshot.data.documents[index]['status'] != "finsished" ? CustomComplaintCard(
-                            userDetails: widget.userDetails,
-                            complaint: Complaint(
-                              remark: snapshot.data.documents[index]['remark'],
-                              complaintId: snapshot.data.documents[index]['complaint'],
-                              assignedDate: snapshot.data.documents[index]['assignedDate'],
-                              assignedTime: snapshot.data.documents[index]['assignedTime'],
-                              assignedTo: snapshot.data.documents[index]['assignedTo'],
-                              assignedToUid: snapshot.data.documents[index]['assignedToUid'],
-                              assignedBy: snapshot.data.documents[index]['assignedBy'],
-                              mobileNo: snapshot.data.documents[index]['mobileNo'],
-                              department: snapshot.data.documents[index]['department'],
-                              endDate: snapshot.data.documents[index]['endDate'],
-                              endTime: snapshot.data.documents[index]['endDate'],
-                              issue: snapshot.data.documents[index]['issue'],
-                              lineNo: snapshot.data.documents[index]['lineNo'],
-                              machineNo: snapshot.data.documents[index]['machineNo'],
-                              raisedBy: snapshot.data.documents[index]['raisedBy'],
-                              startDate: snapshot.data.documents[index]['startDate'],
-                              startTime: snapshot.data.documents[index]['startTime'],
-                              status: snapshot.data.documents[index]['status'],
-                              raisedByUid: snapshot.data.documents[index]['raisedByUid'],
-                              typeofIssue: snapshot.data.documents[index]['typeofIssue'],
-                              verifiedDate: snapshot.data.documents[index]['verifiedDate'],
-                              verifiedTime: snapshot.data.documents[index]['verifiedTime'],
-                            ),
-                          ) : Container();
+                          itemCount: snapshot.data.documents.length,
+                          itemBuilder: (_, index) {
+                            return snapshot.data.documents[index]['status'] != "finsished" ? CustomComplaintCard(
+                              userDetails: widget.userDetails,
+                              complaint: Complaint(
+                                remark: snapshot.data.documents[index]['remark'],
+                                complaintId: snapshot.data.documents[index]['complaint'],
+                                assignedDate: snapshot.data.documents[index]['assignedDate'],
+                                assignedTime: snapshot.data.documents[index]['assignedTime'],
+                                assignedTo: snapshot.data.documents[index]['assignedTo'],
+                                assignedToUid: snapshot.data.documents[index]['assignedToUid'],
+                                assignedBy: snapshot.data.documents[index]['assignedBy'],
+                                mobileNo: snapshot.data.documents[index]['mobileNo'],
+                                department: snapshot.data.documents[index]['department'],
+                                endDate: snapshot.data.documents[index]['endDate'],
+                                endTime: snapshot.data.documents[index]['endDate'],
+                                issue: snapshot.data.documents[index]['issue'],
+                                lineNo: snapshot.data.documents[index]['lineNo'],
+                                machineNo: snapshot.data.documents[index]['machineNo'],
+                                raisedBy: snapshot.data.documents[index]['raisedBy'],
+                                startDate: snapshot.data.documents[index]['startDate'],
+                                startTime: snapshot.data.documents[index]['startTime'],
+                                status: snapshot.data.documents[index]['status'],
+                                raisedByUid: snapshot.data.documents[index]['raisedByUid'],
+                                typeofIssue: snapshot.data.documents[index]['typeofIssue'],
+                                verifiedDate: snapshot.data.documents[index]['verifiedDate'],
+                                verifiedTime: snapshot.data.documents[index]['verifiedTime'],
+                              ),
+                            ) : Container();
                         },
                       );
                     })),
