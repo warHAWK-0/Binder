@@ -1,3 +1,4 @@
+import 'package:Binder/shared/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Binder/models/complaint.dart';
 import 'package:Binder/models/user_data.dart';
@@ -18,6 +19,7 @@ class addComplaint extends StatefulWidget {
 }
 
 class _SearchPageState extends State<addComplaint> {
+  bool isLoading = false;
   GlobalKey<AutoCompleteTextFieldState<String>> key = new GlobalKey();
   GlobalKey<AutoCompleteTextFieldState<String>> key1 = new GlobalKey();
   GlobalKey<AutoCompleteTextFieldState<String>> key2 = new GlobalKey();
@@ -411,6 +413,7 @@ class _SearchPageState extends State<addComplaint> {
                   ),
                   //text
                   DropdownButtonFormField(
+                    autovalidate: true,
                     // style: TextStyle(color: Color(0xFF1467B3)),
                     decoration: InputDecoration(
                       hintText: "Line No.",
@@ -566,6 +569,7 @@ class _SearchPageState extends State<addComplaint> {
                     height: 20,
                   ),
                   DropdownButtonFormField(
+                    autovalidate: true,
                     // style: TextStyle(color: Color(0xFF1467B3)),
                     decoration: InputDecoration(
                       hintText: "Type of Issue",
@@ -609,7 +613,7 @@ class _SearchPageState extends State<addComplaint> {
                   SizedBox(
                     width: 400,
                     height: 45,
-                    child: FlatButton(
+                    child: isLoading ? Loading() : FlatButton(
                       color: Color(0xFF1467B3),
                       textColor: Colors.white,
                       disabledColor: Colors.grey,
@@ -617,6 +621,9 @@ class _SearchPageState extends State<addComplaint> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () async {
+                        setState(() {
+                          isLoading = true;
+                        });
                         var complaintId = randomAlphaNumeric(20);
                         var now = new DateTime.now();
                         var formatter1 = new DateFormat('dd/MM/yyyy');
@@ -662,6 +669,9 @@ class _SearchPageState extends State<addComplaint> {
                               .document(complaintId)
                               .setData(complaint.toJson());
                         }
+                        setState(() {
+                          isLoading = false;
+                        });
                         return Alert(
                           context: context,
                           type: AlertType.success,

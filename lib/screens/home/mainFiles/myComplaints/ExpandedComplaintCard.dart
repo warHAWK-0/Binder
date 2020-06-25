@@ -494,6 +494,7 @@ class ExpandedComplainStatus extends StatefulWidget {
 }
 
 class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
+  bool isUpdating = false;
   final databaseReference = Firestore.instance;
   TextStyle detailsTextStyle =
       TextStyle(fontFamily: 'Roboto', color: Colors.black, fontSize: 15);
@@ -764,7 +765,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                   //padding:EdgeInsets.only(top: 400,left:20,right: 20) ,
                                   child: new SizedBox(
                                     //width: double.infinity,
-                                    child: new RaisedButton(
+                                    child: isUpdating ? Loading() : RaisedButton(
                                       child: new Text(
                                         "Update",
                                         style: TextStyle(
@@ -775,6 +776,9 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                       ),
                                       color: Color(0xFF1467B3),
                                       onPressed: () {
+                                        setState(() {
+                                          isUpdating = true;
+                                        });
                                         try {
                                           for (dynamic i in widget.complaint.assignedToUid) {
                                             databaseReference.collection('complaint').document('complaintAssigned')
@@ -810,6 +814,9 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                                 : _radioStatusValue == ComplaintStatusValue.ongoing ? "ongoing"
                                                 : _radioStatusValue == ComplaintStatusValue.pending ? "pending"
                                                 : _radioStatusValue == ComplaintStatusValue.cannotBeResolved ? "cannotBeResolved" : "ongoing",
+                                          });
+                                          setState(() {
+                                            isUpdating = false;
                                           });
                                           return Alert(
                                             context: context,

@@ -1,5 +1,6 @@
 import 'package:Binder/models/user_data.dart';
 import 'package:Binder/shared/CustomAppBar.dart';
+import 'package:Binder/shared/loading.dart';
 import 'package:Binder/shared/themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +54,7 @@ class _AddEmployeeState extends State<AddEmployee> {
     );
   }
 
+  bool isLoading = false;
   List<String> bayNoList = ["Bay2","Bay3","Bay4","Bay5","Bay6","Bay7","Bay8"];
   List<String> departments = ["Production", "Maintenance"];
   List<String> designations = [
@@ -450,7 +452,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                   SizedBox(
                     width: 400,
                     height: 45,
-                    child: FlatButton(
+                    child: isLoading ? Loading() : FlatButton(
                       color: Color(0xFF1467B3),
                       textColor: Colors.white,
                       disabledColor: Colors.grey,
@@ -458,7 +460,9 @@ class _AddEmployeeState extends State<AddEmployee> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () async{
-
+                        setState(() {
+                          isLoading = true;
+                        });
                         String type =typeOfOp.toString().substring(10);
                         final UserDetails userDetails = UserDetails(
                         name: name,
@@ -515,7 +519,9 @@ class _AddEmployeeState extends State<AddEmployee> {
                             Navigator.pop(context);
                           }
                         }
-
+                        setState(() {
+                          isLoading = false;
+                        });
                         return userCreated == true ? showDialog(
                             context: context,
                             builder: (context) =>
@@ -544,7 +550,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                                   ],
                                 )
                         ) : null;
-                      },
+                        },
                       child: Text(
                         "Add Employee",
                         style: TextStyle(fontSize: 15.0),
