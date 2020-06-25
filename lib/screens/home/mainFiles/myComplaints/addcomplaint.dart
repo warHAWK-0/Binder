@@ -626,6 +626,7 @@ class _SearchPageState extends State<addComplaint> {
                             issue.isNotEmpty &&
                             type.isNotEmpty) {
                           Complaint complaint = new Complaint(
+                              remark: '',
                               machineNo: machineNo,
                               department: "Production",
                               issue: issue,
