@@ -1,5 +1,5 @@
-import 'package:final_binder/models/user_data.dart';
-import 'package:final_binder/services/database.dart';
+import 'package:Binder/models/user_data.dart';
+import 'package:Binder/services/database.dart';
 import 'package:flutter/material.dart';
 
 import '../models/user.dart';

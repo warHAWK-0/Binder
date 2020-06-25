@@ -1,4 +1,4 @@
-import 'package:final_binder/shared/themes.dart';
+import 'package:Binder/shared/themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

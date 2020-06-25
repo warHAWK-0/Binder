@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_binder/models/complaint.dart';
-import 'package:final_binder/models/user_data.dart';
-import 'package:final_binder/shared/CustomAppBar.dart';
-import 'package:final_binder/shared/themes.dart';
+import 'package:Binder/models/complaint.dart';
+import 'package:Binder/models/user_data.dart';
+import 'package:Binder/shared/CustomAppBar.dart';
+import 'package:Binder/shared/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:intl/intl.dart';
-import 'dart:math';
 import 'package:random_string/random_string.dart';
 
 class addComplaint extends StatefulWidget {

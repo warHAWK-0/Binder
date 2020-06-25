@@ -1,10 +1,9 @@
-import 'package:final_binder/services/auth.dart';
-import 'package:final_binder/shared/CustomAppBar.dart';
-import 'package:final_binder/shared/themes.dart';
+import 'package:Binder/services/auth.dart';
+import 'package:Binder/shared/CustomAppBar.dart';
+import 'package:Binder/shared/themes.dart';
 import 'package:flutter/material.dart';
 
 import 'homepageadmin.dart';
-import 'resetPasswordAdmin.dart';
 
 class ManageAdmin extends StatefulWidget {
   @override

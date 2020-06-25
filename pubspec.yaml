@@ -1,4 +1,4 @@
-name: final_binder
+name: Binder
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -51,6 +51,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: false
+  adaptive_icon_background: #ffffff
   image_path: "assets/Logo/LogoBlue/LogoBlueS.png"
 
 # For information on the generic Dart part of this file, see the
