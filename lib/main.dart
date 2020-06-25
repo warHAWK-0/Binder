@@ -7,11 +7,9 @@ import 'models/user.dart';
 import 'screens/home/mainFiles/admin/addemployee.dart';
 import 'screens/wrapper.dart';
 import 'services/auth.dart';
-
 void main() {
   runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

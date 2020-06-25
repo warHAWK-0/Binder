@@ -178,7 +178,6 @@ class BottomNavyBarItem {
   final Color activeColor;
   final Color inactiveColor;
   final TextAlign textAlign;
-
   BottomNavyBarItem({
     @required this.icon,
     @required this.title,
