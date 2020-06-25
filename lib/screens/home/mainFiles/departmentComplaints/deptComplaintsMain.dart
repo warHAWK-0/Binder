@@ -64,6 +64,7 @@ class _deptComplaintsState extends State<deptComplaints> {
   @override
   Widget build(BuildContext context) {
 
+    print(val1+val2);
     return WillPopScope(
       onWillPop: _onbackpressed,
       child: Scaffold(
