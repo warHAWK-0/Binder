@@ -24,7 +24,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
       loading = true;
     });
     final QuerySnapshot usersList =
-    await Firestore.instance.collection('binder').getDocuments();
+    await Firestore.instance.collection('user_details').getDocuments();
     final List<DocumentSnapshot> docUsers = usersList.documents;
     allData.clear();
     print("Length of documents fetched"+docUsers.length.toString());
@@ -33,9 +33,9 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
       String uidUser = docUser.documentID;
       print(uidUser);
       final QuerySnapshot userComplaints = await Firestore.instance
-          .collection('binder')
+          .collection("user_details")
           .document(uidUser)
-          .collection('user_details')
+          .collection(uidUser)
           .getDocuments();
       final List<DocumentSnapshot> docComplaints = userComplaints.documents;
       for (DocumentSnapshot docComplaint in docComplaints) {
@@ -48,6 +48,7 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
             name:docComplaint.data['name'],
             authLevel: docComplaint.data['authLevel'],
             uid: docComplaint.data['uid'],
+            lineNo: docComplaint.data['LineNo'],
             department: docComplaint.data['department'],
             mobileNo: docComplaint.data['mobileNo'],
             personalId: docComplaint.data['personalId'],

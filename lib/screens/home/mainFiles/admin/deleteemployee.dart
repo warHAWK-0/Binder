@@ -1,3 +1,5 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Binder/models/user_data.dart';
 import 'package:Binder/shared/loading.dart';
@@ -23,17 +25,17 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
     });
 
     final QuerySnapshot usersList =
-    await Firestore.instance.collection('binder').getDocuments();
+    await Firestore.instance.collection('user_details').getDocuments();
     final List<DocumentSnapshot> docUsers = usersList.documents;
     allData.clear();
     for (DocumentSnapshot docUser in docUsers) {
       String uidUser = docUser.documentID;
       print(uidUser);
       final QuerySnapshot userComplaints = await Firestore.instance
-          .collection('binder')
-          .document(uidUser)
-          .collection('user_details')
-          .getDocuments();
+      .collection("user_details")
+      .document(uidUser)
+      .collection(uidUser)
+      .getDocuments();
       final List<DocumentSnapshot> docComplaints = userComplaints.documents;
       for (DocumentSnapshot docComplaint in docComplaints) {
         print(docComplaint.documentID + " => " );
