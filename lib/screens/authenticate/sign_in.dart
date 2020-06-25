@@ -2,6 +2,7 @@ import 'package:Binder/services/auth.dart';
 import 'package:Binder/shared/loading.dart';
 import 'package:Binder/shared/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../shared/themes.dart';
 
@@ -15,7 +16,9 @@ class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
-  String email = "";
+  TextEditingController _email = TextEditingController();
+  TextEditingController _pass = TextEditingController();
+  String email = null;
   String password = "";
   String error = "";
   bool loading = false;
@@ -99,6 +102,7 @@ class _SignInState extends State<SignIn> {
 //                            ),
                             hintText: 'Email Id',
                             hintStyle: TextStyle(color: Colors.grey)),
+//                        controller: _email,
                       ),
                     ),
                     SizedBox(
@@ -108,6 +112,7 @@ class _SignInState extends State<SignIn> {
                       height: 80,
                       width: double.infinity,
                       child: TextFormField(
+//                        controller: _pass,
                         validator: (val) =>
                         val.isEmpty
                             ? 'Enter a password'
@@ -180,7 +185,6 @@ class _SignInState extends State<SignIn> {
                               });
                             } else {
                               setState(() {
-                                error = "";
                                 loading = false;
                               });
                             }
@@ -188,6 +192,79 @@ class _SignInState extends State<SignIn> {
                         },
                       ),
                     ),
+                    SizedBox(height: 10,),
+                    Container(
+                      width: double.infinity,
+                      child: Center(
+                        child: InkWell(
+                          onTap: (){
+                            if(email != null){
+                              Alert(
+                                context: context,
+                                type: AlertType.warning,
+                                title: "Reset Password?",
+                                desc: "Would you like to reset password mail on ${email.toString()}?",
+                                buttons: [
+                                  DialogButton(
+                                    child: Text(
+                                      "Yes",
+                                      style: TextStyle(color: Colors.white, fontSize: 20),
+                                    ),
+                                    onPressed: () async{
+                                      await _auth.sendPasswordResetEmail(email);
+                                      Navigator.pop(context);
+                                      setState(() {
+                                        error = "";
+                                        Scaffold.of(context).showSnackBar((SnackBar(
+                                          content: new Text("Please check your mailbox."),
+                                          duration: Duration(seconds: 3),
+                                        )));
+                                      });
+                                    },
+                                    color: Color(0xFF1467B3),
+                                  ),
+                                  DialogButton(
+                                    child: Text(
+                                      "No",
+                                      style: TextStyle(color: Color(0xFF1467B3), fontSize: 20),
+                                    ),
+                                    onPressed: () => Navigator.pop(context),
+                                    color: Colors.white,
+                                  )
+                                ],
+                              ).show();
+                            }
+                            else if(email == null){
+                              setState(() {
+                                print('error');
+                                error = "Enter your email Address";
+                              });
+                            }
+                          },
+                          child: Text(
+                            'Forgot Password!',
+                            style: TextStyle(
+                              color: primaryblue,
+                              fontSize: 16
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      child: Center(
+                        child: Text(
+                          error,
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 14
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               )
