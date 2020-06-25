@@ -1,4 +1,4 @@
-import 'package:final_binder/shared/themes.dart';
+import 'package:Binder/shared/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 

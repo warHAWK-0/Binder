@@ -1,6 +1,6 @@
-import 'package:final_binder/services/auth.dart';
-import 'package:final_binder/shared/loading.dart';
-import 'package:final_binder/shared/themes.dart';
+import 'package:Binder/services/auth.dart';
+import 'package:Binder/shared/loading.dart';
+import 'package:Binder/shared/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 

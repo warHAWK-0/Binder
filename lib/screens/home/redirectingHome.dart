@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_binder/models/user.dart';
-import 'package:final_binder/models/user_data.dart';
-import 'package:final_binder/screens/home/navBarSelect.dart';
-import 'package:final_binder/services/database.dart';
-import 'package:final_binder/shared/loading.dart';
+import 'package:Binder/models/user.dart';
+import 'package:Binder/models/user_data.dart';
+import 'package:Binder/screens/home/navBarSelect.dart';
+import 'package:Binder/services/database.dart';
+import 'package:Binder/shared/loading.dart';
 import 'package:flutter/material.dart';
 
 class RedirectingScreen extends StatelessWidget {

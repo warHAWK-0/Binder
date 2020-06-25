@@ -1,7 +1,7 @@
-import 'package:final_binder/models/complaint.dart';
-import 'package:final_binder/models/user_data.dart';
-import 'package:final_binder/screens/home/mainFiles/myComplaints/ExpandedComplaintCard.dart';
-import 'package:final_binder/shared/themes.dart';
+import 'package:Binder/models/complaint.dart';
+import 'package:Binder/models/user_data.dart';
+import 'package:Binder/screens/home/mainFiles/myComplaints/ExpandedComplaintCard.dart';
+import 'package:Binder/shared/themes.dart';
 import 'package:flutter/material.dart';
 
 class CustomComplaintCard extends StatefulWidget {

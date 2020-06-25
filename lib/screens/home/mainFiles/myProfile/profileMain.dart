@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_binder/models/user_data.dart';
-import 'package:final_binder/services/auth.dart';
-import 'package:final_binder/shared/loading.dart';
-import 'package:final_binder/widgets/SizeConfig.dart';
+import 'package:Binder/models/user_data.dart';
+import 'package:Binder/services/auth.dart';
+import 'package:Binder/shared/loading.dart';
+import 'package:Binder/widgets/SizeConfig.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';

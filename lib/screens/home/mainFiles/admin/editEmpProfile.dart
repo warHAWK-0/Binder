@@ -1,13 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_binder/models/user_Info.dart';
-import 'package:final_binder/models/user_data.dart';
-import 'package:final_binder/screens/home/mainFiles/admin/homepageadmin.dart';
+import 'package:Binder/models/user_data.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../../../shared/CustomAppBar.dart';
 import '../../../../shared/themes.dart';
-import 'editSearchEmp.dart';
 
 enum TypeOfEmp { Electrical, Mechanical, Nothing }
 

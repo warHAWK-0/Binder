@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_binder/models/user_data.dart';
-import 'package:final_binder/shared/loading.dart';
+import 'package:Binder/models/user_data.dart';
+import 'package:Binder/shared/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:final_binder/models/user_Info.dart';
+import 'package:Binder/models/user_Info.dart';
 import '../../../../shared/CustomAppBar.dart';
 import '../../../../shared/themes.dart';
 import 'editEmpProfile.dart';
