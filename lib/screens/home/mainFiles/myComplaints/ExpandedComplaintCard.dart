@@ -121,7 +121,10 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                             Text("Time : ${widget.complaint.startTime}",
                                 style: detailsTextStyle),
                             SizedBox(height: 8),
-                            Text("Assigned to : ${widget.complaint.assignedTo.toString().replaceAll("[","")}",
+                            Text(widget.complaint.assignedTo.toString() != "null"
+                                ? "Assigned to : " + widget.complaint.assignedTo.toString().substring(1,widget.complaint.assignedTo.toString().length-1)
+                                : "Assigned To : Not yet assigned",
+
                                 style: detailsTextStyle),
                             SizedBox(height: 8),
                             Text("Assigned by : ${widget.complaint.assignedBy}",
@@ -521,6 +524,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.complaint.assignedTo.toString().substring(1,widget.complaint.assignedTo.toString().length-1));
     return Scaffold(
       backgroundColor: primaryblue,
       appBar: CustomAppBar(
@@ -606,7 +610,9 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                             Text("Time : ${widget.complaint.startTime}",
                                 style: detailsTextStyle),
                             SizedBox(height: 8),
-                            Text("Assigned to : ${widget.complaint.assignedTo.toString().replaceAll("[","")}",
+                            Text(widget.complaint.assignedTo.toString() != "null"
+                                ? "Assigned to : " + widget.complaint.assignedTo.toString().substring(1,widget.complaint.assignedTo.toString().length-1)
+                                : "Assigned To : Not yet assigned",
                                 style: detailsTextStyle),
                             SizedBox(height: 8),
                             Text("Assigned by : ${widget.complaint.assignedBy}",
@@ -777,7 +783,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                     padding: EdgeInsets.all(10),
                                     child: TextFormField(
                                       decoration: InputDecoration(
-                                        hintText: 'Please mention action taken before updating status',
+                                        hintText: 'Please mention action taken.',
                                         hintMaxLines: 1
                                       ),
                                       validator: (val) =>
@@ -1061,7 +1067,9 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
                             Text("Time : ${widget.complaint.startTime}",
                                 style: detailsTextStyle),
                             SizedBox(height: 8),
-                            Text("Assigned to : ${widget.complaint.assignedTo.toString().replaceAll("[","")}",
+                            Text(widget.complaint.assignedTo.toString() != "null"
+                                ? "Assigned to : " + widget.complaint.assignedTo.toString().substring(1,widget.complaint.assignedTo.toString().length-1)
+                                : "Assigned To : Not yet assigned",
                                 style: detailsTextStyle),
                             SizedBox(height: 8),
                             Text("Assigned by : ${widget.complaint.assignedBy}",

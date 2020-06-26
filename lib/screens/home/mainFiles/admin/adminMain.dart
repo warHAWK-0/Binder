@@ -1,11 +1,12 @@
 import 'package:Binder/models/user_data.dart';
+import 'package:Binder/services/auth.dart';
 import 'package:Binder/shared/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'addemployee.dart';
 import 'deleteemployee.dart';
 import 'editSearchEmp.dart';
-import 'manageAdmin.dart';
 
 class AdminMain extends StatefulWidget {
 
@@ -18,6 +19,9 @@ class AdminMain extends StatefulWidget {
 }
 
 class _AdminMainState extends State<AdminMain> {
+
+  final AuthService _auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -216,11 +220,35 @@ class _AdminMainState extends State<AdminMain> {
                 child: InkWell(
                   splashColor: Colors.blue.withAlpha(30),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ManageAdmin()),
-                    );
+                    return Alert(
+                      context: context,
+                      type: AlertType.warning,
+                      title: "Do you want to Logout?",
+                      buttons: [
+                        DialogButton(
+                          child: Text(
+                            "Yes",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                          onPressed: () async {
+                            try {
+                              await _auth.signOut();
+                              Navigator.pop(context);
+                            } catch (e) {
+                            }
+                          },
+                          color: Colors.red,
+                        ),
+                        DialogButton(
+                          child: Text(
+                            "No",
+                            style: TextStyle(color:Color(0xFF1467B3), fontSize: 20),
+                          ),
+                          onPressed: () => Navigator.pop(context),
+                          color: Colors.white,
+                        )
+                      ],
+                    ).show();
                   },
                   child: Container(
                     height: 70,
@@ -236,7 +264,7 @@ class _AdminMainState extends State<AdminMain> {
                           //margin: EdgeInsets.only(top: 15, bottom: 15, left: 45),
                           alignment: Alignment.centerRight,
                           child: Icon(
-                            Icons.settings,
+                            Icons.exit_to_app,
                             color: primaryblue,
                             size: 20,
                           ),
@@ -244,7 +272,7 @@ class _AdminMainState extends State<AdminMain> {
                         Container(
                           alignment: Alignment.centerLeft,
                           margin: EdgeInsets.only(left: 5),
-                          child: Text("Manage Profile",
+                          child: Text("Logout",
                               style: TextStyle(
                                   fontFamily: 'Roboto',
                                   color: primaryblue,
