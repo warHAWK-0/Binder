@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:Binder/models/complaint.dart';
 import 'package:Binder/models/user_data.dart';
@@ -38,9 +39,10 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
     return Scaffold(
       backgroundColor: primaryblue,
       appBar: CustomAppBar(
-        child: Text(
+        child: AutoSizeText(
           widget.complaint.issue,
           style: titleText,
+          maxLines: 1,
         ),
         backIcon: true,
         elevation: false,
@@ -395,9 +397,10 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                                   color: Colors.red,
                                 ),
                                 Expanded(
-                                  child: Text(
+                                  child: AutoSizeText(
                                     'Please wait while maintenance department takes further action.',
                                     style: TextStyle(fontSize: 14),
+                                    maxLines: 1,
                                   ),
                                 ),
                               ],
@@ -521,9 +524,10 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
     return Scaffold(
       backgroundColor: primaryblue,
       appBar: CustomAppBar(
-        child: Text(
+        child: AutoSizeText(
           widget.complaint.issue,
           style: titleText,
+          maxLines: 1,
         ),
         backIcon: true,
         elevation: false,
@@ -665,9 +669,10 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                             SizedBox(
                               width: 8,
                             ),
-                            Text(
+                            AutoSizeText(
                               'You have forwarded the complaint for verification.',
                               style: TextStyle(fontSize: 14),
+                              maxLines: 1,
                             ),
                             Spacer()
                           ],
@@ -773,6 +778,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                     child: TextFormField(
                                       decoration: InputDecoration(
                                         hintText: 'Please mention action taken before updating status',
+                                        hintMaxLines: 1
                                       ),
                                       validator: (val) =>
                                       val.isEmpty
@@ -973,9 +979,10 @@ class _ExpandedComplaintAssignState extends State<ExpandedComplaintAssign> {
     return Scaffold(
       backgroundColor: primaryblue,
       appBar: CustomAppBar(
-        child: Text(
+        child: AutoSizeText(
           widget.complaint.issue,
           style: titleText,
+          maxLines: 1,
         ),
         backIcon: true,
         elevation: false,

@@ -70,20 +70,21 @@ class _deptComplaintsState extends State<deptComplaints> {
         appBar: CustomAppBar(
             backIcon: false,
             child: Text(
-              'My Complaints',
+              'Department Complaints',
               style: titleText,
             )),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.only(top: 10,left: 10,right: 10,bottom: 2),
               height: 95,
               width: double.infinity,
               child: Column(
                 children: <Widget>[
                   Row(
                     children: <Widget>[
+                      Spacer(),
                       Text(
                         'Filter by :\t\t\t',
                         style: TextStyle(
@@ -93,60 +94,64 @@ class _deptComplaintsState extends State<deptComplaints> {
                       ),
                       Container(
                         height: 35,
+                        //width: 200,
                         decoration: BoxDecoration(
-                            border: Border.all(width: 1.0,color: Colors.grey[200]),
+                            border: Border.all(width: 1.0,color: Colors.grey[100]),
                             borderRadius: BorderRadius.all(Radius.circular(8.0)),
                             boxShadow: <BoxShadow>[
                               BoxShadow(
-                                color: Colors.grey[200],
+                                color: Colors.grey[100],
                                 offset: Offset(3.0, 2.0),
                               )
                             ]),
-                        child: DropdownButton<String>(
-                          value: filterValue,
-                          icon: Icon(Icons.arrow_drop_down),
-                          iconSize: 24,
-                          onChanged: (String val){
-                            setState(() {
-                              if(val == "Status"){
-                                filterValue = val;
-                                val1 = "status";
-                                filteringValue = "Raised";
-                                val2 = 'raised';
-                              }
-                              else if(val == "Line Number"){
-                                filterValue = val;
-                                val1 = "lineNo";
-                                filteringValue = "4SP Krauseco Cylinder Headline";
-                                val2 = "4SP Krauseco Cylinder Headline";
-                              }
-                              else if(val == 'Type of Issue'){
-                                filterValue = val;
-                                val1 = "typeofIssue";
-                                filteringValue = 'Mechanical Issue';
-                                val2 = 'Mechanical Issue';
-                              }
-                            });
-                          },
-                          underline: Container(),
-                          items: filters.map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Container(
-                                padding: EdgeInsets.all(5),
-                                  child: Text(value)
-                              ),
-                            );
-                          }).toList(),
+                        child: Center(
+                          child: DropdownButton<String>(
+                            value: filterValue,
+                            icon: Icon(Icons.arrow_drop_down),
+                            iconSize: 24,
+                            onChanged: (String val){
+                              setState(() {
+                                if(val == "Status"){
+                                  filterValue = val;
+                                  val1 = "status";
+                                  filteringValue = "Raised";
+                                  val2 = 'raised';
+                                }
+                                else if(val == "Line Number"){
+                                  filterValue = val;
+                                  val1 = "lineNo";
+                                  filteringValue = "4SP Krauseco Cylinder Headline";
+                                  val2 = "4SP Krauseco Cylinder Headline";
+                                }
+                                else if(val == 'Type of Issue'){
+                                  filterValue = val;
+                                  val1 = "typeofIssue";
+                                  filteringValue = 'Mechanical Issue';
+                                  val2 = 'Mechanical Issue';
+                                }
+                              });
+                            },
+                            underline: Container(),
+                            items: filters.map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Container(
+                                  padding: EdgeInsets.all(5),
+                                    child: Center(child: Text(value))
+                                ),
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ),
                     ],
                   ),
                   SizedBox(
-                    height: 5,
+                    height: 8,
                   ),
                   Row(
                     children: <Widget>[
+                      Spacer(),
                       Text(
                         '$filterValue : \t\t\t',
                         style: TextStyle(
@@ -157,11 +162,11 @@ class _deptComplaintsState extends State<deptComplaints> {
                       val1 == "status" ? Container(
                         height: 35,
                         decoration: BoxDecoration(
-                            border: Border.all(width: 1.0,color: Colors.grey[200]),
+                            border: Border.all(width: 1.0,color: Colors.grey[100]),
                             borderRadius: BorderRadius.all(Radius.circular(8.0)),
                             boxShadow: <BoxShadow>[
                               BoxShadow(
-                                color: Colors.grey[200],
+                                color: Colors.grey[100],
                                 offset: Offset(3.0, 2.0),
                               )
                             ]),
@@ -200,11 +205,11 @@ class _deptComplaintsState extends State<deptComplaints> {
                           : val1 == "lineNo" ? Container(
                         height: 35,
                         decoration: BoxDecoration(
-                            border: Border.all(width: 1.0,color: Colors.grey[200]),
+                            border: Border.all(width: 1.0,color: Colors.grey[100]),
                             borderRadius: BorderRadius.all(Radius.circular(8.0)),
                             boxShadow: <BoxShadow>[
                               BoxShadow(
-                                color: Colors.grey[200],
+                                color: Colors.grey[100],
                                 offset: Offset(3.0, 2.0),
                               )
                             ]),
@@ -233,11 +238,11 @@ class _deptComplaintsState extends State<deptComplaints> {
                           : Container(
                         height: 35,
                         decoration: BoxDecoration(
-                            border: Border.all(width: 1.0,color: Colors.grey[200]),
+                            border: Border.all(width: 1.0,color: Colors.grey[100]),
                             borderRadius: BorderRadius.all(Radius.circular(8.0)),
                             boxShadow: <BoxShadow>[
                               BoxShadow(
-                                color: Colors.grey[200],
+                                color: Colors.grey[100],
                                 offset: Offset(3.0, 2.0),
                               )
                             ]),
