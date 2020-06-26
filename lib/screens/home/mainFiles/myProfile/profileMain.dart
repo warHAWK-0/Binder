@@ -69,7 +69,7 @@ class _ProfileMainState extends State<ProfileMain> {
             )),
         body: SingleChildScrollView(
           child: Container(
-            height: SizeConfig.safeBlockVertical *90,
+            //height: SizeConfig.safeBlockVertical *90,
             width: SizeConfig.safeBlockHorizontal *100,
             child: Padding(
               padding: EdgeInsets.all(30.0),
@@ -196,7 +196,7 @@ class _ProfileMainState extends State<ProfileMain> {
                               borderRadius: BorderRadius.all(Radius.circular(5)),
                               border: Border.all(color: Color(0xFF1467B3), width: 2.0),
                             ),
-                            child: Text(widget.userDetails.department, style: TextStyle(fontWeight: FontWeight.w700,color: Colors.black54),),
+                            child: Text(widget.userDetails.department.inCaps, style: TextStyle(fontWeight: FontWeight.w700,color: Colors.black54),),
                           ),
                         ),
                         Positioned(
@@ -302,7 +302,7 @@ class _ProfileMainState extends State<ProfileMain> {
                         ),
                       ),
                     ) : SizedBox(
-                      width: 400,
+                      width: 350,
                       height: 45,
                       child: FlatButton(
                         color: Color(0xFF1467B3),
@@ -335,7 +335,7 @@ class _ProfileMainState extends State<ProfileMain> {
                       height: 10,
                     ) : Container(),
                     widget.userDetails.firstLogin == "false" ? SizedBox(
-                      width: double.infinity,
+                      width: 350,
                       height: 45,
                       child: OutlineButton(
                         textColor: Color(0xFF1666f0),
