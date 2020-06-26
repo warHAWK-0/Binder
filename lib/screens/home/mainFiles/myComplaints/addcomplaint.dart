@@ -631,17 +631,14 @@ class _SearchPageState extends State<addComplaint> {
                             issue.isNotEmpty &&
                             type.isNotEmpty) {
                           Complaint complaint = new Complaint(
-                              remark: '',
+                              remark: 'Yet to take any action.',
                               machineNo: machineNo,
                               department: "Production",
                               issue: issue,
                               typeofIssue: type,
                               lineNo: lineNo,
-                              startDate: date,
-                              startTime: DateFormat.yMEd()
-                                  .add_jms()
-                                  .format(DateTime.now())
-                                  .substring(15, 25),
+                              startDate: DateTime.now().toString().substring(0,11),
+                              startTime: DateTime.now().toString().substring(11,16),
                               assignedDate: '',
                               assignedTime: '',
                               endDate: '',

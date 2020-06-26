@@ -63,8 +63,6 @@ class _deptComplaintsState extends State<deptComplaints> {
 
   @override
   Widget build(BuildContext context) {
-
-    print(val1+val2);
     return WillPopScope(
       onWillPop: _onbackpressed,
       child: Scaffold(
@@ -129,7 +127,6 @@ class _deptComplaintsState extends State<deptComplaints> {
                                 val2 = 'Mechanical Issue';
                               }
                             });
-                            print(val1);
                           },
                           underline: Container(),
                           items: filters.map<DropdownMenuItem<String>>((String value) {
@@ -278,7 +275,8 @@ class _deptComplaintsState extends State<deptComplaints> {
                       stream: Firestore.instance
                           .collection("departmentComplaints")
                           .where(val1,isEqualTo: val2)
-                          .orderBy('startDate', descending: false)
+//                          .where("startDate",isLessThanOrEqualTo: DateTime.now().toString().substring(0,11))
+//                          .orderBy('startDate', descending: true)
                           .snapshots(),
                       builder: (context, snapshot) {
                         return !snapshot.hasData ? Column(

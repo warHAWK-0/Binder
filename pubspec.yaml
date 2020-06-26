@@ -52,7 +52,7 @@ flutter_icons:
   android: true
   ios: false
   adaptive_icon_background: #ffffff
-  image_path: "assets/Logo/LogoBlue/LogoBlueS.png"
+  image_path: "assets/Logo/icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -138,7 +138,7 @@ class _myComplaintsState extends State<myComplaints> {
                               userDetails: widget.userDetails,
                               complaint: Complaint(
                                 remark: snapshot.data.documents[index]['remark'],
-                                complaintId: snapshot.data.documents[index]['complaint'],
+                                complaintId: snapshot.data.documents[index]['complaintId'],
                                 assignedDate: snapshot.data.documents[index]['assignedDate'],
                                 assignedTime: snapshot.data.documents[index]['assignedTime'],
                                 assignedTo: snapshot.data.documents[index]['assignedTo'],

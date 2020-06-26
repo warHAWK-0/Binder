@@ -803,7 +803,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                           if(_formKey.currentState.validate()){
                                             try {
                                               for (dynamic i in widget.complaint.assignedToUid) {
-                                                databaseReference.collection('complaint').document('complaintAssigned')
+                                                Firestore.instance.collection('complaint').document('complaintAssigned')
                                                     .collection(i)
                                                     .document(widget.complaint.complaintId)
                                                     .updateData({
@@ -817,7 +817,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                                 });
                                               }
 
-                                              databaseReference.collection('complaint').document('complaintRaised')
+                                              Firestore.instance.collection('complaint').document('complaintRaised')
                                                   .collection(widget.complaint.raisedByUid)
                                                   .document(widget.complaint.complaintId)
                                                   .updateData({
@@ -829,7 +829,7 @@ class _ExpandedComplainStatusState extends State<ExpandedComplainStatus> {
                                                     : _radioStatusValue == ComplaintStatusValue.pending ? "pending"
                                                     : _radioStatusValue == ComplaintStatusValue.cannotBeResolved ? "cannotBeResolved" : "ongoing",
                                               });
-                                              databaseReference.collection('departmentComplaints')
+                                              Firestore.instance.collection('departmentComplaints')
                                                   .document(widget.complaint.complaintId)
                                                   .updateData({
                                                 'remark' : remark,

@@ -281,7 +281,7 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
                                               "Okay",
                                               style: TextStyle(color: Colors.white, fontSize: 20),
                                             ),
-                                            onPressed: (){ Navigator.pop(context);},
+                                            onPressed: (){ Navigator.pop(context);Navigator.pop(context);},
                                           color: Color(0xFF1467B3),
                                         ),
                                       ],
