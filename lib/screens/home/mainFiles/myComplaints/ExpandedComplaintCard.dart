@@ -124,6 +124,7 @@ class _ExpandedComplainVerifyState extends State<ExpandedComplainVerify> {
                             Text(widget.complaint.assignedTo.toString() != "null"
                                 ? "Assigned to : " + widget.complaint.assignedTo.toString().substring(1,widget.complaint.assignedTo.toString().length-1)
                                 : "Assigned To : Not yet assigned",
+
                                 style: detailsTextStyle),
                             SizedBox(height: 8),
                             Text("Assigned by : ${widget.complaint.assignedBy}",
