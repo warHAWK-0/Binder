@@ -55,7 +55,7 @@ class _ProfileMainState extends State<ProfileMain> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-
+    double width = MediaQuery.of(context).size.width/1.1;
     return loading == false ? WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
@@ -72,7 +72,7 @@ class _ProfileMainState extends State<ProfileMain> {
             //height: SizeConfig.safeBlockVertical *90,
             width: SizeConfig.safeBlockHorizontal *100,
             child: Padding(
-              padding: EdgeInsets.all(30.0),
+              padding: EdgeInsets.symmetric(horizontal: 10,vertical: 20),
               child: Form(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -88,7 +88,7 @@ class _ProfileMainState extends State<ProfileMain> {
                           child: Container(
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.only(left: 20),
-                            width: 350,
+                            width: width,
                             height: 50,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -118,7 +118,7 @@ class _ProfileMainState extends State<ProfileMain> {
                           child: Container(
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.only(left: 20),
-                            width: 350,
+                            width: width,
                             height: 50,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -160,7 +160,7 @@ class _ProfileMainState extends State<ProfileMain> {
                           child: Container(
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.only(left: 20),
-                            width: 350,
+                            width: width,
                             height: 50,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -190,7 +190,7 @@ class _ProfileMainState extends State<ProfileMain> {
                           child: Container(
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.only(left: 20),
-                            width: 350,
+                            width: width,
                             height: 50,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -220,7 +220,7 @@ class _ProfileMainState extends State<ProfileMain> {
                           child: Container(
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.only(left: 20),
-                            width: 350,
+                            width: width,
                             height: 50,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -250,7 +250,7 @@ class _ProfileMainState extends State<ProfileMain> {
                           child: Container(
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.only(left: 20),
-                            width: 350,
+                            width: width,
                             height: 50,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -270,7 +270,7 @@ class _ProfileMainState extends State<ProfileMain> {
                       height: 35,
                     ),
                     widget.userDetails.firstLogin == "true" ? Container(
-                      width: double.infinity,
+                      width: width,
                       height: 45,
                       child: FlatButton(
                         color: Color(0xFF1467B3),
@@ -302,7 +302,7 @@ class _ProfileMainState extends State<ProfileMain> {
                         ),
                       ),
                     ) : SizedBox(
-                      width: 350,
+                      width: width,
                       height: 45,
                       child: FlatButton(
                         color: Color(0xFF1467B3),
@@ -335,7 +335,7 @@ class _ProfileMainState extends State<ProfileMain> {
                       height: 10,
                     ) : Container(),
                     widget.userDetails.firstLogin == "false" ? SizedBox(
-                      width: 350,
+                      width: width,
                       height: 45,
                       child: OutlineButton(
                         textColor: Color(0xFF1666f0),
