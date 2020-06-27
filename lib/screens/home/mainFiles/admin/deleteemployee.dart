@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Binder/models/user_data.dart';
 import 'package:Binder/shared/loading.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -269,8 +270,7 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
                                   splashColor: Colors.blueAccent,
                                   onPressed: () async{
 
-                                    await Firestore.instance.collection('user_details').document(allData[0].uid).delete();
-
+                                    await Firestore.instance.collection('user_details').document(allData[0].uid).collection(allData[0].uid).document(allData[0].uid).delete();
                                     return Alert(
                                       context: context,
                                       type: AlertType.success,
