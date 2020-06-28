@@ -134,6 +134,14 @@ class _ProfileMainState extends State<ProfileMain> {
                                 ? "Supervisor"
                                 : widget.userDetails.authLevel
                                 .toString() ==
+                                "3"
+                                ? "Line Manager"
+                                : widget.userDetails.authLevel
+                                .toString() ==
+                                "4"
+                                ? "Section Incharge"
+                                : widget.userDetails.authLevel
+                                .toString() ==
                                 "2"
                                 ? " Admin"
                                 : "Null", style: TextStyle(fontWeight: FontWeight.w700,color: Colors.black54,),),

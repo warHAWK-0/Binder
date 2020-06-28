@@ -471,7 +471,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                         typeofOperator: type,
                         lineNo: lineNo,
                         authLevel: (designation == "Operator/Engineer" || designation == "Temporary Operator") ? "0"
-                            : (designation == "Section Incharge" || designation == "Line Manager" || designation == "Supervisor") ? "1"
+                            : (designation == "Section Incharge")? "4" : (designation == "Line Manager")?"3": ( designation == "Supervisor") ? "1"
                             : (designation == "Admin") ? "2" : "0",
                         department: dept.toLowerCase(),
                         mobileNo: phoneNo,
