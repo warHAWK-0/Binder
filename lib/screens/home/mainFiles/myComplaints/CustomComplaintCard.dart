@@ -43,7 +43,25 @@ class _CustomComplaintCardState extends State<CustomComplaintCard> {
               )),
             );
           }
-          else if((widget.userDetails.authLevel=="1" && widget.userDetails.department=="production" ) || (widget.userDetails.authLevel=="0" && widget.userDetails.department=="production")){
+          else if(widget.userDetails.authLevel=="4" && widget.userDetails.department=="maintenance"){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ExpandedComplaintAssign(
+                userDetails:widget.userDetails,
+                complaint: widget.complaint,
+              )),
+            );
+          }
+          else if(widget.userDetails.authLevel=="3" && widget.userDetails.department=="maintenance"){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ExpandedComplaintAssign(
+                userDetails:widget.userDetails,
+                complaint: widget.complaint,
+              )),
+            );
+          }
+          else if((widget.userDetails.authLevel=="1" && widget.userDetails.department=="production" ) || (widget.userDetails.authLevel=="4" && widget.userDetails.department=="production" ) ||(widget.userDetails.authLevel=="3" && widget.userDetails.department=="production" ) || (widget.userDetails.authLevel=="0" && widget.userDetails.department=="production")){
             Navigator.push(context, MaterialPageRoute(
               builder: (context) => ExpandedComplainVerify(userDetails: widget.userDetails, complaint: widget.complaint)
             ));

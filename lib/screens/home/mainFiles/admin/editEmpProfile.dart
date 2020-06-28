@@ -329,6 +329,8 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                       ),
                       hintText: (widget.allData[0].authLevel.toString()=="0"? "Operator":
                       widget.allData[0].authLevel.toString()=="1"? "Supervisor":
+                      widget.allData[0].authLevel.toString()=="3"? "Line Manager":
+                      widget.allData[0].authLevel.toString()=="4"? "Section Incharge":
                       widget.allData[0].authLevel.toString()=="2"? " Admin": "Null"),//widget.allData[0].designation,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
@@ -513,7 +515,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                           'blockNo': block.isEmpty? widget.allData[0].bayNo : block,
                           'LineNo': lineNo.isEmpty? widget.allData[0].lineNo: lineNo,
                           'department': dept.isEmpty? widget.allData[0].department : (dept.toLowerCase()),
-                          'authLevel': designation.isEmpty ? widget.allData[0].authLevel : (designation.toString()== "Supervisor"? "1": designation.toString()== "Operator/Engineer"? "0": designation.toString()=="Section Incharge"? "1" :designation.toString()=="Line Manager"? "1": designation.toString()=="Temporary Operator"? "0": "Null"),
+                          'authLevel': designation.isEmpty ? widget.allData[0].authLevel : (designation.toString()== "Supervisor"? "1": designation.toString()== "Operator/Engineer"? "0": designation.toString()=="Section Incharge"? "4" :designation.toString()=="Line Manager"? "3": designation.toString()=="Temporary Operator"? "0": "Null"),
                           'typeOfOperator': typeOfOp.toString().isEmpty? widget.allData[0].typeofOperator: typeOfOp.toString().substring(10),
                           'name': name.isEmpty? widget.allData[0].name : name,
                           'personalId':id.isNotEmpty? id: widget.allData[0].personalId,

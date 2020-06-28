@@ -240,6 +240,15 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
+                                child: Text("Line No:              "+allData[0].lineNo,
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        color: Color(0xFF1467B3),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500)),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(left: 10),
                                 child: Text("Bay No :              "+allData[0].bayNo,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
@@ -260,6 +269,8 @@ class _EditSearchEmpState extends State<EditSearchEmp> {
                                 padding: EdgeInsets.only(left: 10),
                                 child: Text("Designation:       "+(allData[0].authLevel.toString()=="0"? "Operator":
                                 allData[0].authLevel.toString()=="1"? "Supervisor":
+                                allData[0].authLevel.toString()=="3"? "Line Manager":
+                                allData[0].authLevel.toString()=="4"? "Section Incharge":
                                 allData[0].authLevel.toString()=="2"? " Admin": "Null"),
                                     style: TextStyle(
                                         fontFamily: 'Roboto',

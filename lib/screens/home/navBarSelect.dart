@@ -93,6 +93,36 @@ class _NavBarSelectState extends State<NavBarSelect> {
           ProfileMain(userDetails: widget.userDetails,),
         ],
       )
+          : (widget.userDetails.authLevel == '4' && widget.userDetails.department == "production") ? IndexedStack(
+        index: currentIndex,
+        children: <Widget>[
+          myComplaints(key: complaint,userDetails: widget.userDetails,),
+          deptComplaints(key: departmentComplaint, userDetails: widget.userDetails,),
+          ProfileMain(userDetails: widget.userDetails,),
+        ],
+      )
+          : (widget.userDetails.authLevel == '3' && widget.userDetails.department == "production") ? IndexedStack(
+        index: currentIndex,
+        children: <Widget>[
+          myComplaints(key: complaint,userDetails: widget.userDetails,),
+          deptComplaints(key: departmentComplaint, userDetails: widget.userDetails,),
+          ProfileMain(userDetails: widget.userDetails,),
+        ],
+      )
+          : (widget.userDetails.authLevel == '4' && widget.userDetails.department == "maintenance") ? IndexedStack(
+        index: currentIndex,
+        children: <Widget>[
+          deptComplaints(key: departmentComplaint, userDetails: widget.userDetails,),
+          ProfileMain(userDetails: widget.userDetails,),
+        ],
+      )
+          : (widget.userDetails.authLevel == '3' && widget.userDetails.department == "maintenance") ? IndexedStack(
+        index: currentIndex,
+        children: <Widget>[
+          deptComplaints(key: departmentComplaint, userDetails: widget.userDetails,),
+          ProfileMain(userDetails: widget.userDetails,),
+        ],
+      )
           : (widget.userDetails.authLevel == '2' && widget.userDetails.department == "admin") ? IndexedStack(
         index: currentIndex,
         children: <Widget>[
@@ -202,6 +232,122 @@ class _NavBarSelectState extends State<NavBarSelect> {
             inactiveColor: Colors.white,
             textAlign: TextAlign.center,
           ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.account_balance),
+            title: Text('Department'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.account_circle),
+            title: Text('Profile'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ) :
+      (widget.userDetails.authLevel == '3' && widget.userDetails.department == "production") == true ? BottomNavyBar(
+        selectedIndex: currentIndex,
+        showElevation: true,
+        itemCornerRadius: 10,
+        curve: Curves.easeInBack,
+        onItemSelected: (index) => setState(() {
+          currentIndex = index;
+        }),
+        items: [
+          BottomNavyBarItem(
+            icon: Icon(Icons.message),
+            title: Text('Complaints'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.account_balance),
+            title: Text('Department'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.account_circle),
+            title: Text('Profile'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ) :
+      (widget.userDetails.authLevel == '4' && widget.userDetails.department == "production") == true ? BottomNavyBar(
+        selectedIndex: currentIndex,
+        showElevation: true,
+        itemCornerRadius: 10,
+        curve: Curves.easeInBack,
+        onItemSelected: (index) => setState(() {
+          currentIndex = index;
+        }),
+        items: [
+          BottomNavyBarItem(
+            icon: Icon(Icons.message),
+            title: Text('Complaints'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.account_balance),
+            title: Text('Department'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.account_circle),
+            title: Text('Profile'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ) :
+      (widget.userDetails.authLevel == '3' && widget.userDetails.department == "maintenance") == true ? BottomNavyBar(
+        selectedIndex: currentIndex,
+        showElevation: true,
+        itemCornerRadius: 10,
+        curve: Curves.easeInBack,
+        onItemSelected: (index) =>
+            setState(() {
+              currentIndex = index;
+            }),
+        items: [
+          BottomNavyBarItem(
+            icon: Icon(Icons.account_balance),
+            title: Text('Department'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.account_circle),
+            title: Text('Profile'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ) :
+      (widget.userDetails.authLevel == '4' && widget.userDetails.department == "maintenance") == true ? BottomNavyBar(
+        selectedIndex: currentIndex,
+        showElevation: true,
+        itemCornerRadius: 10,
+        curve: Curves.easeInBack,
+        onItemSelected: (index) =>
+            setState(() {
+              currentIndex = index;
+            }),
+        items: [
           BottomNavyBarItem(
             icon: Icon(Icons.account_balance),
             title: Text('Department'),
