@@ -1,13 +1,11 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_binder/models/user_Info.dart';
-import 'package:final_binder/models/user_data.dart';
-import 'package:final_binder/screens/home/mainFiles/admin/homepageadmin.dart';
+import 'package:Binder/models/user_data.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../../../shared/CustomAppBar.dart';
 import '../../../../shared/themes.dart';
-import 'editSearchEmp.dart';
 
 enum TypeOfEmp { Electrical, Mechanical, Nothing }
 
@@ -30,6 +28,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
   String name = "";
   String phoneNo = "";
   String email = " ";
+  String lineNo="";
   TypeOfEmp typeOfOp = TypeOfEmp.Nothing;
   String block = "";
   String dept = "";
@@ -40,6 +39,7 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
   @override
   void initState() {
     super.initState();
+    lineNo='';
     block = '';
     dept = '';
     designation = '';
@@ -53,6 +53,16 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
     "Supervisor",
     "Operator/Engineer",
     "Temporary Operator",
+  ];
+
+  List<String> linetype = [
+    "4SP Krauseco Cylinder Headline",
+    "4SP Makino Cylinder Headline",
+    "2.2L Cylinder Headline",
+    "5L Cylinder Headline",
+    "3l/3.3L Cylinder Headline",
+    "Hoists and Cranes",
+    "Mancooling Fan"
   ];
 
 
@@ -173,6 +183,52 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                           },
                         ),
                       ),
+                      hintText: widget.allData[0].lineNo,
+                      hintStyle: TextStyle(color: Color(0xFF1467B3)),
+                      filled: true,
+                      fillColor: Color.fromRGBO(20, 103, 179, 0.05),
+                      contentPadding: const EdgeInsets.only(
+                          left: 15.0, bottom: 5.0, top: 5.0),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(93, 153, 252, 100)),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color:
+                              Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
+                      ),
+                    ),
+                    value: lineNo.isNotEmpty ? block : null,
+                    onSaved: (value) {
+                      setState(() {
+                        lineNo = value;
+                      });
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        lineNo = value;
+                      });
+                    },
+                    items: linetype.map((item) {
+                      return DropdownMenuItem<String>(
+                          child: new Text(item), value: item);
+                    }).toList(),
+                    validator: (value) =>
+                    value == null ? '' : null,
+                  ),
+                  SizedBox(height: 20,),//Department
+                  DropdownButtonFormField(
+                    decoration: InputDecoration(
+                      suffixIcon:  Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: (){
+
+                          },
+                        ),
+                      ),
                       hintText: widget.allData[0].bayNo,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
@@ -272,8 +328,10 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                         ),
                       ),
                       hintText: (widget.allData[0].authLevel.toString()=="0"? "Operator":
-                      widget.allData[0].authLevel.toString()=="0"? "Production":
-                      widget.allData[0].authLevel.toString()=="0"? " Admin": "Null"),//widget.allData[0].designation,
+                      widget.allData[0].authLevel.toString()=="1"? "Supervisor":
+                      widget.allData[0].authLevel.toString()=="3"? "Line Manager":
+                      widget.allData[0].authLevel.toString()=="4"? "Section Incharge":
+                      widget.allData[0].authLevel.toString()=="2"? " Admin": "Null"),//widget.allData[0].designation,
                       hintStyle: TextStyle(color: Color(0xFF1467B3)),
                       filled: true,
                       fillColor: Color.fromRGBO(20, 103, 179, 0.05),
@@ -452,12 +510,12 @@ class _EditEmpProfileState extends State<EditEmpProfile> {
                       splashColor: Colors.blueAccent,
                       onPressed: () {
 
-                        var db= Firestore.instance.collection('binder').document(widget.userID)
-                            .collection('user_details').document(widget.userID);
+                        var db= Firestore.instance.collection('user_details').document(widget.userID).collection(widget.userID).document(widget.userID);
                         db.updateData({
                           'blockNo': block.isEmpty? widget.allData[0].bayNo : block,
+                          'LineNo': lineNo.isEmpty? widget.allData[0].lineNo: lineNo,
                           'department': dept.isEmpty? widget.allData[0].department : (dept.toLowerCase()),
-                          //'authLevel': designation.isNotEmpty? widget.allData[0].designation : designation,
+                          'authLevel': designation.isEmpty ? widget.allData[0].authLevel : (designation.toString()== "Supervisor"? "1": designation.toString()== "Operator/Engineer"? "0": designation.toString()=="Section Incharge"? "4" :designation.toString()=="Line Manager"? "3": designation.toString()=="Temporary Operator"? "0": "Null"),
                           'typeOfOperator': typeOfOp.toString().isEmpty? widget.allData[0].typeofOperator: typeOfOp.toString().substring(10),
                           'name': name.isEmpty? widget.allData[0].name : name,
                           'personalId':id.isNotEmpty? id: widget.allData[0].personalId,

@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_binder/models/user.dart';
-import 'package:final_binder/models/user_data.dart';
-import 'package:final_binder/screens/home/navBarSelect.dart';
-import 'package:final_binder/services/database.dart';
-import 'package:final_binder/shared/loading.dart';
+import 'package:Binder/models/user.dart';
+import 'package:Binder/models/user_data.dart';
+import 'package:Binder/screens/home/navBarSelect.dart';
+import 'package:Binder/services/database.dart';
+import 'package:Binder/shared/loading.dart';
 import 'package:flutter/material.dart';
 
 class RedirectingScreen extends StatelessWidget {
@@ -14,8 +13,7 @@ class RedirectingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: Firestore.instance
-          .collection("user_details").snapshots(),
+      stream: DatabaseServices(uid: user.uid.toString()).collectionReference.document(user.uid.toString()).collection(user.uid.toString()).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Loading();

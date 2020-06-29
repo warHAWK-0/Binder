@@ -1,4 +1,4 @@
-import 'package:final_binder/shared/themes.dart';
+import 'package:Binder/shared/themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -29,9 +29,15 @@ class CustomAppBar extends PreferredSize {
           children: <Widget>[
             Align(
               alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: child,
+              child: Column(
+                children: <Widget>[
+                  Spacer(),
+                  Container(
+                    width: MediaQuery.of(context).size.width/1.2,
+                    padding: const EdgeInsets.all(10.0),
+                    child: Center(child: child),
+                  ),
+                ],
               ),
             ),
             Align(

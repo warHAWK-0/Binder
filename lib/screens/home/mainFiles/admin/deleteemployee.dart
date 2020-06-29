@@ -1,6 +1,9 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_binder/models/user_data.dart';
-import 'package:final_binder/shared/loading.dart';
+import 'package:Binder/models/user_data.dart';
+import 'package:Binder/shared/loading.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -23,17 +26,17 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
     });
 
     final QuerySnapshot usersList =
-    await Firestore.instance.collection('binder').getDocuments();
+    await Firestore.instance.collection('user_details').getDocuments();
     final List<DocumentSnapshot> docUsers = usersList.documents;
     allData.clear();
     for (DocumentSnapshot docUser in docUsers) {
       String uidUser = docUser.documentID;
       print(uidUser);
       final QuerySnapshot userComplaints = await Firestore.instance
-          .collection('binder')
-          .document(uidUser)
-          .collection('user_details')
-          .getDocuments();
+      .collection("user_details")
+      .document(uidUser)
+      .collection(uidUser)
+      .getDocuments();
       final List<DocumentSnapshot> docComplaints = userComplaints.documents;
       for (DocumentSnapshot docComplaint in docComplaints) {
         print(docComplaint.documentID + " => " );
@@ -44,6 +47,7 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
               name:docComplaint.data['name'],
               authLevel: docComplaint.data['authLevel'],
               uid: docComplaint.data['uid'],
+              lineNo: docComplaint.data['LineNo'],
               department: docComplaint.data['department'],
               mobileNo: docComplaint.data['mobileNo'],
               personalId: docComplaint.data['personalId'],
@@ -210,6 +214,15 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
+                                child: Text("Line No:              "+allData[0].lineNo,
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        color: Color(0xFF1467B3),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500)),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(left: 10),
                                 child: Text("Bay No :              "+allData[0].bayNo,
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
@@ -228,8 +241,10 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text("Designation:       "+(allData[0].authLevel.toString()=="0"? "Operator Level":
-                                allData[0].authLevel.toString()=="1"? "Supervisor Level":
+                                child: Text("Designation:       "+(allData[0].authLevel.toString()=="0"? "Operator":
+                                allData[0].authLevel.toString()=="1"? "Supervisor":
+                                allData[0].authLevel.toString()=="3"? "Line Manager":
+                                allData[0].authLevel.toString()=="4"? "Section Incharge":
                                 allData[0].authLevel.toString()=="2"? " Admin": "Null"),
                                     style: TextStyle(
                                         fontFamily: 'Roboto',
@@ -267,8 +282,7 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
                                   splashColor: Colors.blueAccent,
                                   onPressed: () async{
 
-                                    await db.collection('binder').document(userID).collection('user_details').document(allData[0].uid).delete();
-
+                                    await Firestore.instance.collection('user_details').document(allData[0].uid).collection(allData[0].uid).document(allData[0].uid).delete();
                                     return Alert(
                                       context: context,
                                       type: AlertType.success,
@@ -279,7 +293,7 @@ class _DeleteEmployeeState extends State<DeleteEmployee> {
                                               "Okay",
                                               style: TextStyle(color: Colors.white, fontSize: 20),
                                             ),
-                                            onPressed: (){ Navigator.pop(context);},
+                                            onPressed: (){ Navigator.pop(context);Navigator.pop(context);},
                                           color: Color(0xFF1467B3),
                                         ),
                                       ],

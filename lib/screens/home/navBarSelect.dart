@@ -1,6 +1,6 @@
-import 'package:final_binder/models/user_data.dart';
-import 'package:final_binder/shared/CustomBottomNavigationBar.dart';
-import 'package:final_binder/shared/themes.dart';
+import 'package:Binder/models/user_data.dart';
+import 'package:Binder/shared/CustomBottomNavigationBar.dart';
+import 'package:Binder/shared/themes.dart';
 import 'package:flutter/material.dart';
 
 import 'mainFiles/admin/adminMain.dart';
@@ -19,6 +19,9 @@ class NavBarSelect extends StatefulWidget {
 }
 
 class _NavBarSelectState extends State<NavBarSelect> {
+  final PageStorageBucket bucket = PageStorageBucket();
+  final Key complaint = PageStorageKey("My Complaints");
+  final Key departmentComplaint = PageStorageKey("Department Complaints");
 
   int currentIndex = 0;
 
@@ -30,8 +33,7 @@ class _NavBarSelectState extends State<NavBarSelect> {
 
   //widget.authLevel == 1  && widget.userDepartment  == "maintenance" <=> Maintenance Supervisor
   List<Widget> _maintenanceSupervisorScreenList() => [
-    deptComplaints(userDetails: widget.userDetails,),
-    ProfileMain(userDetails: widget.userDetails,),
+
   ];
 
   // widget.authLevel == 0 && widget.userDepartment == "production" <=> Production operator
@@ -62,11 +64,82 @@ class _NavBarSelectState extends State<NavBarSelect> {
     final List<Widget> systemAdminScreenList = _systemAdminScreenList();
 
     return Scaffold(
-      body: (widget.userDetails.authLevel == '0' && widget.userDetails.department == "maintenance") ? maintenanceOperatorScreenList[currentIndex] :
-      (widget.userDetails.authLevel == '0' && widget.userDetails.department == "production") ? productionOperatorScreenList[currentIndex] :
-      (widget.userDetails.authLevel == '1'  && widget.userDetails.department  == "maintenance") ? maintenanceSupervisorScreenList[currentIndex] :
-      (widget.userDetails.authLevel == '1'&& widget.userDetails.department == "production") ? productionSupervisorScreenList[currentIndex] :
-      (widget.userDetails.authLevel == '2' && widget.userDetails.department == "admin") ? systemAdminScreenList[currentIndex] : null,
+      body: (widget.userDetails.authLevel == '0' && widget.userDetails.department == "maintenance") ? IndexedStack(
+        index: currentIndex,
+        children: <Widget>[
+          myComplaints(key: complaint,userDetails: widget.userDetails,),
+          ProfileMain(userDetails: widget.userDetails,),
+        ],
+      )
+          : (widget.userDetails.authLevel == '0' && widget.userDetails.department == "production") ? IndexedStack(
+        index: currentIndex,
+        children: <Widget>[
+          myComplaints(key: complaint,userDetails: widget.userDetails,),
+          ProfileMain(userDetails: widget.userDetails,),
+        ],
+      )
+          : (widget.userDetails.authLevel == '1'  && widget.userDetails.department  == "maintenance") ? IndexedStack(
+        index: currentIndex,
+        children: <Widget>[
+          deptComplaints(key: departmentComplaint,userDetails: widget.userDetails,),
+          ProfileMain(userDetails: widget.userDetails,),
+        ],
+      )
+          : (widget.userDetails.authLevel == '1'&& widget.userDetails.department == "production") ? IndexedStack(
+        index: currentIndex,
+        children: <Widget>[
+          myComplaints(key: complaint,userDetails: widget.userDetails,),
+          deptComplaints(key: departmentComplaint,userDetails: widget.userDetails,),
+          ProfileMain(userDetails: widget.userDetails,),
+        ],
+      )
+          : (widget.userDetails.authLevel == '4' && widget.userDetails.department == "production") ? IndexedStack(
+        index: currentIndex,
+        children: <Widget>[
+          myComplaints(key: complaint,userDetails: widget.userDetails,),
+          deptComplaints(key: departmentComplaint, userDetails: widget.userDetails,),
+          ProfileMain(userDetails: widget.userDetails,),
+        ],
+      )
+          : (widget.userDetails.authLevel == '3' && widget.userDetails.department == "production") ? IndexedStack(
+        index: currentIndex,
+        children: <Widget>[
+          myComplaints(key: complaint,userDetails: widget.userDetails,),
+          deptComplaints(key: departmentComplaint, userDetails: widget.userDetails,),
+          ProfileMain(userDetails: widget.userDetails,),
+        ],
+      )
+          : (widget.userDetails.authLevel == '4' && widget.userDetails.department == "maintenance") ? IndexedStack(
+        index: currentIndex,
+        children: <Widget>[
+          deptComplaints(key: departmentComplaint, userDetails: widget.userDetails,),
+          ProfileMain(userDetails: widget.userDetails,),
+        ],
+      )
+          : (widget.userDetails.authLevel == '3' && widget.userDetails.department == "maintenance") ? IndexedStack(
+        index: currentIndex,
+        children: <Widget>[
+          deptComplaints(key: departmentComplaint, userDetails: widget.userDetails,),
+          ProfileMain(userDetails: widget.userDetails,),
+        ],
+      )
+          : (widget.userDetails.authLevel == '2' && widget.userDetails.department == "admin") ? IndexedStack(
+        index: currentIndex,
+        children: <Widget>[
+          AdminMain(userDetails: widget.userDetails,),
+        ],
+      )
+          : Scaffold(
+        body: Center(
+          child: Container(
+            child: Column(
+            children: <Widget>[
+              Text('The user might have been removed by admin')
+            ],
+            ),
+          ),
+        ),
+      ),
       bottomNavigationBar: (widget.userDetails.authLevel == '0' && widget.userDetails.department == "maintenance") == true ? BottomNavyBar(
         selectedIndex: currentIndex,
         showElevation: true,
@@ -159,6 +232,122 @@ class _NavBarSelectState extends State<NavBarSelect> {
             inactiveColor: Colors.white,
             textAlign: TextAlign.center,
           ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.account_balance),
+            title: Text('Department'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.account_circle),
+            title: Text('Profile'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ) :
+      (widget.userDetails.authLevel == '3' && widget.userDetails.department == "production") == true ? BottomNavyBar(
+        selectedIndex: currentIndex,
+        showElevation: true,
+        itemCornerRadius: 10,
+        curve: Curves.easeInBack,
+        onItemSelected: (index) => setState(() {
+          currentIndex = index;
+        }),
+        items: [
+          BottomNavyBarItem(
+            icon: Icon(Icons.message),
+            title: Text('Complaints'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.account_balance),
+            title: Text('Department'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.account_circle),
+            title: Text('Profile'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ) :
+      (widget.userDetails.authLevel == '4' && widget.userDetails.department == "production") == true ? BottomNavyBar(
+        selectedIndex: currentIndex,
+        showElevation: true,
+        itemCornerRadius: 10,
+        curve: Curves.easeInBack,
+        onItemSelected: (index) => setState(() {
+          currentIndex = index;
+        }),
+        items: [
+          BottomNavyBarItem(
+            icon: Icon(Icons.message),
+            title: Text('Complaints'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.account_balance),
+            title: Text('Department'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.account_circle),
+            title: Text('Profile'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ) :
+      (widget.userDetails.authLevel == '3' && widget.userDetails.department == "maintenance") == true ? BottomNavyBar(
+        selectedIndex: currentIndex,
+        showElevation: true,
+        itemCornerRadius: 10,
+        curve: Curves.easeInBack,
+        onItemSelected: (index) =>
+            setState(() {
+              currentIndex = index;
+            }),
+        items: [
+          BottomNavyBarItem(
+            icon: Icon(Icons.account_balance),
+            title: Text('Department'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.account_circle),
+            title: Text('Profile'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ) :
+      (widget.userDetails.authLevel == '4' && widget.userDetails.department == "maintenance") == true ? BottomNavyBar(
+        selectedIndex: currentIndex,
+        showElevation: true,
+        itemCornerRadius: 10,
+        curve: Curves.easeInBack,
+        onItemSelected: (index) =>
+            setState(() {
+              currentIndex = index;
+            }),
+        items: [
           BottomNavyBarItem(
             icon: Icon(Icons.account_balance),
             title: Text('Department'),

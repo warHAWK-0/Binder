@@ -1,5 +1,5 @@
-import 'package:final_binder/models/user_data.dart';
-import 'package:final_binder/services/database.dart';
+import 'package:Binder/models/user_data.dart';
+import 'package:Binder/services/database.dart';
 import 'package:flutter/material.dart';
 
 import '../models/user.dart';
@@ -59,6 +59,7 @@ class AuthService{
       await DatabaseServices(uid: user.uid).initiateDocument();
       await DatabaseServices(uid: user.uid).updateUserData(UserDetails(
         name: userDetails.name,
+        lineNo: userDetails.lineNo,
         uid: user.uid,
         authLevel: userDetails.authLevel,
         department: userDetails.department,

@@ -1,6 +1,7 @@
-import 'package:final_binder/models/user_data.dart';
-import 'package:final_binder/shared/CustomAppBar.dart';
-import 'package:final_binder/shared/themes.dart';
+import 'package:Binder/models/user_data.dart';
+import 'package:Binder/shared/CustomAppBar.dart';
+import 'package:Binder/shared/loading.dart';
+import 'package:Binder/shared/themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -53,7 +54,8 @@ class _AddEmployeeState extends State<AddEmployee> {
     );
   }
 
-  List<String> bayNoList = ["Bay1","Bay2","Bay3"];
+  bool isLoading = false;
+  List<String> bayNoList = ["Bay2","Bay3","Bay4","Bay5","Bay6","Bay7","Bay8"];
   List<String> departments = ["Production", "Maintenance"];
   List<String> designations = [
     "Section Incharge",
@@ -63,6 +65,16 @@ class _AddEmployeeState extends State<AddEmployee> {
     "Temporary Operator",
   ];
 
+  List<String> linetype = [
+    "4SP Krauseco Cylinder Headline",
+    "4SP Makino Cylinder Headline",
+    "2.2L Cylinder Headline",
+    "5L Cylinder Headline",
+    "3l/3.3L Cylinder Headline",
+    "Hoists and Cranes",
+    "Mancooling Fan"
+  ];
+  String lineNo = "";
 
 
   @override
@@ -160,6 +172,44 @@ class _AddEmployeeState extends State<AddEmployee> {
                   SizedBox(
                     height: 20,
                   ),
+                  DropdownButtonFormField(
+                    // style: TextStyle(color: Color(0xFF1467B3)),
+                    decoration: InputDecoration(
+                      hintText: "Line No.",
+                      hintStyle:
+                      TextStyle(color: Color(0xFF1467B3), fontSize: 16),
+                      filled: true,
+                      fillColor: Color.fromRGBO(20, 103, 179, 0.05),
+                      contentPadding: const EdgeInsets.only(
+                          left: 14.0, bottom: 15.0, top: 15.0),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(93, 153, 252, 100)),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color:
+                              Color.fromRGBO(223, 232, 247, 100)) //dfe8f7
+                      ),
+                    ),
+                    value: lineNo.isNotEmpty ? lineNo : null,
+                    onSaved: (value) {
+                      setState(() {
+                        lineNo = value;
+                      });
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        lineNo = value;
+                      });
+                    },
+                    items: linetype.map((item) {
+                      return DropdownMenuItem<String>(
+                          child: new Text(item), value: item);
+                    }).toList(),
+                    validator: (value) => value == null ? '' : null,
+                  ), //Department
+                  SizedBox(height: 20,),
                   DropdownButtonFormField(
                     decoration: InputDecoration(
                       hintText: "Bay Number",
@@ -402,7 +452,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                   SizedBox(
                     width: 400,
                     height: 45,
-                    child: FlatButton(
+                    child: isLoading ? Loading() : FlatButton(
                       color: Color(0xFF1467B3),
                       textColor: Colors.white,
                       disabledColor: Colors.grey,
@@ -410,15 +460,18 @@ class _AddEmployeeState extends State<AddEmployee> {
                       padding: EdgeInsets.all(8.0),
                       splashColor: Colors.blueAccent,
                       onPressed: () async{
-
+                        setState(() {
+                          isLoading = true;
+                        });
                         String type =typeOfOp.toString().substring(10);
                         final UserDetails userDetails = UserDetails(
                         name: name,
                         uid: '',
                         firstLogin: "true",
                         typeofOperator: type,
+                        lineNo: lineNo,
                         authLevel: (designation == "Operator/Engineer" || designation == "Temporary Operator") ? "0"
-                            : (designation == "Section Incharge" || designation == "Line Manager" || designation == "Supervisor") ? "1"
+                            : (designation == "Section Incharge")? "4" : (designation == "Line Manager")?"3": ( designation == "Supervisor") ? "1"
                             : (designation == "Admin") ? "2" : "0",
                         department: dept.toLowerCase(),
                         mobileNo: phoneNo,
@@ -466,7 +519,9 @@ class _AddEmployeeState extends State<AddEmployee> {
                             Navigator.pop(context);
                           }
                         }
-
+                        setState(() {
+                          isLoading = false;
+                        });
                         return userCreated == true ? showDialog(
                             context: context,
                             builder: (context) =>
@@ -495,7 +550,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                                   ],
                                 )
                         ) : null;
-                      },
+                        },
                       child: Text(
                         "Add Employee",
                         style: TextStyle(fontSize: 15.0),
