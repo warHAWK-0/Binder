@@ -82,7 +82,7 @@ class _NavBarSelectState extends State<NavBarSelect> {
         index: currentIndex,
         children: <Widget>[
           deptComplaints(key: departmentComplaint,userDetails: widget.userDetails,),
-          StatisticsReport(),
+          StatisticsReport(userDetails: widget.userDetails),
           ProfileMain(userDetails: widget.userDetails,),
         ],
       )
@@ -91,7 +91,7 @@ class _NavBarSelectState extends State<NavBarSelect> {
         children: <Widget>[
           myComplaints(key: complaint,userDetails: widget.userDetails,),
           deptComplaints(key: departmentComplaint,userDetails: widget.userDetails,),
-          StatisticsReport(),
+          StatisticsReport(userDetails: widget.userDetails),
           ProfileMain(userDetails: widget.userDetails,),
 
         ],
@@ -101,7 +101,7 @@ class _NavBarSelectState extends State<NavBarSelect> {
         children: <Widget>[
           myComplaints(key: complaint,userDetails: widget.userDetails,),
           deptComplaints(key: departmentComplaint, userDetails: widget.userDetails,),
-          StatisticsReport(),
+          StatisticsReport(userDetails: widget.userDetails),
           ProfileMain(userDetails: widget.userDetails,),
         ],
       )
@@ -110,7 +110,7 @@ class _NavBarSelectState extends State<NavBarSelect> {
         children: <Widget>[
           myComplaints(key: complaint,userDetails: widget.userDetails,),
           deptComplaints(key: departmentComplaint, userDetails: widget.userDetails,),
-          StatisticsReport(),
+          StatisticsReport(userDetails: widget.userDetails),
           ProfileMain(userDetails: widget.userDetails,),
         ],
       )
@@ -118,7 +118,7 @@ class _NavBarSelectState extends State<NavBarSelect> {
         index: currentIndex,
         children: <Widget>[
           deptComplaints(key: departmentComplaint, userDetails: widget.userDetails,),
-          StatisticsReport(),
+          StatisticsReport(userDetails: widget.userDetails),
           ProfileMain(userDetails: widget.userDetails,),
         ],
       )
@@ -126,7 +126,7 @@ class _NavBarSelectState extends State<NavBarSelect> {
         index: currentIndex,
         children: <Widget>[
           deptComplaints(key: departmentComplaint, userDetails: widget.userDetails,),
-          StatisticsReport(),
+          StatisticsReport(userDetails: widget.userDetails),
           ProfileMain(userDetails: widget.userDetails,),
         ],
       )

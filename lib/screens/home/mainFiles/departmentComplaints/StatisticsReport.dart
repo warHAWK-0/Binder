@@ -4,12 +4,18 @@ import 'package:Binder/shared/CustomAppBar.dart';
 import 'package:Binder/shared/themes.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:Binder/models/user_data.dart';
+
 
 class StatisticsReport extends StatefulWidget {
+  final UserDetails userDetails;
+  const StatisticsReport({Key key, this.userDetails}) : super(key: key);
   @override
   _StatisticsReportState createState() => _StatisticsReportState();
 }
@@ -89,6 +95,19 @@ class _StatisticsReportState extends State<StatisticsReport> {
     String csv = const ListToCsvConverter().convert(rows);
     print("CSV FILE IS HERE FOR YOU :$csv");
     f.writeAsString(csv);
+
+    String username = 'binderproject9@gmail.com';
+    String password = 'Binder@123';
+    final smtpServer = gmail(username, password);
+    final message = Message()
+      ..from = Address(username, 'Binder App')
+      ..recipients.add(widget.userDetails.email)
+      ..subject = 'Binder Report From:${selectedData1.toString().substring(0,11)} To: ${selectedData2.toString().substring(0,11)}'
+      ..text="Dear ${widget.userDetails.name}, \n \n Kindly find the attached report below. \n \n\n With Regards \n Team Binder"
+      ..attachments.add(FileAttachment(f));
+
+    final sendReport = await send(message, smtpServer);
+    print("sent :)");
   }
 
   bool isLoading = false;
@@ -127,6 +146,8 @@ class _StatisticsReportState extends State<StatisticsReport> {
                       });
                     },
                     label: 'From',
+                    lastDate: DateTime(int.parse(DateTime.now().toString().substring(0,4)),int.parse(DateTime.now().toString().substring(5,7)),int.parse(DateTime.now().toString().substring(8,10))),
+
                     selectedDate: selectedData1,
                   ),
                   SizedBox(
@@ -137,9 +158,12 @@ class _StatisticsReportState extends State<StatisticsReport> {
                     onDateSelected: (DateTime value) {
                       setState(() {
                         selectedData2 = value;
+                        print(DateTime.now());
                       });
                     },
                     label: 'To',
+                    firstDate: selectedData1,
+                    lastDate: DateTime(int.parse(DateTime.now().toString().substring(0,4)),int.parse(DateTime.now().toString().substring(5,7)),int.parse(DateTime.now().toString().substring(8,10))),
                     selectedDate: selectedData2,
                   ),
                   SizedBox(
@@ -192,7 +216,7 @@ class _StatisticsReportState extends State<StatisticsReport> {
                               ).show();
                             },
                             child: Text(
-                              "Generate CSV",
+                              "Generate Report",
                               style: TextStyle(fontSize: 15.0),
                             ),
                           ),
