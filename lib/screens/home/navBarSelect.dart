@@ -2,7 +2,7 @@ import 'package:Binder/models/user_data.dart';
 import 'package:Binder/shared/CustomBottomNavigationBar.dart';
 import 'package:Binder/shared/themes.dart';
 import 'package:flutter/material.dart';
-
+import 'mainFiles/departmentComplaints/StatisticsReport.dart';
 import 'mainFiles/admin/adminMain.dart';
 import 'mainFiles/departmentComplaints/deptComplaintsMain.dart';
 import 'mainFiles/myComplaints/myComplaintMain.dart';
@@ -82,6 +82,7 @@ class _NavBarSelectState extends State<NavBarSelect> {
         index: currentIndex,
         children: <Widget>[
           deptComplaints(key: departmentComplaint,userDetails: widget.userDetails,),
+          StatisticsReport(),
           ProfileMain(userDetails: widget.userDetails,),
         ],
       )
@@ -90,7 +91,9 @@ class _NavBarSelectState extends State<NavBarSelect> {
         children: <Widget>[
           myComplaints(key: complaint,userDetails: widget.userDetails,),
           deptComplaints(key: departmentComplaint,userDetails: widget.userDetails,),
+          StatisticsReport(),
           ProfileMain(userDetails: widget.userDetails,),
+
         ],
       )
           : (widget.userDetails.authLevel == '4' && widget.userDetails.department == "production") ? IndexedStack(
@@ -98,6 +101,7 @@ class _NavBarSelectState extends State<NavBarSelect> {
         children: <Widget>[
           myComplaints(key: complaint,userDetails: widget.userDetails,),
           deptComplaints(key: departmentComplaint, userDetails: widget.userDetails,),
+          StatisticsReport(),
           ProfileMain(userDetails: widget.userDetails,),
         ],
       )
@@ -106,6 +110,7 @@ class _NavBarSelectState extends State<NavBarSelect> {
         children: <Widget>[
           myComplaints(key: complaint,userDetails: widget.userDetails,),
           deptComplaints(key: departmentComplaint, userDetails: widget.userDetails,),
+          StatisticsReport(),
           ProfileMain(userDetails: widget.userDetails,),
         ],
       )
@@ -113,6 +118,7 @@ class _NavBarSelectState extends State<NavBarSelect> {
         index: currentIndex,
         children: <Widget>[
           deptComplaints(key: departmentComplaint, userDetails: widget.userDetails,),
+          StatisticsReport(),
           ProfileMain(userDetails: widget.userDetails,),
         ],
       )
@@ -120,6 +126,7 @@ class _NavBarSelectState extends State<NavBarSelect> {
         index: currentIndex,
         children: <Widget>[
           deptComplaints(key: departmentComplaint, userDetails: widget.userDetails,),
+          StatisticsReport(),
           ProfileMain(userDetails: widget.userDetails,),
         ],
       )
@@ -183,6 +190,13 @@ class _NavBarSelectState extends State<NavBarSelect> {
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
+            icon: Icon(Icons.timeline),
+            title: Text('Statistics'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
             icon: Icon(Icons.account_circle),
             title: Text('Profile'),
             activeColor: primaryblue,
@@ -240,6 +254,13 @@ class _NavBarSelectState extends State<NavBarSelect> {
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
+            icon: Icon(Icons.timeline),
+            title: Text('Statistics'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
             icon: Icon(Icons.account_circle),
             title: Text('Profile'),
             activeColor: primaryblue,
@@ -267,6 +288,13 @@ class _NavBarSelectState extends State<NavBarSelect> {
           BottomNavyBarItem(
             icon: Icon(Icons.account_balance),
             title: Text('Department'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.timeline),
+            title: Text('Statistics'),
             activeColor: primaryblue,
             inactiveColor: Colors.white,
             textAlign: TextAlign.center,
@@ -304,6 +332,13 @@ class _NavBarSelectState extends State<NavBarSelect> {
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
+            icon: Icon(Icons.timeline),
+            title: Text('Statistics'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
             icon: Icon(Icons.account_circle),
             title: Text('Profile'),
             activeColor: primaryblue,
@@ -330,6 +365,13 @@ class _NavBarSelectState extends State<NavBarSelect> {
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
+            icon: Icon(Icons.timeline),
+            title: Text('Statistics'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
             icon: Icon(Icons.account_circle),
             title: Text('Profile'),
             activeColor: primaryblue,
@@ -351,6 +393,13 @@ class _NavBarSelectState extends State<NavBarSelect> {
           BottomNavyBarItem(
             icon: Icon(Icons.account_balance),
             title: Text('Department'),
+            activeColor: primaryblue,
+            inactiveColor: Colors.white,
+            textAlign: TextAlign.center,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.timeline),
+            title: Text('Statistics'),
             activeColor: primaryblue,
             inactiveColor: Colors.white,
             textAlign: TextAlign.center,
