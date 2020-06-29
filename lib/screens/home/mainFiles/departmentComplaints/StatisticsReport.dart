@@ -102,8 +102,8 @@ class _StatisticsReportState extends State<StatisticsReport> {
     final message = Message()
       ..from = Address(username, 'Binder App')
       ..recipients.add(widget.userDetails.email)
-      ..subject = 'Binder Report From:${selectedData1.toString().substring(0,11)} To: ${selectedData2.toString().substring(0,11)}'
-      ..text="Dear ${widget.userDetails.name}, \n \n Kindly find the attached report below. \n \n\n With Regards \n Team Binder"
+      ..subject = 'Breakdown Report | ${selectedData1.toString().substring(8,10)}/${selectedData1.toString().substring(5,7)}/${selectedData1.toString().substring(0,4)} - ${selectedData2.toString().substring(8,10)}/${selectedData2.toString().substring(5,7)}/${selectedData2.toString().substring(0,4)}'
+      ..text="Dear ${widget.userDetails.name}, \n\nKindly find the attached report below. \n \n \nWith Regards\nTeam Binder"
       ..attachments.add(FileAttachment(f));
 
     final sendReport = await send(message, smtpServer);
